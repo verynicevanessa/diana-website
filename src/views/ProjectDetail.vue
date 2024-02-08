@@ -1,29 +1,39 @@
 <template>
-          <h1>{{ project.projectName }}</h1>
-      <p>{{ project.projectDescription }}</p>
-    <div v-if="project" id="project-page">
-
-
-      <div v-if="project.projectimages.length > 0">
-      <div v-for="(image, index) in project.projectimages" :key="index">
+  <div v-if="project">
+    <!-- Swiper -->
+    <Swiper :modules="modules" class="swiper">
+      <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
         <img :src="image.url" alt="Project Image" />
-      </div>
+      </SwiperSlide>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+    </Swiper>
+
+    <!-- Fixed Project Name at the Bottom -->
+    <div class="project-name">
+      <h1>{{ project.projectName }}</h1>
     </div>
-    <div v-else>
-      <p>No images available for this project.</p>
-    </div>
-    </div>
-    <div v-else>
-      <p>Loading...</p>
-    </div>
-  </template>
+  </div>
+  <div v-else>Loading project details...</div>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { request } from 'graphql-request';
-import { useRoute } from 'vue-router'; 
+
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+// Install modules
+SwiperCore.use([Navigation, Pagination]);
 
 const project = ref(null);
 const route = useRoute();
+const modules = [Pagination];
 
 onMounted(async () => {
   try {
@@ -59,12 +69,69 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching project:', error);
   }
+
+ Swiper.use([Navigation, Pagination]);
+  new Swiper('.swiper', {
+    modules: [Navigation, Pagination],
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    // Consider adding 'loop: true' for a continuous loop effect
+  });
 });
+
 </script>
 
-<style>
-#project-page {
-    display:flex;
-
+<style scoped>
+.images-scroller {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100px; /* Adjust based on the height of your project name container */
+  overflow-x: auto;
+  white-space: nowrap; /* Ensures images are in a single line */
+  padding: 20px 0; /* Optional: Adds some padding around the images */
 }
+
+.image-container {
+  display: inline-block;
+  width: auto; /* Adjust based on your needs */
+  margin-right: 10px; /* Spacing between images */
+}
+
+.image-container img {
+  width: 100%; /* Makes images responsive within their containers */
+  height: auto; /* Maintain aspect ratio */
+  vertical-align: bottom; /* Aligns images to the bottom, removing white space below inline-block elements */
+}
+
+.project-name {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: #fff; /* Adjust text color as needed */
+  padding: 20px;
+  text-align: center; /* Centers the project name */
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
 </style>

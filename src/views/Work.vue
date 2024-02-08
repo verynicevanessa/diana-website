@@ -1,7 +1,8 @@
 <template>
     <div class="masonry-grid">
       <div class="project" v-for="project in projects" :key="project.id">
-        <a :href="`/projects/${project.projectSlug}`"> <!-- Updated href attribute to use projectSlug -->
+        
+        <router-link :to="{ name: 'ProjectDetail', params: { projectSlug: project.projectSlug } }">
           <div class="project-wrapper">
             <div class="media-wrapper" @mouseover="setHovered(project.id)" @mouseleave="clearHovered()">
               <div v-if="project.heroImage">
@@ -10,10 +11,12 @@
                   Your browser does not support the video tag.
                 </video>
               </div>
+             
               <div class="project-name">{{ project.projectName }}</div>
+
             </div>
           </div>
-        </a>
+        </router-link>
       </div>
     </div>
   </template>
@@ -48,6 +51,9 @@ export default {
                         mimeType
                     }
                     projectSlug
+                    projectimages {
+                        url
+                    }
                 }
             }
           `;

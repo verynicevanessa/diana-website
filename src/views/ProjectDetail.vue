@@ -115,6 +115,8 @@ onMounted(async () => {
   font-size: 18px;
   background: #fff;
 
+  overflow-x: scroll;
+  overflow-y: hidden;
   /* Center slide text vertically */
   display: flex;
   justify-content: center;

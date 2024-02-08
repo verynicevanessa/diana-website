@@ -7,20 +7,31 @@
         :spaceBetween="30"
         :slides-per-view="1"  
         :loop="true" 
-        :mousewheel= "true"
+        :mousewheel="true"
         :grabCursor="true">
         <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
-          <img :src="image.url" alt="Project Image" />
+          <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item"/>
+          <video v-else :src="image.url" class="media-item" autoplay muted loop>
+                  Your browser does not support the video tag.
+                </video>
         </swiper-slide>
         <!-- Pagination -->
     </swiper-container>
 
-      <div class="project-name">
+    <div class="project-name" @click="toggleDescription">
         <h1>{{ project.projectName }}</h1>
-      </div>
     </div>
+ 
+    <div v-if="showDescription" class="project-description">
+        <p>{{ project.projectDescription }}</p>
+    </div>
+
+
+
+</div>
     <div v-else>Loading project details...</div>
   </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -35,6 +46,16 @@ register();
 const project = ref(null);
 const route = useRoute();
 
+const isImage = (media) => {
+  if (!media || !media.url) return false; // Check if media or media.url is undefined/null
+  return media.mimeType.startsWith('image/');
+};
+
+const showDescription = ref(false); // Initially, the description is not shown
+
+const toggleDescription = () => {
+  showDescription.value = !showDescription.value;
+};
 
 
 onMounted(async () => {
@@ -54,6 +75,7 @@ onMounted(async () => {
             projectSlug
             projectimages {
                 url
+                mimeType
             }
         }
     }`;
@@ -71,11 +93,12 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching project:', error);
   }
-
- 
 });
 
 </script>
+
+
+
 
 <style scoped>
 .project-page {
@@ -91,9 +114,10 @@ onMounted(async () => {
   padding: 20px;
   text-align: center; /* Centers the project name */
   z-index: 900;
+  cursor: pointer;
 }
 
-.swiper-container, .swiper {
+.swiper-container {
   width: 100%;
   height: 100%;
 }
@@ -109,12 +133,35 @@ onMounted(async () => {
   justify-content: center;
   align-items: center;
 } 
-.swiper-slide img {
+/*.swiper-slide img {
     display: block;
   width: 100%;
-  height: 100%; /* Set height to fill the full height of the swiper container */
-  object-fit: contain; /* Scale the image down proportionally to fit within the container */
-  margin: 0 auto; /* Center the image horizontally */
+  height: 100%; /* Set height to fill the full height of the swiper container 
+  object-fit: contain; /* Scale the image down proportionally to fit within the container 
+  margin: 0 auto; /* Center the image horizontally 
+}*/
+
+.swiper-slide img, .swiper-slide video {
+  max-width: 100%; /* Ensures the content is not wider than its container */
+  max-height: 100vh; /* Ensures the content does not exceed the viewport height */
+  object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
+  margin: auto; /* Centers the content if it's smaller than its container */
 }
+
+.project-description {
+  position: fixed; /* or absolute, depending on your layout */
+  top: 20%; /* Adjust based on your layout */
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: white; /* Choose a background color that fits your theme */
+  color: black; /* Text color */
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow */
+  max-width: 600px; /* Or any max-width or width you prefer */
+  z-index: 1000; /* Ensure it's above other content */
+  border-radius: 10px; /* Optional: for rounded corners */
+}
+
 
 </style>

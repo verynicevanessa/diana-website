@@ -2,20 +2,19 @@
     <div v-if="project" class="project-page">
       <!-- Swiper -->
       <swiper-container class="swiper" 
-        :slidesPerView="'auto'"
+        :slidesPerView="auto"
         :centeredSlides="true"
         :spaceBetween="30"
         :slides-per-view="1"  
         :loop="true" 
         :mousewheel= "true"
-         :grabCursor="true">
+        :grabCursor="true">
         <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
           <img :src="image.url" alt="Project Image" />
         </swiper-slide>
         <!-- Pagination -->
-        </swiper-container
-  
-      <!-- Fixed Project Name at the Bottom -->
+    </swiper-container>
+
       <div class="project-name">
         <h1>{{ project.projectName }}</h1>
       </div>
@@ -73,40 +72,28 @@ onMounted(async () => {
     console.error('Error fetching project:', error);
   }
 
- Swiper.use([Navigation, Pagination]);
-  new Swiper('.swiper', {
-    modules: [Navigation, Pagination],
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    // Consider adding 'loop: true' for a continuous loop effect
-  });
+ 
 });
 
 </script>
 
 <style scoped>
 .project-page {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 .project-name {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   color: #fff; /* Adjust text color as needed */
   padding: 20px;
   text-align: center; /* Centers the project name */
+  z-index: 900;
 }
 
-.swiper-container {
+.swiper-container, .swiper {
   width: 100%;
   height: 100%;
 }
@@ -123,9 +110,11 @@ onMounted(async () => {
   align-items: center;
 } 
 .swiper-slide img {
-  display: block;
+    display: block;
   width: 100%;
-  height: auto;
+  height: 100%; /* Set height to fill the full height of the swiper container */
+  object-fit: contain; /* Scale the image down proportionally to fit within the container */
+  margin: 0 auto; /* Center the image horizontally */
 }
 
 </style>

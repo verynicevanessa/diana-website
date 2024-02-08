@@ -1,11 +1,11 @@
 <script setup>
 import Work from './views/Work.vue'
-import Menu from './components/menu.vue'
+import Menu from './components/Menu.vue'
 
 </script>
 
 <template>
-<Menu />
+<Menu></Menu>
 <router-view />
 </template>
 

@@ -3,6 +3,9 @@
       <div v-if="loading">Loading...</div>
       <div v-else-if="aboutInfo">
         <!-- Display aboutText as HTML -->
+        <h1>{{ aboutInfo.aboutText }}</h1>
+        <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image">
+        <div v-html="aboutInfo.clients.html"></div>
         <div v-html="aboutInfo.previouslyAt.html"></div>
         <div v-html="aboutInfo.contact.html"></div>
 

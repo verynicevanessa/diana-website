@@ -2,8 +2,7 @@
     <div class="menu-wrapper">
         <div class="menu">
             <router-link to="/"><h1>Logo</h1></router-link>
-            <router-link to="/about"><h1>About</h1></router-link>
-            <a>ø</a>
+            <a>Burger</a>
         </div>
     </div>
 </template>

@@ -29,8 +29,6 @@ export default {
         const query = `
         query GetFirstAbout {
             abouts(first: 1) {
-              id
-              aboutSlug
               aboutText
               aboutimage {
                 url

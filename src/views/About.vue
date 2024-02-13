@@ -1,20 +1,24 @@
 <template>
     <div id="about-page">
-      <div v-html="about.aboutText"></div>
-      <img v-if="about.aboutimage" :src="about.aboutimage.url" alt="About Image">
-      <div v-html="about.clients.html"></div>
+      <div v-if="loading">Loading...</div>
+      <div v-else-if="aboutInfo">
+        <!-- Display aboutText as HTML -->
+        <div v-html="aboutInfo.previouslyAt.html"></div>
+        <div v-html="aboutInfo.contact.html"></div>
 
-      <div v-html="about.previouslyAt"></div>
-      <div v-html="about.contact"></div>
+        <!-- Display other fields as needed -->
+      </div>
+      <div v-else>Error loading About page content.</div>
     </div>
-    </template>
+  </template>
+  
 <script>
 import { request } from 'graphql-request';
 
 export default {
   data() {
     return {
-        about: {}, // Initialize aboutInfo
+        aboutInfo: null, // Initialize aboutInfo
         richtextContent: '',
         loading: true,
     };
@@ -54,7 +58,7 @@ export default {
           Authorization: `Bearer ${authToken}`,
         });
 
-        this.aboutInfo = response.values; // Adjust based on the actual response structure
+        this.aboutInfo = response.abouts[0]; 
         this.loading = false;
       } catch (error) {
         console.error('Error fetching about info:', error);

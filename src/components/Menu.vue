@@ -2,12 +2,35 @@
     <div class="menu-wrapper">
         <div class="menu">
             <router-link to="/"><h1>Logo</h1></router-link>
-            <a>Burger</a>
+            <a @click="toggleMenu">MENU</a>
         </div>
+        <div class="menu-overlay" :class="{ 'active': menuOpen }">
+            <p> DIANA WEISMAN, NEW YORK</p><br>
+      <ul>
+        <li><router-link @click.native="closeMenu" to="/">Projects</router-link></li>
+        <li><router-link @click.native="closeMenu" to="/about">About</router-link></li>
+        <li><router-link @click.native="closeMenu" to="/contact">Contact</router-link></li>
+      </ul>
+    </div>
     </div>
 </template>
     
 <script>
+export default {
+  data() {
+    return {
+      menuOpen: false
+    };
+  },
+  methods: {
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
+    },
+    closeMenu() {
+      this.menuOpen = false;
+    }
+  }
+};
 </script>
     
 
@@ -38,6 +61,51 @@ h1 {
 a {
   margin-left: auto; /* Push the button to the right */
   font-size: 50px;
+}
+
+.menu-overlay {
+  position: absolute;
+  top: 100%; /* Position the menu below the logo */
+  left: 50%; /* Horizontally center the menu */
+  transform: translateX(-50%); /* Adjust for centering */
+  width: auto; /* Set the width to auto */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  justify-content: center;
+  z-index: 800; /* Ensure it's above other content */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity */
+  opacity: 0; /* Initially hidden */
+  pointer-events: none; /* Don't allow clicking on the overlay */
+}
+
+.menu-overlay.active {
+  opacity: 1; /* Show the overlay */
+  pointer-events: auto; /* Allow clicking on the overlay */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Display the list items in a row */
+}
+
+ul li {
+  margin: 0 10px; /* Add margin between menu items */
+}
+
+ul li a {
+  color: white;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+p {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 </style>
 

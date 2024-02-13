@@ -75,4 +75,7 @@ export default {
 </script>
 
 <style>
+#about-page {
+    padding: 5em;
+}
 </style>

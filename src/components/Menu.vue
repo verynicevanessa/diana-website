@@ -69,7 +69,6 @@ a {
   left: 50%; /* Horizontally center the menu */
   transform: translateX(-50%); /* Adjust for centering */
   width: auto; /* Set the width to auto */
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
   display: flex;
   flex-direction: column; /* Stack items vertically */
   align-items: center;
@@ -78,6 +77,7 @@ a {
   transition: opacity 0.3s ease; /* Smooth transition for opacity */
   opacity: 0; /* Initially hidden */
   pointer-events: none; /* Don't allow clicking on the overlay */
+  mix-blend-mode: difference;
 }
 
 .menu-overlay.active {
@@ -98,13 +98,13 @@ ul li {
 
 ul li a {
   color: white;
-  font-size: 24px;
+  font-size: 50px;
   text-decoration: none;
 }
 
 p {
   color: white;
-  font-size: 20px;
+  font-size: 50px;
   margin-bottom: 10px;
 }
 </style>

@@ -91,7 +91,7 @@ export default {
  .masonry-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the minmax value as needed */
-   /* grid-auto-rows: minmax(100px, auto);  Adjust the row height as needed */
+    /* grid-auto-rows: minmax(100px, auto);  */
     gap: 20px; /* Adjust the gap between items */
   }
 
@@ -99,6 +99,8 @@ export default {
     position: relative;
     overflow: hidden; /* Hide overflow for consistent layout */
   }
+
+
 
   .media-item {
     width: 100%;

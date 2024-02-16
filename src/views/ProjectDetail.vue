@@ -110,7 +110,7 @@ onMounted(async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  color: #fff; /* Adjust text color as needed */
+  color: #000000; /* Adjust text color as needed */
   padding: 20px;
   text-align: center; /* Centers the project name */
   z-index: 900;
@@ -154,7 +154,7 @@ onMounted(async () => {
   left: 0;
   right: 0;
   margin: auto;
-  font-size: 50px;
+  font-size: 20px;
   color: black; /* Text color */
   padding: 20px;
   max-width: 800px; /* Or any max-width or width you prefer */

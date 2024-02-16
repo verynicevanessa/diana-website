@@ -4,7 +4,7 @@
             <router-link to="/"><img src="/DW-Logo.png" class="logo"></router-link>
             <a @click="toggleMenu">MENU</a>
         </div>
-        <div class="menu-overlay" :class="{ 'active': menuOpen }">
+        <div class="menu-overlay" :class="{ 'active': menuOpen }" ref="menuOverlay">
             <p> DIANA WEISMAN, NEW YORK</p><br>
       <ul>
         <li><router-link @click.native="closeMenu" to="/">Projects</router-link></li>
@@ -15,6 +15,7 @@
     </div>
 </template>
     
+
 <script>
 export default {
   data() {
@@ -28,10 +29,24 @@ export default {
     },
     closeMenu() {
       this.menuOpen = false;
+    },
+    handleClickOutside(event) {
+      const menuElement = this.$refs.menuOverlay; // You need to add a ref="menuOverlay" to your menu-overlay div
+      if (menuElement && !menuElement.contains(event.target) && this.menuOpen) {
+        this.closeMenu();
+      }
     }
+  },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside, true);
+  },
+  beforeUnmount() { // Use beforeDestroy if you're using Vue 2
+    document.removeEventListener('click', this.handleClickOutside, true);
   }
 };
 </script>
+
+
     
 
 <style scoped>
@@ -55,6 +70,7 @@ export default {
 
 .logo {
   width: 500px;
+  cursor: grab;
 }
 
 a {

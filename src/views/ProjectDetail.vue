@@ -154,14 +154,14 @@ onMounted(async () => {
   left: 0;
   right: 0;
   margin: auto;
-  background-color: white; /* Choose a background color that fits your theme */
+  font-size: 50px;
   color: black; /* Text color */
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow */
-  max-width: 600px; /* Or any max-width or width you prefer */
+  max-width: 800px; /* Or any max-width or width you prefer */
   z-index: 1000; /* Ensure it's above other content */
   border-radius: 10px; /* Optional: for rounded corners */
 }
+
 
 
 </style>

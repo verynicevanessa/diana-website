@@ -1,7 +1,7 @@
 <template>
     <div class="menu-wrapper">
         <div class="menu">
-            <router-link to="/"><h1>Logo</h1></router-link>
+            <router-link to="/"><img src="/DW-Logo.png" class="logo"></router-link>
             <a @click="toggleMenu">MENU</a>
         </div>
         <div class="menu-overlay" :class="{ 'active': menuOpen }">
@@ -34,7 +34,7 @@ export default {
 </script>
     
 
-<style>
+<style scoped>
 .menu-wrapper {
   position: fixed;
   top: 0;
@@ -53,9 +53,8 @@ export default {
   width: 100%; /* Ensure the menu spans the full width of its container */
 }
 
-h1 {
-  color: red;
-  margin: 0 auto; /* Center the logo */
+.logo {
+  width: 500px;
 }
 
 a {
@@ -77,12 +76,13 @@ a {
   transition: opacity 0.3s ease; /* Smooth transition for opacity */
   opacity: 0; /* Initially hidden */
   pointer-events: none; /* Don't allow clicking on the overlay */
-  mix-blend-mode: difference;
+  mix-blend-mode: exclusion;
 }
 
 .menu-overlay.active {
   opacity: 1; /* Show the overlay */
   pointer-events: auto; /* Allow clicking on the overlay */
+  mix-blend-mode: exclusion;
 }
 
 ul {
@@ -97,13 +97,13 @@ ul li {
 }
 
 ul li a {
-  color: white;
+  color: rgb(0, 0, 0);
   font-size: 50px;
   text-decoration: none;
 }
 
-p {
-  color: white;
+.menu-overlay p {
+  color: rgb(0, 0, 0);
   font-size: 50px;
   margin-bottom: 10px;
 }

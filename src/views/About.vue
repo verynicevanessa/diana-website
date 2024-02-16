@@ -29,6 +29,16 @@ export default {
   created() {
     this.fetchAbout();
   },
+
+  mounted() {
+    // Set the background color when the component mounts
+    document.body.style.backgroundColor = 'lightblue';
+  },
+  beforeUnmount() {
+    // Reset the background color when the component is about to be destroyed
+    document.body.style.backgroundColor = ''; // Set to your default or previous value
+  },
+
   methods: {
     async fetchAbout() {
       try {
@@ -69,13 +79,22 @@ export default {
       }
     },
   }
+  
 };
 
 
 </script>
 
-<style>
+<style scoped>
 #about-page {
     padding: 5em;
+}
+
+.logo {
+  display: none;
+}
+
+body {
+  background-color: red;
 }
 </style>

@@ -25,13 +25,17 @@ export default {
   },
   methods: {
     toggleMenu() {
-      this.menuOpen = !this.menuOpen;
+      if (this.menuOpen) {
+        this.closeMenu();
+      } else {
+        this.menuOpen = true;
+      }
     },
     closeMenu() {
       this.menuOpen = false;
     },
     handleClickOutside(event) {
-      const menuElement = this.$refs.menuOverlay; // You need to add a ref="menuOverlay" to your menu-overlay div
+      const menuElement = this.$refs.menuOverlay;
       if (menuElement && !menuElement.contains(event.target) && this.menuOpen) {
         this.closeMenu();
       }
@@ -40,10 +44,12 @@ export default {
   mounted() {
     document.addEventListener('click', this.handleClickOutside, true);
   },
-  beforeUnmount() { // Use beforeDestroy if you're using Vue 2
+  beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside, true);
   }
 };
+
+
 </script>
 
 

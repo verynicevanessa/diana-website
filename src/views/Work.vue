@@ -1,5 +1,5 @@
 <template>
-    <div class="masonry-grid">
+    <div class="masonry">
       <div class="project" v-for="project in projects" :key="project.id">
         
         <router-link :to="{ name: 'ProjectDetail', params: { projectSlug: project.projectSlug } }">
@@ -24,6 +24,8 @@
 <script>
   import { ref, computed } from 'vue';
   import { request } from 'graphql-request';
+  import VueMasonryCss from 'vue-masonry-css'
+
 
 
 export default {
@@ -88,18 +90,20 @@ export default {
 </script>
 
 <style scoped>
- .masonry-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the minmax value as needed */
-    /* grid-auto-rows: minmax(100px, auto);  */
-    gap: 20px; /* Adjust the gap between items */
+ .masonry {
+    column-count: 3;
+    gap: 20px;
+    row-gap: 20px;
+    margin: 20px;
   }
 
   .project-wrapper {
     position: relative;
     overflow: hidden; /* Hide overflow for consistent layout */
+    margin-bottom: 20px; /* Add vertical gap between projects */
   }
 
+  
 
 
   .media-item {
@@ -134,6 +138,18 @@ export default {
 @media (min-width: 1000px) {
   .masonry-grid {
     grid-template-columns: repeat(3, 1fr); /* Three items per row */
+  }
+}
+@media (max-width: 768px) {
+  .masonry {
+    column-count: 2; /* Switch to two columns for screens up to 768px */
+  }
+}
+
+/* Adjust column count for even smaller screens */
+@media (max-width: 480px) {
+  .masonry {
+    column-count: 1; /* Switch to one column for screens up to 480px */
   }
 }
 </style>

@@ -2,9 +2,9 @@
     <div class="menu-wrapper">
         <div class="menu">
             <router-link to="/"><img src="/DW-Logo.png" class="logo"></router-link>
-            <a @click="toggleMenu">MENU</a>
+            <a @click="toggleMenu">O</a>
         </div>
-        <div class="menu-overlay" :class="{ 'active': menuOpen }" ref="menuOverlay">
+        <div class="menu-overlay" :class="{ 'active': menuOpen }" ref="menuOverlay" >
             <p> DIANA WEISMAN, NEW YORK</p><br>
       <ul>
         <li><router-link @click.native="closeMenu" to="/">Projects</router-link></li>
@@ -77,6 +77,10 @@ export default {
 .logo {
   width: 500px;
   cursor: grab;
+}
+
+.logo:hover {
+  color: red;
 }
 
 a {

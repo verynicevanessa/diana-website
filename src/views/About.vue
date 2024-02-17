@@ -88,6 +88,13 @@ export default {
 <style scoped>
 #about-page {
     padding: 5em;
+    max-width: 1200px; /* Adjust this value to your desired maximum width */
+    margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 50px;
 }
 
 .logo {

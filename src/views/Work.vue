@@ -101,6 +101,7 @@ export default {
     position: relative;
     overflow: hidden; /* Hide overflow for consistent layout */
     margin-bottom: 20px; /* Add vertical gap between projects */
+    padding: 10%;
   }
 
   

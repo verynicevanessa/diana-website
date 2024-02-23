@@ -1,3 +1,5 @@
+<!-- gallery 1 view -->
+
 <template>
     <div v-if="project" class="project-page">
       <!-- Swiper -->

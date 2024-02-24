@@ -17,6 +17,11 @@ const router = createRouter({
       component: About
     },
     {
+      path: '/blinking',
+      name: 'blinking',
+      component: () => import('../views/Blinking.vue')
+    },
+    {
     path: '/project/:projectSlug', // Define the route parameter ':projectSlug'
     name: 'ProjectDetail',
     component: ProjectDetail,

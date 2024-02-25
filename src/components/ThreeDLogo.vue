@@ -1,0 +1,121 @@
+<template>
+  <div id="container" ref="container" @wheel="onMouseWheel"></div>
+
+</template>
+
+<script>
+import * as THREE from 'three';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+
+export default {
+  data() {
+    return {
+      camera: null,
+      renderer: null, // Store renderer for cleanup
+      isDragging: false,
+    lastX: 0,
+    lastY: 0,
+    rotationSpeed: 0.02, // Adjust as necessary for sensitivity
+    };
+  },
+  mounted() {
+    this.initThree();
+    this.$refs.container.addEventListener('mousedown', this.onMouseDown);
+  window.addEventListener('mousemove', this.onMouseMove);
+  window.addEventListener('mouseup', this.onMouseUp);
+    window.addEventListener('resize', this.onWindowResize);
+  },
+  beforeDestroy() {
+    if (this.renderer) {
+      this.renderer.dispose();
+    }
+    window.removeEventListener('resize', this.onWindowResize);
+    // Consider disposing of other resources like materials, geometry, textures
+  },
+  methods: {
+    initThree() {
+      const scene = new THREE.Scene();
+      this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      this.renderer = new THREE.WebGLRenderer();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.$refs.container.appendChild(this.renderer.domElement);
+
+      const light = new THREE.AmbientLight(0x404040); // soft white light
+      scene.add(light);
+
+      // Optionally, add a directional light
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      directionalLight.position.set(0, 1, 1);
+      scene.add(directionalLight);
+
+
+      const loader = new OBJLoader();
+      loader.load(
+        '/ObjTest.obj',
+        (object) => {
+          object.scale.set(0.1, 0.1, 0.1); // Example scaling, adjust as necessary
+         
+          object.position.set(0, 0, 0); // Adjust as needed
+          this.camera.position.set(0, 0, 5);
+          this.camera.position.set(0, 0, 5); // Adjust the Z value as needed to fit the object in view
+
+          scene.add(object);
+          this.object = object; 
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+          console.log(this.camera.position); // Corrected camera reference
+        },
+        (error) => {
+          console.error('Error loading OBJ file:', error);
+        }
+      );
+
+      this.camera.position.z = 5;
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+        this.renderer.render(scene, this.camera);
+      };
+
+      animate();
+    },
+    onMouseWheel(event) {
+      const delta = Math.sign(event.deltaY) * 0.5; // Adjust the zoom speed
+      this.camera.position.z += delta;
+      this.camera.updateProjectionMatrix();
+    },
+    onWindowResize() {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    },
+    onMouseDown(event) {
+    this.isDragging = true;
+    this.lastX = event.clientX;
+    this.lastY = event.clientY;
+  },
+  onMouseMove(event) {
+  if (this.isDragging) {
+    const deltaX = event.clientX - this.lastX;
+    this.lastX = event.clientX;
+
+    // Update object rotation here, only horizontally
+    this.object.rotation.y += deltaX * this.rotationSpeed;
+  }
+},
+  onMouseUp() {
+    this.isDragging = false;
+  },
+  },
+};
+</script>
+
+
+
+<style>
+#container {
+  width: 50%;
+  height: 50%;
+}
+</style>

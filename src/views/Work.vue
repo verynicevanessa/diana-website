@@ -1,48 +1,27 @@
-<template>
-    <div class="masonry">
-      <div class="project" v-for="project in projects" :key="project.id">
-        
-        <router-link :to="{ name: 'ProjectDetail', params: { projectSlug: project.projectSlug } }">
-          <div class="project-wrapper">
-            <div class="media-wrapper" @mouseover="setHovered(project.id)" @mouseleave="clearHovered()">
-              <div v-if="project.heroImage">
-                <img v-if="isImage(project.heroImage)" :src="project.heroImage.url" alt="Project Hero Image" class="media-item" :class="{ 'blurred': isHovered(project.id) }">
-                <video v-else :src="project.heroImage.url" class="media-item" autoplay muted loop :class="{ 'blurred': isHovered(project.id) }">
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-             
-              <div class="project-name">{{ project.projectName }}</div>
-
-            </div>
-          </div>
-        </router-link>
-      </div>
-    </div>
-  </template>
 
 <script>
   import { ref, computed } from 'vue';
   import { request } from 'graphql-request';
   import VueMasonryCss from 'vue-masonry-css'
+import Footer from '../components/Footer.vue';
 
 
 
 export default {
     data() {
-      return {
-        projects: [],
-        hovered: null // Define hovered variable
-      };
+        return {
+            projects: [],
+            hovered: null // Define hovered variable
+        };
     },
     created() {
-      this.fetchProjects();
+        this.fetchProjects();
     },
     methods: {
-      async fetchProjects() {
-        try {
-          const authToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MDczMjUzMDEsImF1ZCI6WyJodHRwczovL2FwaS11cy1lYXN0LTEtc2hhcmVkLXVzZWExLTAyLmh5Z3JhcGguY29tL3YyL2Nsczh6ZHl6NzFqaDMwMXczOWp4enZjOWsvbWFzdGVyIiwibWFuYWdlbWVudC1uZXh0LmdyYXBoY21zLmNvbSJdLCJpc3MiOiJodHRwczovL21hbmFnZW1lbnQtdXMtZWFzdC0xLXNoYXJlZC11c2VhMS0wMi5oeWdyYXBoLmNvbS8iLCJzdWIiOiI3ZDE0ZmI3NC01MGZhLTRkYTMtODMwMi00ZTBjYzIyODk5ZjciLCJqdGkiOiJjbHNjMWVobXQwMWdxMDFscTk0ZHNjOXBzIn0.TstUbA1fSKAzEGxJLofSbJe1PPSdiVl9s6lJMzhhHLSjxo-mCRp0_7j7sZuBjrKamNge_42qwl4omSngbiuloNirqolmC8c6QtFncBobjTYPblYRQqvQGE9ogHd5ZkLLJlXQEllcB-yoehxZB7vDCLFAt-t_b6y4rAnqIZqlA5scAF5hQJvgJYEmV4fm5aeUC3WE2PsG038umlGvoVt46Jr1xsbKQScgotO1EkRsusbSDwez8nr-u3RznKFBwLayJe8jxj0UbJXrvHaSdPNbog6j1xo6Y_6Gfv_qm9V-pVRfX-55XONj-Mag4Lrge_G9rw3t53E26UigxiwDpZtS8xiW_bdDCZDUp3l3z7TqTeOf996hHixz9Sp9mpreJw2b0bb2q9_uSBemCzZ6nJAzZma7Q_RCi9WP8rZS-TWKmp8P4nJ0qvibk57XtNfQiDnHQt5RWACS6LIrQT7hFLkj_NWvEUO1E_zAtiaUlEIVduTRQ355oCEtL-fs82iq6vELbXVnntX8zL6Q0iTwfJt7Iw_HE41dK7AOYjxIwBskUNk4O2QrmBWhfgpQd4AzpOiVvgLBbOo7nT3OT9JW7NnKE1IwPCygX_ZMnxvPSkoRLeOWqBkzLBgfOx81Y4WvpeaQ2uCEHQVsgoFwV8vNSWB6iXamCBaf7AC6MtEo3xYkcl0';
-          const query = `
+        async fetchProjects() {
+            try {
+                const authToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MDczMjUzMDEsImF1ZCI6WyJodHRwczovL2FwaS11cy1lYXN0LTEtc2hhcmVkLXVzZWExLTAyLmh5Z3JhcGguY29tL3YyL2Nsczh6ZHl6NzFqaDMwMXczOWp4enZjOWsvbWFzdGVyIiwibWFuYWdlbWVudC1uZXh0LmdyYXBoY21zLmNvbSJdLCJpc3MiOiJodHRwczovL21hbmFnZW1lbnQtdXMtZWFzdC0xLXNoYXJlZC11c2VhMS0wMi5oeWdyYXBoLmNvbS8iLCJzdWIiOiI3ZDE0ZmI3NC01MGZhLTRkYTMtODMwMi00ZTBjYzIyODk5ZjciLCJqdGkiOiJjbHNjMWVobXQwMWdxMDFscTk0ZHNjOXBzIn0.TstUbA1fSKAzEGxJLofSbJe1PPSdiVl9s6lJMzhhHLSjxo-mCRp0_7j7sZuBjrKamNge_42qwl4omSngbiuloNirqolmC8c6QtFncBobjTYPblYRQqvQGE9ogHd5ZkLLJlXQEllcB-yoehxZB7vDCLFAt-t_b6y4rAnqIZqlA5scAF5hQJvgJYEmV4fm5aeUC3WE2PsG038umlGvoVt46Jr1xsbKQScgotO1EkRsusbSDwez8nr-u3RznKFBwLayJe8jxj0UbJXrvHaSdPNbog6j1xo6Y_6Gfv_qm9V-pVRfX-55XONj-Mag4Lrge_G9rw3t53E26UigxiwDpZtS8xiW_bdDCZDUp3l3z7TqTeOf996hHixz9Sp9mpreJw2b0bb2q9_uSBemCzZ6nJAzZma7Q_RCi9WP8rZS-TWKmp8P4nJ0qvibk57XtNfQiDnHQt5RWACS6LIrQT7hFLkj_NWvEUO1E_zAtiaUlEIVduTRQ355oCEtL-fs82iq6vELbXVnntX8zL6Q0iTwfJt7Iw_HE41dK7AOYjxIwBskUNk4O2QrmBWhfgpQd4AzpOiVvgLBbOo7nT3OT9JW7NnKE1IwPCygX_ZMnxvPSkoRLeOWqBkzLBgfOx81Y4WvpeaQ2uCEHQVsgoFwV8vNSWB6iXamCBaf7AC6MtEo3xYkcl0';
+                const query = `
             query Projects {
                 projects(first: 15) {
                     id
@@ -59,35 +38,61 @@ export default {
                 }
             }
           `;
-          
-          const response = await request('https://api-us-east-1-shared-usea1-02.hygraph.com/v2/cls8zdyz71jh301w39jxzvc9k/master', query, null, {
-            Authorization: `Bearer ${authToken}`,
-          });
-  
-          // Extract the data from the response and update the recipes array
-          this.projects = response.projects;
-        } catch (error) {
-          console.error('Error fetching project:', error);
+                const response = await request('https://api-us-east-1-shared-usea1-02.hygraph.com/v2/cls8zdyz71jh301w39jxzvc9k/master', query, null, {
+                    Authorization: `Bearer ${authToken}`,
+                });
+                // Extract the data from the response and update the recipes array
+                this.projects = response.projects;
+            }
+            catch (error) {
+                console.error('Error fetching project:', error);
+            }
+        },
+        isImage(media) {
+            if (!media.url)
+                return false; // If there's no URL, it's not an image
+            return media.mimeType.startsWith('image/'); // Check if the MIME type starts with 'image/'
+        },
+        setHovered(id) {
+            this.hovered = id;
+        },
+        clearHovered() {
+            this.hovered = null;
+        },
+        isHovered(id) {
+            return this.hovered === id;
         }
-      },
-      isImage(media) {
-      if (!media.url) return false; // If there's no URL, it's not an image
-      return media.mimeType.startsWith('image/'); // Check if the MIME type starts with 'image/'
     },
-    setHovered(id) {
-      this.hovered = id;
-    },
-    clearHovered() {
-      this.hovered = null;
-    },
-    isHovered(id) {
-      return this.hovered === id;
-    }
-  }
+    components: { Footer }
 };
 
 
 </script>
+
+<template>
+  <div class="masonry">
+    <div class="project" v-for="project in projects" :key="project.id">
+      
+      <router-link :to="{ name: 'ProjectDetail', params: { projectSlug: project.projectSlug } }">
+        <div class="project-wrapper">
+          <div class="media-wrapper" @mouseover="setHovered(project.id)" @mouseleave="clearHovered()">
+            <div v-if="project.heroImage">
+              <img v-if="isImage(project.heroImage)" :src="project.heroImage.url" alt="Project Hero Image" class="media-item" :class="{ 'blurred': isHovered(project.id) }">
+              <video v-else :src="project.heroImage.url" class="media-item" autoplay muted loop :class="{ 'blurred': isHovered(project.id) }">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+           
+            <div class="project-name">{{ project.projectName }}</div>
+
+          </div>
+        </div>
+      </router-link>
+    </div>
+  </div>
+  <Footer></Footer>
+</template>
+
 
 <style scoped>
  .masonry {

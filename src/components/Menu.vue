@@ -10,6 +10,7 @@
         <li><router-link @click.native="closeMenu" to="/">Projects</router-link></li>
         <li><router-link @click.native="closeMenu" to="/about">About</router-link></li>
         <li><router-link @click.native="closeMenu" to="/contact">Contact</router-link></li>
+        <li><router-link @click.native="closeMenu" to="/blinking">Blinking</router-link></li>
       </ul>
     </div>
     </div>

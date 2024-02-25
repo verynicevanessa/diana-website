@@ -4,6 +4,7 @@ import ProjectDetail from '../views/ProjectDetail.vue';
 import About from '../views/About.vue'; 
 import blinking from '../views/blinking.vue'
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

@@ -7,7 +7,6 @@
         :slidesPerView="auto"
         :centeredSlides="true"
         :spaceBetween="30"
-        :slides-per-view="1"  
         :loop="true" 
         :mousewheel="true"
         :grabCursor="true">

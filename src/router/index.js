@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Work from '../views/Work.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'; 
 import About from '../views/About.vue'; 
-import blinking from '../views/blinking.vue'
+import blinking from '../views/Blinking.vue'
 
 
 const router = createRouter({

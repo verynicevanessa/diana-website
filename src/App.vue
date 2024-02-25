@@ -8,9 +8,8 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
 
 <template>
  <Menu></Menu>
-<!-- <router-view />
- -->
-<ThreeDLogo></ThreeDLogo>
+<router-view />
+<!-- <ThreeDLogo></ThreeDLogo> -->
 
 </template>
 

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Work from '../views/Work.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'; 
 import About from '../views/About.vue'; 
+import Blinking from '../views/Blinking.vue'
 
 
 const router = createRouter({
@@ -20,7 +21,7 @@ const router = createRouter({
     {
       path: '/blinking',
       name: 'blinking',
-      component: () => import('../views/Blinking.vue')
+      component: Blinking
     },
     {
     path: '/project/:projectSlug', // Define the route parameter ':projectSlug'

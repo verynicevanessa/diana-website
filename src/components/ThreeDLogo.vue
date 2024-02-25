@@ -5,6 +5,7 @@
 
 <script>
 import * as THREE from 'three';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
 export default {
@@ -21,8 +22,8 @@ export default {
   mounted() {
     this.initThree();
     this.$refs.container.addEventListener('mousedown', this.onMouseDown);
-  window.addEventListener('mousemove', this.onMouseMove);
-  window.addEventListener('mouseup', this.onMouseUp);
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('mouseup', this.onMouseUp);
     window.addEventListener('resize', this.onWindowResize);
   },
   beforeDestroy() {
@@ -36,12 +37,16 @@ export default {
     initThree() {
       const scene = new THREE.Scene();
       this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      this.renderer = new THREE.WebGLRenderer();
+      this.renderer = new THREE.WebGLRenderer({ alpha: true });
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       this.$refs.container.appendChild(this.renderer.domElement);
 
       const light = new THREE.AmbientLight(0x404040); // soft white light
       scene.add(light);
+
+      this.renderer.setClearColor(0x000000, 0); // The second parameter (0) is the alpha value
+
+      this.$refs.container.appendChild(this.renderer.domElement);
 
       // Optionally, add a directional light
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);

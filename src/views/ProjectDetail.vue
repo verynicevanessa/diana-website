@@ -1,14 +1,15 @@
-<!-- gallery 1 view -->
+<!-- freemode -->
 
 <template>
     <div v-if="project" class="project-page">
       <!-- Swiper -->
       <swiper-container class="swiper" 
-        :slidesPerView="auto"
-        :centeredSlides="true"
+        :slidesPerView="2"
+
         :spaceBetween="30"
-        :slides-per-view="1"  
+        :freeMode="true"
         :loop="true" 
+
         :mousewheel="true"
         :grabCursor="true">
         <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">

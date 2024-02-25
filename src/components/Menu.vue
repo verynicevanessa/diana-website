@@ -1,3 +1,4 @@
+@ -1,141 +0,0 @@
 <template>
     <div class="menu-wrapper">
         <div class="menu">
@@ -9,7 +10,7 @@
       <ul>
         <li><router-link @click.native="closeMenu" to="/">Projects</router-link></li>
         <li><router-link @click.native="closeMenu" to="/about">About</router-link></li>
-        <li><router-link @click.native="closeMenu" to="/contact">Contact</router-link></li>
+        <li>Contact</li>
       </ul>
     </div>
     </div>
@@ -77,6 +78,10 @@ export default {
 .logo {
   width: 500px;
   cursor: grab;
+  backdrop-filter: blur(10px);
+  background-image: url(/2.png);
+     filter: blur(3px);
+     background-size: contain;
 }
 
 .logo:hover {

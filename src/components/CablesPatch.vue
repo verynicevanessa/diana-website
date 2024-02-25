@@ -38,6 +38,7 @@ export default {
     const _patchFinishedLoading = (patch) => {
       // The patch is ready now, all assets have been loaded
       console.log(this.patchDir + ' finished loading');
+      this.$emit('patch-loaded');
     };
 
     const script = document.createElement('script');

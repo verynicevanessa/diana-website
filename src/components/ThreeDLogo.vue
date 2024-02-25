@@ -14,9 +14,9 @@ export default {
       camera: null,
       renderer: null, // Store renderer for cleanup
       isDragging: false,
-    lastX: 0,
-    lastY: 0,
-    rotationSpeed: 0.02, // Adjust as necessary for sensitivity
+      lastX: 0,
+      lastY: 0,
+      rotationSpeed: 0.02, // Adjust as necessary for sensitivity
     };
   },
   mounted() {
@@ -55,19 +55,20 @@ export default {
 
       const mtlLoader = new MTLLoader();
       mtlLoader.load('/ObjTest.mtl', (materials) => {
+        console.log('Materials loaded:', materials); 
         materials.preload();
 
         const objLoader = new OBJLoader();
-  objLoader.setMaterials(materials); // This line applies the loaded materials to the OBJ model
-  objLoader.load(
-    '/ObjTest.obj',
-    (object) => {
-      object.scale.set(0.1, 0.1, 0.1); // Example scaling, adjust as necessary
-      object.position.set(0, 0, 0); // Center the object in the scene
-      this.camera.position.set(0, 0, 5); // Adjust the camera to properly view the object
+        objLoader.setMaterials(materials); // This line applies the loaded materials to the OBJ model
+        objLoader.load(
+          '/ObjTest.obj',
+          (object) => {
+          object.scale.set(0.05, 0.05, 0.05); // Example scaling, adjust as necessary
+          object.position.set(0, 0, 0); // Center the object in the scene
+          this.camera.position.set(0, 0, 5); // Adjust the camera to properly view the object
 
-      scene.add(object);
-      this.object = object; // Store the object for later use in rotation, etc.
+          scene.add(object);
+          this.object = object; // Store the object for later use in rotation, etc.
     },
     (xhr) => {
       console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);

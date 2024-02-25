@@ -97,16 +97,16 @@ export default {
 <style scoped>
  .masonry {
     column-count: 3;
-    gap: 20px;
-    row-gap: 20px;
-    margin: 20px;
+    gap: 10px;
+    row-gap: 10px;
+    margin: 10px;
   }
 
   .project-wrapper {
     position: relative;
     overflow: hidden; /* Hide overflow for consistent layout */
-    margin-bottom: 20px; /* Add vertical gap between projects */
-    padding: 10%;
+    margin-bottom: 10px; /* Add vertical gap between projects */
+
   }
 
   

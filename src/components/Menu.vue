@@ -1,9 +1,9 @@
-@ -1,141 +0,0 @@
+
 <template>
     <div class="menu-wrapper">
         <div class="menu">
             <router-link to="/"><img src="/DW-Logo.png" class="logo"></router-link>
-            <a @click="toggleMenu">O</a>
+            <a @click="toggleMenu"><img src="/menu-snowflake.svg" class="menu-button"></a>
         </div>
         <div class="menu-overlay" :class="{ 'active': menuOpen }" ref="menuOverlay" >
             <p> DIANA WEISMAN, NEW YORK</p><br>
@@ -68,6 +68,8 @@ export default {
   padding: 0 20px; /* Add some padding on both sides */
   box-sizing: border-box; /* Include padding in the element's total width */
   z-index: 900; /* Ensure it stays above other content */
+  /* mix-blend-mode: difference; */
+
 }
 
 .menu {
@@ -76,18 +78,21 @@ export default {
   width: 100%; /* Ensure the menu spans the full width of its container */
 }
 
+.menu-button {
+  width: 1em;
+  margin: 10px 10px 0 0;
+  z-index: 900;
+}
+
 .logo {
   width: 500px;
   cursor: grab;
-  backdrop-filter: blur(10px);
+/* 
   background-image: url(/2.png);
      filter: blur(3px);
-     background-size: contain;
+     background-size: contain; */
 }
 
-.logo:hover {
-  color: red;
-}
 
 a {
   margin-left: auto; /* Push the button to the right */
@@ -108,13 +113,12 @@ a {
   transition: opacity 0.3s ease; /* Smooth transition for opacity */
   opacity: 0; /* Initially hidden */
   pointer-events: none; /* Don't allow clicking on the overlay */
-  mix-blend-mode: exclusion;
+
 }
 
 .menu-overlay.active {
   opacity: 1; /* Show the overlay */
   pointer-events: auto; /* Allow clicking on the overlay */
-  mix-blend-mode: exclusion;
 }
 
 ul {

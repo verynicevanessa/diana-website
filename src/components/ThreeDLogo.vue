@@ -53,30 +53,32 @@ export default {
       directionalLight.position.set(0, 1, 1);
       scene.add(directionalLight);
 
+      const mtlLoader = new MTLLoader();
+      mtlLoader.load('/Snowflake.mtl', (materials) => {
+        materials.preload();
 
-      const loader = new OBJLoader();
-      loader.load(
-        '/ObjTest.obj',
-        (object) => {
-          object.scale.set(0.1, 0.1, 0.1); // Example scaling, adjust as necessary
-         
-          object.position.set(0, 0, 0); // Adjust as needed
-          this.camera.position.set(0, 0, 5);
-          this.camera.position.set(0, 0, 5); // Adjust the Z value as needed to fit the object in view
+        const objLoader = new OBJLoader();
+  objLoader.setMaterials(materials); // This line applies the loaded materials to the OBJ model
+  objLoader.load(
+    '/ObjTest.obj',
+    (object) => {
+      object.scale.set(0.1, 0.1, 0.1); // Example scaling, adjust as necessary
+      object.position.set(0, 0, 0); // Center the object in the scene
+      this.camera.position.set(0, 0, 5); // Adjust the camera to properly view the object
 
-          scene.add(object);
-          this.object = object; 
-        },
-        (xhr) => {
-          console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-          console.log(this.camera.position); // Corrected camera reference
-        },
-        (error) => {
-          console.error('Error loading OBJ file:', error);
-        }
-      );
+      scene.add(object);
+      this.object = object; // Store the object for later use in rotation, etc.
+    },
+    (xhr) => {
+      console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
+    },
+    (error) => {
+      console.error('Error loading OBJ file:', error);
+    }
+  );
+}); // Closing parenthesis for mtlLoader.load callback
 
-      this.camera.position.z = 5;
+      this.camera.position.z = 5; 
 
       const animate = () => {
         requestAnimationFrame(animate);

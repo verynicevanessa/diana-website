@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Work from '../views/Work.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'; 
 import About from '../views/About.vue'; 
+import blinking from '../views/blinking.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +17,11 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: About
+    },
+    {
+      path: '/blinking',
+      name: 'blinking',
+      component: blinking
     },
     {
     path: '/project/:projectSlug', // Define the route parameter ':projectSlug'

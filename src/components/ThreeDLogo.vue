@@ -54,7 +54,7 @@ export default {
       scene.add(directionalLight);
 
       const mtlLoader = new MTLLoader();
-      mtlLoader.load('/Snowflake.mtl', (materials) => {
+      mtlLoader.load('/ObjTest.mtl', (materials) => {
         materials.preload();
 
         const objLoader = new OBJLoader();
@@ -87,11 +87,11 @@ export default {
 
       animate();
     },
-    onMouseWheel(event) {
-      const delta = Math.sign(event.deltaY) * 0.5; // Adjust the zoom speed
-      this.camera.position.z += delta;
-      this.camera.updateProjectionMatrix();
-    },
+    // onMouseWheel(event) {
+    //   const delta = Math.sign(event.deltaY) * 0.5; // Adjust the zoom speed
+    //   this.camera.position.z += delta;
+    //   this.camera.updateProjectionMatrix();
+    // },
     onWindowResize() {
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
@@ -122,7 +122,7 @@ export default {
 
 <style>
 #container {
-  width: 50%;
+  width: 100%;
   height: 50%;
 }
 </style>

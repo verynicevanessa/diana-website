@@ -1,6 +1,17 @@
+<script>
+import ThreeDLogo from './ThreeDLogo.vue';
+
+export default {
+    components: {
+        ThreeDLogo
+    }
+}
+</script>
+
+
 <template>
     <div class="footer">
-        <img src="/DW-Snowflake.png">
+        <ThreeDLogo />
         <p>DIANA WEISMAN</p>
         <p>©2024</p>
     </div>

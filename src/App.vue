@@ -8,13 +8,18 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
 
 <template>
  <Menu></Menu>
-<router-view />
+<router-view></router-view>
 <!-- <ThreeDLogo></ThreeDLogo> -->
 
 </template>
 
-<style scoped>
-.menu-wrapper {
+<style>
+/* .menu-wrapper {
     z-index: 900;
+    mix-blend-mode: difference;
+} */
+
+.menu-wrapper {
+    position: fixed;
 }
 </style>

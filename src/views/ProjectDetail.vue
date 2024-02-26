@@ -120,8 +120,11 @@ onMounted(async () => {
   cursor: pointer;
 }
 
+.swiper {
+  height: 100%;
+}
+
 .swiper-container {
-  width: 100%;
   height: 100%;
 }
 .swiper-slide {

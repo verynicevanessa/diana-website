@@ -14,5 +14,7 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
 </template>
 
 <style scoped>
-
+.menu-wrapper {
+    z-index: 900;
+}
 </style>

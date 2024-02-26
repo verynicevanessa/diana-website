@@ -1,7 +1,7 @@
 
 <template>
     <div class="menu-wrapper">
-        <div class="menu">
+        
             <router-link to="/"><img src="/DW-Logo.png" class="logo"></router-link>
             <a @click="toggleMenu"><img src="/menu-snowflake.svg" class="menu-button"></a>
         </div>
@@ -13,7 +13,7 @@
         <li><router-link @click.native="closeMenu" to="/blinking">Blink</router-link></li>
         <li>Contact</li>
       </ul>
-    </div>
+  
     </div>
 </template>
     
@@ -68,7 +68,7 @@ export default {
   padding: 0 20px; /* Add some padding on both sides */
   box-sizing: border-box; /* Include padding in the element's total width */
   z-index: 900; /* Ensure it stays above other content */
-  /* mix-blend-mode: difference; */
+  mix-blend-mode: difference;
 
 }
 

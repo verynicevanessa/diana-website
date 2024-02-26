@@ -10,9 +10,9 @@ export default {
 
 
 <template>
-    <div class="footer">
+    <div>
         <!-- <ThreeDLogo /> -->
-        <div class="footer-text">
+        <div class="menu-overlay-slide">
             <p>DIANA WEISMAN, NEW YORK</p>
             <p>©2024</p>
             <ul>
@@ -27,21 +27,9 @@ export default {
 </template>
 
 <style>
-.footer {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     height: 100vh;
-     flex-direction: column; 
-     position: relative;
-     bottom: 0;
-     background-color: antiquewhite;
-     text-align: center;
-}
-.footer-text {
-    position: absolute;
-    bottom: 1;
-    margin: 0 10px;
+.menu-overlay-slide {
+    width: 100%;
+    height: 100%;
 }
 
 </style>

@@ -4,12 +4,13 @@
     <div v-if="project" class="project-page">
       <!-- Swiper -->
       <swiper-container class="swiper" 
-        :slidesPerView="2"
-
+        :slidesPerView="3"
         :spaceBetween="30"
         :freeMode="true"
         :loop="true" 
-
+        :grid="{
+          rows: 2,
+          }"
         :mousewheel="true"
         :grabCursor="true">
         <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
@@ -114,10 +115,15 @@ onMounted(async () => {
   right: 0;
   bottom: 0;
   color: #000000; /* Adjust text color as needed */
-  padding: 20px;
   text-align: center; /* Centers the project name */
   z-index: 900;
   cursor: pointer;
+
+}
+
+.project-name h1 {
+  background-color: antiquewhite;
+  border-radius: 8px;
 }
 
 .swiper {
@@ -149,7 +155,7 @@ onMounted(async () => {
 
 .swiper-slide img, .swiper-slide video {
   max-width: 100%; /* Ensures the content is not wider than its container */
-  max-height: 100vh; /* Ensures the content does not exceed the viewport height */
+  max-height: 50vh; /* Ensures the content does not exceed the viewport height */
   object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
   margin: auto; /* Centers the content if it's smaller than its container */
 }

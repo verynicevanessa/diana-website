@@ -2,23 +2,25 @@
   <div class="menu-wrapper">
     <div class="menu">
       <router-link to="/"><img src="/2.png" class="logo"></router-link>
-      <a @click="toggleMenu"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
+      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
     </div>
-    <transition name="slide">
-      <div v-if="menuOpen" class="menu-overlay" ref="menuOverlay">
+  </div>
+    <transition name="menu-overlay">
+      <div v-if="menuOpen" class="menu-overlay-slide" :class="{ 'active': menuOpen }" ref="MenuOverlay">
+
         <!-- Your menu overlay content goes here -->
         <MenuOverlay />
       </div>
     </transition>
-  </div>
+
 </template>
 
 <script>
-import MenuOverlay from './MenuOverlay.vue'; // Import the MenuOverlay component
+import MenuOverlay from './MenuOverlay.vue';
 
 export default {
   components: {
-    MenuOverlay // Register the MenuOverlay component
+    MenuOverlay
   },
   data() {
     return {
@@ -28,23 +30,13 @@ export default {
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
-    },
-    handleClickOutside(event) {
-      const menuElement = this.$refs.menuOverlay;
-      if (menuElement && !menuElement.contains(event.target) && this.menuOpen) {
-        this.menuOpen = false;
-      }
+      console.log('Menu state:', this.menuOpen); 
     }
-  },
-  mounted() {
-    document.addEventListener('click', this.handleClickOutside, true);
-  },
-  beforeUnmount() {
-    document.removeEventListener('click', this.handleClickOutside, true);
   }
 };
 </script>
-    
+
+
 
 <style>
 .menu-wrapper {
@@ -56,7 +48,7 @@ export default {
   padding: 0 20px; 
   box-sizing: border-box; 
   z-index: 900; 
-
+  position: relative;
 }
 
 .menu {
@@ -64,6 +56,7 @@ export default {
   justify-content: center; /* Center the menu items */
   width: 100%; /* Ensure the menu spans the full width of its container */
   position: relative;
+  z-index: 900;
 }
 
 .menu-button {
@@ -93,25 +86,19 @@ a {
 }
 
 .menu-overlay {
-  position: absolute;
-  top: 100%; /* Position the menu below the logo */
-  left: 50%; /* Horizontally center the menu */
-  transform: translateX(-50%); /* Adjust for centering */
-  width: auto; /* Set the width to auto */
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center;
-  justify-content: center;
-  z-index: 800; /* Ensure it's above other content */
-  transition: opacity 0.3s ease; /* Smooth transition for opacity */
-  opacity: 0; /* Initially hidden */
-
-
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white; /* Adjust background color as needed */
+  z-index: 500; /* Ensure it's above other content */
+  transition: transform 1s ease; /* Smooth transition for sliding animation */
+  transform: translateY(-100%); /* Initially hide the menu overlay */
 }
 
 .menu-overlay.active {
-  opacity: 1; /* Show the overlay */
-  pointer-events: auto; /* Allow clicking on the overlay */
+  transform: translateY(0); /* Slide the menu overlay into view */
 }
 
 ul {
@@ -135,6 +122,14 @@ ul li a {
   color: rgb(0, 0, 0);
   font-size: 50px;
   margin-bottom: 10px;
+}
+
+.menu-overlay-slide {
+  display: flex;
+  justify-content: center;
+  flex-direction: columns;
+    width: 100vw;
+    height: 50vh;
 }
 
 

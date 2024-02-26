@@ -11,7 +11,7 @@ export default {
 
 <template>
     <div class="footer">
-        <!-- <ThreeDLogo /> -->
+        <ThreeDLogo />
         <div class="footer-text">
             <p>DIANA WEISMAN, NEW YORK</p>
             <p>©2024</p>
@@ -31,7 +31,6 @@ export default {
      display: flex;
      justify-content: center;
      align-items: center;
-     height: 100vh;
      flex-direction: column; 
      position: relative;
      bottom: 0;

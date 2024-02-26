@@ -1,47 +1,38 @@
-
 <template>
-    <div class="menu-wrapper">
-        <div class="menu">
-            <router-link to="/"><img src="/2.png" class="logo" ></router-link>
-            <a @click="toggleMenu"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
-        </div>
-        <div class="menu-overlay" :class="{ 'active': menuOpen }" ref="menuOverlay" >
-            <p> DIANA WEISMAN, NEW YORK</p><br>
-      <ul>
-        <li><router-link @click.native="closeMenu" to="/">Projects</router-link></li>
-        <li><router-link @click.native="closeMenu" to="/about">About</router-link></li>
-        <li><router-link @click.native="closeMenu" to="/blinking">Blink</router-link></li>
-        <li>Contact</li>
-      </ul>
+  <div class="menu-wrapper">
+    <div class="menu">
+      <router-link to="/"><img src="/2.png" class="logo"></router-link>
+      <a @click="toggleMenu"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
     </div>
-    </div>
+    <transition name="slide">
+      <div v-if="menuOpen" class="menu-overlay" ref="menuOverlay">
+        <!-- Your menu overlay content goes here -->
+        <MenuOverlay />
+      </div>
+    </transition>
+  </div>
 </template>
-    
 
 <script>
-
+import MenuOverlay from './MenuOverlay.vue'; // Import the MenuOverlay component
 
 export default {
+  components: {
+    MenuOverlay // Register the MenuOverlay component
+  },
   data() {
     return {
-      menuOpen: false,
+      menuOpen: false
     };
   },
   methods: {
     toggleMenu() {
-      if (this.menuOpen) {
-        this.closeMenu();
-      } else {
-        this.menuOpen = true;
-      }
-    },
-    closeMenu() {
-      this.menuOpen = false;
+      this.menuOpen = !this.menuOpen;
     },
     handleClickOutside(event) {
       const menuElement = this.$refs.menuOverlay;
       if (menuElement && !menuElement.contains(event.target) && this.menuOpen) {
-        this.closeMenu();
+        this.menuOpen = false;
       }
     }
   },
@@ -52,11 +43,7 @@ export default {
     document.removeEventListener('click', this.handleClickOutside, true);
   }
 };
-
-
 </script>
-
-
     
 
 <style>
@@ -149,5 +136,7 @@ ul li a {
   font-size: 50px;
   margin-bottom: 10px;
 }
+
+
 </style>
 

@@ -28,6 +28,7 @@ export default {
 
 <style>
 .footer {
+    height: 100vh;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -41,6 +42,13 @@ export default {
     position: absolute;
     bottom: 1;
     margin: 0 10px;
+}
+
+@media (max-width: 768px) {
+.footer-text ul li a{
+    font-size: 20px;
+}
+
 }
 
 </style>

@@ -1,22 +1,7 @@
-<template>
-    <div id="about-page">
-      <div v-if="loading">Loading...</div>
-      <div v-else-if="aboutInfo">
-        <!-- Display aboutText as HTML -->
-        <h1>{{ aboutInfo.aboutText }}</h1>
-        <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image">
-        <div v-html="aboutInfo.clients.html"></div>
-        <div v-html="aboutInfo.previouslyAt.html"></div>
-        <div v-html="aboutInfo.contact.html"></div>
 
-        <!-- Display other fields as needed -->
-      </div>
-      <div v-else>Error loading About page content.</div>
-    </div>
-  </template>
-  
 <script>
 import { request } from 'graphql-request';
+import Footer from '../components/Footer.vue'
 
 export default {
   data() {
@@ -78,18 +63,40 @@ export default {
         this.loading = false;
       }
     },
-  }
-  
+  },
+  components: { Footer }
 };
 
-
 </script>
+
+<template>
+  <div id="about-page">
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="aboutInfo">
+      <!-- Display aboutText as HTML -->
+      <h1>{{ aboutInfo.aboutText }}</h1>
+      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image">
+      <p class="about-title">CLIENTS</p><div v-html="aboutInfo.clients.html" class="about-links"></div>
+      <p class="about-title">PREVIOUSLY AT</p><div v-html="aboutInfo.previouslyAt.html" class="about-links"></div>
+      <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
+
+      <!-- Display other fields as needed -->
+      
+    </div>
+    <div v-else>Error loading About page content.</div>
+  </div>
+  <Footer />
+</template>
+
 
 <style scoped>
 #about-page {
     padding: 5em;
     max-width: 1200px; /* Adjust this value to your desired maximum width */
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 h1 {
@@ -104,4 +111,29 @@ h1 {
 body {
   background-color: red;
 }
+
+.about-title {
+  font-size: 16px;
+}
+
+.about-links {
+  font-size: 32px;
+  text-decoration: none;
+  width: 50%;
+  flex-direction: column;
+}
+.contact {
+  line-height: 8px;
+}
+
+@media (max-width: 768px) {
+  #about-page {
+    padding: 1em;
+  }
+
+  h1 {
+    font-size: 20px;
+  }  
+}
+
 </style>

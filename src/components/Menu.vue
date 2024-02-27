@@ -1,17 +1,18 @@
 <template>
+    <transition name="menu-overlay-section">
+      <div v-if="menuOpen" class="menu-overlay" :class="{ 'active': menuOpen }" ref="MenuOverlay">
+
+        <!-- Your menu overlay content goes here -->
+        <MenuOverlay @close-menu="closeMenu"/>
+      </div>
+    </transition>
   <div class="menu-wrapper">
     <div class="menu">
       <router-link to="/"><img src="/2.png" class="logo"></router-link>
       <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
     </div>
   </div>
-    <transition name="menu-overlay">
-      <div v-if="menuOpen" class="menu-overlay-slide" :class="{ 'active': menuOpen }" ref="MenuOverlay">
-
-        <!-- Your menu overlay content goes here -->
-        <MenuOverlay />
-      </div>
-    </transition>
+  
 
 </template>
 
@@ -31,7 +32,10 @@ export default {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
       console.log('Menu state:', this.menuOpen); 
-    }
+    },
+    closeMenu() {
+    this.menuOpen = false; // Directly close the menu
+  }
   }
 };
 </script>
@@ -49,6 +53,7 @@ export default {
   box-sizing: border-box; 
   z-index: 900; 
   position: relative;
+  /* mix-blend-mode: difference; */
 }
 
 .menu {
@@ -60,7 +65,7 @@ export default {
 }
 
 .menu-button {
-  width: 1em;
+  width: 3em;
   margin: 10px 10px 0 0;
   z-index: 900;
 }
@@ -82,7 +87,6 @@ export default {
 
 a {
   margin-left: auto; /* Push the button to the right */
-  font-size: 50px;
 }
 
 .menu-overlay {
@@ -91,9 +95,9 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: white; /* Adjust background color as needed */
-  z-index: 500; /* Ensure it's above other content */
-  transition: transform 1s ease; /* Smooth transition for sliding animation */
+  background-color: rgba(255, 255, 255, 0.234); /* Adjust background color as needed */
+  z-index: 800; /* Ensure it's above other content */
+  transition: transform 0.3s ease; /* Smooth transition for sliding animation */
   transform: translateY(-100%); /* Initially hide the menu overlay */
 }
 
@@ -125,11 +129,10 @@ ul li a {
 }
 
 .menu-overlay-slide {
-  display: flex;
   justify-content: center;
   flex-direction: columns;
     width: 100vw;
-    height: 50vh;
+    height: 100vh;
 }
 
 

@@ -118,12 +118,20 @@ onMounted(async () => {
   text-align: center; /* Centers the project name */
   z-index: 900;
   cursor: pointer;
+  width: fit-content;
+  margin: auto;
 
 }
 
 .project-name h1 {
-  background-color: antiquewhite;
+  background-color: rgba(137, 137, 137, 0.37);
   border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+}
+
+.project-name h1:hover {
+  background-color: rgba(223, 223, 223, 0.37);
 }
 
 .swiper {
@@ -136,8 +144,6 @@ onMounted(async () => {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
-
   overflow-x: scroll;
   overflow-y: hidden;
   /* Center slide text vertically */
@@ -161,17 +167,22 @@ onMounted(async () => {
 }
 
 .project-description {
-  position: fixed; /* or absolute, depending on your layout */
-  top: 20%; /* Adjust based on your layout */
+  position: fixed; 
   left: 0;
   right: 0;
+  top:40%;
   margin: auto;
-  font-size: 20px;
+  font-size: 30px;
   color: black; /* Text color */
-  padding: 20px;
   max-width: 800px; /* Or any max-width or width you prefer */
   z-index: 1000; /* Ensure it's above other content */
   border-radius: 10px; /* Optional: for rounded corners */
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+  ;
+
 }
 
 

@@ -54,16 +54,16 @@ export default {
       scene.add(directionalLight);
 
       const mtlLoader = new MTLLoader();
-      mtlLoader.load('/ObjTest.mtl', (materials) => {
+      mtlLoader.load('/3D-Diana.mtl', (materials) => {
         console.log('Materials loaded:', materials); 
         materials.preload();
 
         const objLoader = new OBJLoader();
         objLoader.setMaterials(materials); // This line applies the loaded materials to the OBJ model
         objLoader.load(
-          '/ObjTest.obj',
+          '/3D-Diana.obj',
           (object) => {
-          object.scale.set(0.05, 0.05, 0.05); // Example scaling, adjust as necessary
+          object.scale.set(0.001, 0.001, 0.001); // Example scaling, adjust as necessary
           object.position.set(0, 0, 0); // Center the object in the scene
           this.camera.position.set(0, 0, 5); // Adjust the camera to properly view the object
 

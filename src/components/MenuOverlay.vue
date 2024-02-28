@@ -32,10 +32,15 @@ export default {
     position: fixed;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     left:0;
     right:0;
     margin: auto;
+    backdrop-filter:  blur(20px);
 }
+
+
 
 
 </style>

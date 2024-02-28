@@ -16,13 +16,20 @@ export default {
   },
 
   mounted() {
-    // Set the background color when the component mounts
-    document.body.style.backgroundColor = 'lightblue';
-  },
-  beforeUnmount() {
-    // Reset the background color when the component is about to be destroyed
-    document.body.style.backgroundColor = ''; // Set to your default or previous value
-  },
+  // Disable the logo when the component mounts
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.display = 'none'; // Hide the logo
+  }
+},
+beforeUnmount() {
+  // Reset the logo visibility when the component is about to be destroyed
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.display = ''; // Remove the inline style to reset its visibility
+  }
+},
+
 
   methods: {
     async fetchAbout() {
@@ -31,7 +38,14 @@ export default {
         const query = `
         query GetFirstAbout {
             abouts(first: 1) {
-              aboutText
+              aboutText {
+                html
+                text
+              }
+              published {
+                html
+                text
+              }
               aboutimage {
                 url
               }
@@ -74,8 +88,10 @@ export default {
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
       <!-- Display aboutText as HTML -->
-      <h1>{{ aboutInfo.aboutText }}</h1>
-      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image">
+      <img src="/DWLogo.png" class="about-logo">
+      <h1 v-html="aboutInfo.aboutText.html"></h1>
+      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
+      <p class="about-title">Published</p><div v-html="aboutInfo.published.html" class="about-links"></div>
       <p class="about-title">CLIENTS</p><div v-html="aboutInfo.clients.html" class="about-links"></div>
       <p class="about-title">PREVIOUSLY AT</p><div v-html="aboutInfo.previouslyAt.html" class="about-links"></div>
       <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
@@ -96,24 +112,38 @@ export default {
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
+    z-index: 100;
+    margin-top: 20%;
 }
 
 h1 {
   text-align: center;
   font-size: 50px;
+  z-index: 100;
+  font-weight: 400;
 }
 
-.logo {
-  display: none;
+.about-logo {
+  width: 50%;
+  position: fixed;
+  z-index: 0;
+  margin: auto;
+  left: 0;
+  right:0;
+  top:0;
+  bottom: 0;
 }
 
-body {
-  background-color: red;
-}
 
 .about-title {
   font-size: 16px;
+}
+
+.about-image {
+  display: block;
+  margin: 500px auto;
 }
 
 .about-links {

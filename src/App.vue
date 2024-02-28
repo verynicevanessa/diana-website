@@ -9,7 +9,7 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
 
 <template>
  <Menu></Menu>
- <transition name="slide"><router-view></router-view></transition>
+ <transition name="slide" mode="out-in"><router-view></router-view></transition>
 <!-- <ThreeDLogo></ThreeDLogo> -->
 
 </template>
@@ -24,11 +24,13 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
     position: fixed;
 }
 
-.slide-enter-active, .slide-leave-active {
+/* .slide-enter-active, .slide-leave-active {
   transition: transform 0.5s ease;
-}
-.slide-enter, .slide-leave-to /* .slide-leave-active in <2.1.8 */ {
+  position: absolute;
+  width: 100%;
+} */
+/* .slide-enter, .slide-leave-to {
   transform: translateY(100%);
-}
+} */
 
 </style>

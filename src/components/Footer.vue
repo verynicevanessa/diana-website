@@ -11,7 +11,7 @@ export default {
 
 <template>
     <div class="footer">
-        <ThreeDLogo />
+        <!-- <ThreeDLogo /> -->
         <div class="footer-text">
             <p>DIANA WEISMAN, NEW YORK</p>
             <p>©2024</p>

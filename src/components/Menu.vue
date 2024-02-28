@@ -8,8 +8,8 @@
     </transition>
   <div class="menu-wrapper">
     <div class="menu">
-      <router-link to="/"><img src="/2.png" class="logo"></router-link>
-      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
+      <router-link to="/"><img src="/DWLogo.png" class="logo"></router-link>
+      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/Menu-Snowflake.png" class="menu-button" alt="SVG Image"></a>
     </div>
   </div>
   
@@ -75,7 +75,7 @@ export default {
 
 
 .logo {
-  width: 300px;
+  width: 500px;
   cursor: grab;
   mix-blend-mode: exclusion;
 /* 

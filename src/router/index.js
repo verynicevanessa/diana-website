@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import Work from '@/views/Work.vue'
+import ProjectDetail from '@/views/ProjectDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/Work.vue')
+      component: Work
     },
     {
       path: '/about',
@@ -22,8 +23,14 @@ const router = createRouter({
     {
     path: '/project/:projectSlug', // Define the route parameter ':projectSlug'
     name: 'ProjectDetail',
-    component: () => import('@/views/ProjectDetail.vue'),
+    component: ProjectDetail,
+    // component: () => import('@/views/ProjectDetail.vue'),
     props: true, // Automatically pass route params as props to the component
+    },
+    {
+      path: '/intro',
+      name: 'intro',
+      component: () => import('@/views/intro.vue')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

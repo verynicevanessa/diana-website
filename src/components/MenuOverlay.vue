@@ -1,11 +1,6 @@
 <script>
 import ThreeDLogo from './ThreeDLogo.vue';
 
-export default {
-    components: {
-        ThreeDLogo
-    }
-}
 </script>
 
 

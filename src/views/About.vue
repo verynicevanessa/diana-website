@@ -89,7 +89,7 @@ beforeUnmount() {
     <div v-else-if="aboutInfo">
       <!-- Display aboutText as HTML -->
       <img src="/DWLogo.png" class="about-logo">
-      <h1 v-html="aboutInfo.aboutText.html"></h1>
+      <h1 v-html="aboutInfo.aboutText.html" ></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <p class="about-title">Published</p><div v-html="aboutInfo.published.html" class="about-links"></div>
       <p class="about-title">CLIENTS</p><div v-html="aboutInfo.clients.html" class="about-links"></div>
@@ -123,12 +123,14 @@ h1 {
   font-size: 50px;
   z-index: 100;
   font-weight: 400;
+  font-size: clamp(20px, 5vw, 50px);
 }
 
 .about-logo {
-  width: 50%;
+  width: 80%;
+  max-width: 800px; 
   position: fixed;
-  z-index: 0;
+  z-index: -1;
   margin: auto;
   left: 0;
   right:0;
@@ -138,22 +140,26 @@ h1 {
 
 
 .about-title {
-  font-size: 16px;
+  font-size: clamp(12px, 2vw, 16px);
+  margin-top: clamp(20px, 10vw, 200px);
 }
 
 .about-image {
   display: block;
-  margin: 500px auto;
+  width: 100%;
+  margin: 10em auto;
+  max-width: 400px;
 }
 
 .about-links {
-  font-size: 32px;
+  font-size: clamp(18px, 3vw, 32px);
   text-decoration: none;
   width: 50%;
   flex-direction: column;
+
 }
 .contact {
-  line-height: 8px;
+  line-height: 1.5;
 }
 
 @media (max-width: 768px) {

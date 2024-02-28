@@ -14,7 +14,7 @@
         :mousewheel="true"
         :grabCursor="true">
         <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
-          <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item"/>
+          <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
           <video v-else :src="image.url" class="media-item" autoplay muted loop>
                   Your browser does not support the video tag.
                 </video>

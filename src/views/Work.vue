@@ -77,7 +77,7 @@ export default {
         <div class="project-wrapper">
           <div class="media-wrapper" @mouseover="setHovered(project.id)" @mouseleave="clearHovered()">
             <div v-if="project.heroImage">
-              <img v-if="isImage(project.heroImage)" :src="project.heroImage.url" alt="Project Hero Image" class="media-item" :class="{ 'blurred': isHovered(project.id) }">
+              <img v-if="isImage(project.heroImage)" :src="project.heroImage.url" alt="Project Hero Image" class="media-item" :class="{ 'blurred': isHovered(project.id)  }">
               <video v-else :src="project.heroImage.url" class="media-item" autoplay muted loop :class="{ 'blurred': isHovered(project.id) }">
                 Your browser does not support the video tag.
               </video>
@@ -106,7 +106,7 @@ export default {
     position: relative;
     overflow: hidden; /* Hide overflow for consistent layout */
     margin-bottom: 10px; /* Add vertical gap between projects */
-
+    
   }
 
   

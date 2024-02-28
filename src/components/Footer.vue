@@ -12,6 +12,7 @@ export default {
 <template>
     <div class="footer">
         <!-- <ThreeDLogo /> -->
+        <img src="../assets/Menu-Snowflake.png" class="footer-image">
         <div class="footer-text">
             <p>DIANA WEISMAN, NEW YORK</p>
             <p>©2024</p>
@@ -28,20 +29,22 @@ export default {
 
 <style>
 .footer {
-    height: 100vh;
+    height: 80vh;
      display: flex;
      justify-content: center;
      align-items: center;
      flex-direction: column; 
      position: relative;
      bottom: 0;
-     background-color: antiquewhite;
      text-align: center;
 }
 .footer-text {
-    position: absolute;
     bottom: 1;
     margin: 0 10px;
+}
+.footer-image {
+    width: 80%;
+  max-width: 800px;
 }
 
 @media (max-width: 768px) {

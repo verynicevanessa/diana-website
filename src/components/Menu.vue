@@ -28,6 +28,18 @@ export default {
       menuOpen: false
     };
   },
+  watch: {
+    // Watcher on the menuOpen property to handle the body scroll
+    menuOpen(newValue) {
+      if (newValue) {
+        // If menuOpen is true, disable scrolling
+        document.body.style.overflow = 'hidden';
+      } else {
+        // If menuOpen is false, enable scrolling
+        document.body.style.overflow = '';
+      }
+    }
+  },
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;

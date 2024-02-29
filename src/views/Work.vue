@@ -73,7 +73,7 @@ export default {
   <div class="masonry">
     <div class="project" v-for="project in projects" :key="project.id">
       
-      <router-link :to="{ name: 'ProjectDetail', params: { projectSlug: project.projectSlug } }">
+      <router-link  :to="{ name: 'ProjectDetail', params: { projectSlug: project.projectSlug } }">
         <div class="project-wrapper">
           <div class="media-wrapper" @mouseover="setHovered(project.id)" @mouseleave="clearHovered()">
             <div v-if="project.heroImage">

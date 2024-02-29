@@ -82,12 +82,9 @@ export default {
   z-index: 900;
 }
 
-.menu-button svg {
-  mix-blend-mode: exclusion !important; filter: invert(1) !important;}
-
-
 .logo {
-  width: 500px;
+  width: 100%;
+  max-width: 400px; 
   cursor: grab;
   mix-blend-mode: exclusion;
 /* 

@@ -15,7 +15,7 @@
         :grabCursor="true">
         <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
           <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
-          <video v-else :src="image.url" class="media-item" autoplay muted loop>
+          <video v-else :src="image.url" class="media-item" autoplay muted loop playsinline>
                   Your browser does not support the video tag.
                 </video>
         </swiper-slide>
@@ -33,7 +33,7 @@
 
 
 </div>
-    <div v-else>Loading project details...</div>
+    <div v-else><Loading /></div>
   </template>
 
 
@@ -41,6 +41,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { request } from 'graphql-request';
+import Loading from '../components/Loading.vue'
 
 import { register } from 'swiper/element/bundle';
 // Install modules

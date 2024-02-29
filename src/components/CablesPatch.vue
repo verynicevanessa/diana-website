@@ -1,3 +1,7 @@
+<script setup>
+  
+</script>
+
 <template>
   <canvas v-bind:id="canvasId" tabIndex="1"></canvas>
 </template>
@@ -16,6 +20,10 @@ export default {
     patchOptions: {
       type: Object
     },
+    // TODO: gql projects data
+    projectsData: {
+      type: Array
+    }
   },
   computed: {
     mergedPatchOptions() {
@@ -24,7 +32,8 @@ export default {
         'jsPath': this.patchDir + '/js/',
         'glCanvasId': this.canvasId,
         'glCanvasResizeToWindow': true,
-        'canvas': {'alpha': true, 'premultipliedAlpha': true}
+        'canvas': {'alpha': true, 'premultipliedAlpha': true},
+        'projectsData': this.projectsData
       };
       return {...defaultOptions, ...this.patchOptions }
     }
@@ -43,6 +52,7 @@ export default {
     const script = document.createElement('script');
     script.src = this.patchDir + '/js/patch.js';
     script.async = true;
+    
     script.onload = () => {
       const patchOptions = this.mergedPatchOptions;
       if (!patchOptions.patch) patchOptions.patch = CABLES.exportedPatch;

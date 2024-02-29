@@ -3,6 +3,7 @@ import Work from '../views/Work.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'; 
 import About from '../views/About.vue'; 
 import Blinking from '../views/Blinking.vue'
+import MakeDecision from '../views/MakeDecision.vue'
 
 
 const router = createRouter({
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/blinking',
       name: 'blinking',
       component: Blinking
+    },
+    {
+      path: '/makeDecision',
+      name: 'makeDecision',
+      component: MakeDecision
     },
     {
     path: '/project/:projectSlug', // Define the route parameter ':projectSlug'

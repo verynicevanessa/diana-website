@@ -2,7 +2,6 @@
 <script>
   import { ref, computed } from 'vue';
   import { request } from 'graphql-request';
-  import VueMasonryCss from 'vue-masonry-css'
 import Footer from '../components/Footer.vue';
 
 
@@ -28,13 +27,10 @@ export default {
                     projectName
                     projectDescription
                     heroImage {
-                        url
-                        mimeType
+                      url
+                      mimeType
                     }
                     projectSlug
-                    projectimages {
-                        url
-                    }
                 }
             }
           `;
@@ -53,6 +49,7 @@ export default {
                 return false; // If there's no URL, it's not an image
             return media.mimeType.startsWith('image/'); // Check if the MIME type starts with 'image/'
         },
+        
         setHovered(id) {
             this.hovered = id;
         },

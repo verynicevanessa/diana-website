@@ -28,7 +28,7 @@ const router = createRouter({
     component: () => import('@/views/ProjectDetail.vue'),
     props: true, // Automatically pass route params as props to the component
     loading: Loading,
-    delay: 5000,
+    delay: 200,
   
     },
     {

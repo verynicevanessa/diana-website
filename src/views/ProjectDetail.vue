@@ -98,6 +98,8 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching project:', error);
   }
+
+  
 });
 
 </script>
@@ -161,7 +163,7 @@ onMounted(async () => {
 }*/
 
 .swiper-slide img, .swiper-slide video {
-  max-width: 100%; /* Ensures the content is not wider than its container */
+  max-width: 100%;/* Ensures the content is not wider than its container */
   max-height: 50vh; /* Ensures the content does not exceed the viewport height */
   object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
   margin: auto; /* Centers the content if it's smaller than its container */

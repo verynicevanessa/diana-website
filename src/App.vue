@@ -9,7 +9,7 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
 
 <template>
  <Menu></Menu>
- <transition name="slide" mode="out-in"><router-view></router-view></transition>
+<router-view></router-view>
 <!-- <ThreeDLogo></ThreeDLogo> -->
 
 </template>

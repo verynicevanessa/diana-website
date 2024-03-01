@@ -9,7 +9,7 @@
   <div class="menu-wrapper">
     <div class="menu">
       <router-link to="/"><img src="/DWLogo.png" class="logo"></router-link>
-      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/Menu-Snowflake.png" class="menu-button" alt="SVG Image"></a>
+      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/SF.gif" class="menu-button" alt="SVG Image"></a>
     </div>
   </div>
   

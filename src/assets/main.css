@@ -19,3 +19,7 @@ a {
 .logo {
   backdrop-filter: blur(10px);
 } */
+
+[v-cloak] {
+  display: none;
+}

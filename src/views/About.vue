@@ -20,6 +20,8 @@ export default {
   const logo = document.querySelector('.logo');
   if (logo) {
     logo.style.display = 'none'; // Hide the logo
+    document.body.style.backgroundColor = '#bbc4d7';
+
   }
 },
 beforeUnmount() {
@@ -28,6 +30,7 @@ beforeUnmount() {
   if (logo) {
     logo.style.display = ''; // Remove the inline style to reset its visibility
   }
+  document.body.style.backgroundColor = '';
 },
 
 

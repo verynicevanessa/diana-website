@@ -33,7 +33,7 @@
 
 
 </div>
-    <div v-else><Loading /></div>
+    <div v-else>..</div>
   </template>
 
 
@@ -41,7 +41,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { request } from 'graphql-request';
-import Loading from '../components/Loading.vue'
+
 
 import { register } from 'swiper/element/bundle';
 // Install modules

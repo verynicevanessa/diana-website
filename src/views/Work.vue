@@ -12,7 +12,7 @@ export default {
     // Method to fetch projects
     const fetchProjects = async () => {
       try {
-        const authToken = import.meta.env.VITE_GRAPHQL_AUTH_TOKEN // Use your actual auth token
+        const authToken = import.meta.env.VITE_GRAPHQL_AUTH_TOKEN 
         const query = `
           query Projects {
             projects(first: 15) {

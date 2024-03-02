@@ -58,9 +58,9 @@ export default {
             localStorage.setItem("savedData", JSON.stringify(savedData));
           }
           if (savedData.length === 3) {
-            // setTimeout(() => {
-            //   this.$router.push("/selectedProjects");
-            // }, 500);
+            setTimeout(() => {
+              this.$router.push("/selectedProjects");
+            }, 500);
           }
 
           // console.log(newValue);

@@ -1,20 +1,19 @@
 <script setup>
-import CablesPatch from "@/components/CablesPatch.vue"; //imported in root for possible use in other views
 import Decision from "@/components/Decision.vue";
 </script>
 
 <template>
   <div>
-    <Decision :handlePermission="handlePermissionRequest"/>
+    <Decision @proceed="handleProceed" />
   </div>
 </template>
 
 <script>
 export default {
   methods: {
-    handlePermissionRequest() {
-        this.$router.push('/blinking')
-    }
+    handleProceed() {
+      this.$router.push("/blinking");
+    },
   },
 
   computed: {

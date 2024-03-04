@@ -21,6 +21,5 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
 
 .menu-wrapper {
     position: fixed;
-    pointer-events: none;
 }
 </style>

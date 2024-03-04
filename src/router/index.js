@@ -26,12 +26,12 @@ const router = createRouter({
       component: Blinking
     },
     {
-      path: '/makeDecision',
+      path: '/decision',
       name: 'makeDecision',
       component: MakeDecision
     },
     {
-      path: '/selectedProjects',
+      path: '/selected-projects',
       name: 'selectedProjects',
       component: SelectedProjects
     },

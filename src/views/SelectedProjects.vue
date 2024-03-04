@@ -1,27 +1,31 @@
 <template>
   <main>
-    Selected id's: {{ selectedProjects }}
+    <Project :project="project" v-for="project in selectedProjects"></Project>
   </main>
 </template>
 
 <script>
+import Project from "@/components/Project.vue";
+
 export default {
-  data() {
-    return {
-      selectedProjects: []
-    };
+  methods: {},
+  computed: {
+    selectedProjects() {
+      return this.$store.state.selectedProjects;
+    },
   },
-  mounted() {
-    this.selectedProjects = JSON.parse(localStorage.getItem("savedData"))[2];
-  },
+  components: { Project },
 };
 </script>
 
 <style>
-    main {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.project {
+
+}
 </style>

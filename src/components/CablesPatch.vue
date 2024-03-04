@@ -1,9 +1,5 @@
-<script setup>
-  
-</script>
-
 <template>
-  <canvas v-bind:id="canvasId" tabIndex="1"></canvas>
+  <canvas v-bind:id="canvasId" tabIndex="1" style="height: 500px;"></canvas>
 </template>
 
 <script>
@@ -20,14 +16,12 @@ export default {
     patchOptions: {
       type: Object
     },
-    // TODO: gql projects data
     projectsData: {
       type: Array
     }
   },
   computed: {
     mergedPatchOptions() {
-      console.log(this.projectsData);
       const defaultOptions = {
         'prefixAssetPath': this.patchDir,
         'jsPath': this.patchDir + '/js/',

@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <div class="content">
-      <img class="img" src="http://placekitten.com/100/100" />
+      <div class="imgContainer">
+        <img class="img" src="../../public/DW-Snowflake.png" />
+      </div>
       <div v-if="!permissionGiven">
         <div class="makeDecision" v-if="!decisionMade">
           <h3>
@@ -24,9 +26,7 @@
         </div>
       </div>
       <div class="enter" v-if="permissionGiven">
-        <h3>
-          ENTER experience
-        </h3>
+        <h3>ENTER experience</h3>
         <div class="btn">
           <button @click="handleEnter">Enter</button>
         </div>
@@ -35,37 +35,8 @@
   </div>
 </template>
 
-<style scoped>
-.main {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: aqua;
-}
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.img {
-  width: 100px;
-  height: 100px;
-}
-h3 {
-  margin: 0;
-  width: 200px;
-}
-</style>
-
 <script>
 export default {
-  props: ["handlePermission"],
-
   data() {
     return {
       decisionMade: false,
@@ -88,8 +59,62 @@ export default {
     },
 
     handleEnter() {
-      this.handlePermission({ cameraAccess: true });
+      this.$emit('proceed');
     },
   },
 };
 </script>
+
+<style scoped>
+.main {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e7ebf3;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+.img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.makeDecision {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h3 {
+  margin: 0;
+  width: 200px;
+  font-style: "NewEdge 666";
+  font-size: 18px;
+}
+
+.btn {
+  background-color: red;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+button{
+  padding: 10px 30px 10px 30px;
+}
+</style>

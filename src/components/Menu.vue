@@ -3,7 +3,7 @@
     <div class="menu-wrapper">
         <div class="menu">
             <router-link to="/"><img src="/2.png" class="logo" ></router-link>
-            <a @click="toggleMenu"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
+            <a @click="toggleMenu" ref="menuButton"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
         </div>
         <div class="menu-overlay" :class="{ 'active': menuOpen }" ref="menuOverlay" >
             <p> DIANA WEISMAN, NEW YORK</p><br>
@@ -29,18 +29,15 @@ export default {
   },
   methods: {
     toggleMenu() {
-      if (this.menuOpen) {
-        this.closeMenu();
-      } else {
-        this.menuOpen = true;
-      }
+      this.menuOpen = !this.menuOpen;
     },
     closeMenu() {
       this.menuOpen = false;
     },
     handleClickOutside(event) {
+      const menuButton = this.$refs.menuButton;
       const menuElement = this.$refs.menuOverlay;
-      if (menuElement && !menuElement.contains(event.target) && this.menuOpen) {
+      if (menuElement && !menuElement.contains(event.target) && this.menuOpen && !menuButton.contains(event.target)) {
         this.closeMenu();
       }
     }
@@ -118,8 +115,7 @@ a {
   z-index: 800; /* Ensure it's above other content */
   transition: opacity 0.3s ease; /* Smooth transition for opacity */
   opacity: 0; /* Initially hidden */
-
-
+  pointer-events: none; /* Disallow clicking on overlay while its inactive */
 }
 
 .menu-overlay.active {

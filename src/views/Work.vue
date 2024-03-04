@@ -8,6 +8,7 @@ export default {
   setup() {
     const projects = ref([]);
     const hovered = ref(null);
+    const isLoading = ref(true); 
 
     // Method to fetch projects
     const fetchProjects = async () => {
@@ -30,8 +31,10 @@ export default {
           Authorization: `Bearer ${authToken}`,
         });
         projects.value = response.projects;
+        isLoading.value = false;
       } catch (error) {
         console.error('Error fetching projects:', error);
+        isLoading.value = false;
       }
     };
 
@@ -87,7 +90,8 @@ export default {
 
 
 <template>
-  <div class="masonry">
+  <div v-if="isLoading" class="loader">Loading projects...</div>
+  <div class="masonry" v-cloak>
     <div class="project" v-for="project in projects" :key="project.id">
       
       <router-link  :to="{ name: 'ProjectDetail', params: { projectSlug: project.projectSlug } }">
@@ -108,7 +112,7 @@ export default {
       </router-link>
     </div>
   </div>
-  <Footer></Footer>
+  <Footer v-if="!isLoading"></Footer>
 </template>
 
 
@@ -127,7 +131,6 @@ export default {
     
   }
 
-  
 
 
   .media-item {

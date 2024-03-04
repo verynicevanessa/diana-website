@@ -4,6 +4,7 @@ import Menu from './components/Menu.vue'
 
 import ThreeDLogo from './components/ThreeDLogo.vue'
 
+
 </script>
 
 <template>
@@ -23,4 +24,14 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
     position: fixed;
     pointer-events: none;
 }
+
+/* .slide-enter-active, .slide-leave-active {
+  transition: transform 0.5s ease;
+  position: absolute;
+  width: 100%;
+} */
+/* .slide-enter, .slide-leave-to {
+  transform: translateY(100%);
+} */
+
 </style>

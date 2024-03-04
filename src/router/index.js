@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import Work from '../views/Work.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'; 
-import About from '../views/About.vue'; 
-import Blinking from '../views/Blinking.vue'
 import MakeDecision from '../views/MakeDecision.vue'
 import SelectedProjects from '../views/SelectedProjects.vue'
 
@@ -18,12 +17,12 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: About
+      component: () => import('@/views/About.vue')
     },
     {
       path: '/blinking',
       name: 'blinking',
-      component: Blinking
+      component: () => import('@/views/Blinking.vue')
     },
     {
       path: '/makeDecision',
@@ -38,10 +37,27 @@ const router = createRouter({
     {
     path: '/project/:projectSlug', // Define the route parameter ':projectSlug'
     name: 'ProjectDetail',
-    component: ProjectDetail,
+    // component: ProjectDetail,
+    component: () => import('@/views/ProjectDetail.vue'),
     props: true, // Automatically pass route params as props to the component
+    loading: Loading,
+    delay: 200,
+  
+    },
+    {
+      path: '/intro',
+      name: 'intro',
+      component: () => import('@/views/intro.vue')
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // return desired position
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0 };
+    }
+  }
 })
 
 export default router

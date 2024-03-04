@@ -4,20 +4,21 @@
     <div v-if="project" class="project-page">
       <!-- Swiper -->
       <swiper-container class="swiper" 
-        :slidesPerView="2"
-
+        :slidesPerView="3"
         :spaceBetween="30"
         :freeMode="true"
         :loop="true" 
-
+        :grid="{
+          rows: 2,
+          }"
         :mousewheel="true"
         :grabCursor="true">
-        <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
-          <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item"/>
-          <video v-else :src="image.url" class="media-item" autoplay muted loop>
+        <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
+          <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
+          <video v-else :src="image.url" class="media-item" autoplay muted loop playsinline>
                   Your browser does not support the video tag.
                 </video>
-        </swiper-slide>
+        </SwiperSlide>
         <!-- Pagination -->
     </swiper-container>
 
@@ -32,7 +33,7 @@
 
 
 </div>
-    <div v-else>Loading project details...</div>
+    <div v-else><Loading /></div>
   </template>
 
 
@@ -40,6 +41,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { request } from 'graphql-request';
+import Loading from '../components/Loading.vue'
 
 import { register } from 'swiper/element/bundle';
 // Install modules
@@ -64,7 +66,7 @@ const toggleDescription = () => {
 onMounted(async () => {
   try {
     const projectSlug = route.params.projectSlug; 
-    const authToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MDczMjUzMDEsImF1ZCI6WyJodHRwczovL2FwaS11cy1lYXN0LTEtc2hhcmVkLXVzZWExLTAyLmh5Z3JhcGguY29tL3YyL2Nsczh6ZHl6NzFqaDMwMXczOWp4enZjOWsvbWFzdGVyIiwibWFuYWdlbWVudC1uZXh0LmdyYXBoY21zLmNvbSJdLCJpc3MiOiJodHRwczovL21hbmFnZW1lbnQtdXMtZWFzdC0xLXNoYXJlZC11c2VhMS0wMi5oeWdyYXBoLmNvbS8iLCJzdWIiOiI3ZDE0ZmI3NC01MGZhLTRkYTMtODMwMi00ZTBjYzIyODk5ZjciLCJqdGkiOiJjbHNjMWVobXQwMWdxMDFscTk0ZHNjOXBzIn0.TstUbA1fSKAzEGxJLofSbJe1PPSdiVl9s6lJMzhhHLSjxo-mCRp0_7j7sZuBjrKamNge_42qwl4omSngbiuloNirqolmC8c6QtFncBobjTYPblYRQqvQGE9ogHd5ZkLLJlXQEllcB-yoehxZB7vDCLFAt-t_b6y4rAnqIZqlA5scAF5hQJvgJYEmV4fm5aeUC3WE2PsG038umlGvoVt46Jr1xsbKQScgotO1EkRsusbSDwez8nr-u3RznKFBwLayJe8jxj0UbJXrvHaSdPNbog6j1xo6Y_6Gfv_qm9V-pVRfX-55XONj-Mag4Lrge_G9rw3t53E26UigxiwDpZtS8xiW_bdDCZDUp3l3z7TqTeOf996hHixz9Sp9mpreJw2b0bb2q9_uSBemCzZ6nJAzZma7Q_RCi9WP8rZS-TWKmp8P4nJ0qvibk57XtNfQiDnHQt5RWACS6LIrQT7hFLkj_NWvEUO1E_zAtiaUlEIVduTRQ355oCEtL-fs82iq6vELbXVnntX8zL6Q0iTwfJt7Iw_HE41dK7AOYjxIwBskUNk4O2QrmBWhfgpQd4AzpOiVvgLBbOo7nT3OT9JW7NnKE1IwPCygX_ZMnxvPSkoRLeOWqBkzLBgfOx81Y4WvpeaQ2uCEHQVsgoFwV8vNSWB6iXamCBaf7AC6MtEo3xYkcl0';
+    const authToken = import.meta.env.VITE_GRAPHQL_AUTH_TOKEN;
     const query = `
     query ProjectBySlug($slug: String!) {
         project(where: {projectSlug: $slug}) {
@@ -96,6 +98,8 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching project:', error);
   }
+
+  
 });
 
 </script>
@@ -114,10 +118,23 @@ onMounted(async () => {
   right: 0;
   bottom: 0;
   color: #000000; /* Adjust text color as needed */
-  padding: 20px;
   text-align: center; /* Centers the project name */
   z-index: 900;
   cursor: pointer;
+  width: fit-content;
+  margin: auto;
+
+}
+
+.project-name h1 {
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+}
+
+.project-name h1:hover {
+  background-color: rgba(223, 223, 223, 0.37);
 }
 
 .swiper {
@@ -130,8 +147,6 @@ onMounted(async () => {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
-
   overflow-x: scroll;
   overflow-y: hidden;
   /* Center slide text vertically */
@@ -148,24 +163,29 @@ onMounted(async () => {
 }*/
 
 .swiper-slide img, .swiper-slide video {
-  max-width: 100%; /* Ensures the content is not wider than its container */
-  max-height: 100vh; /* Ensures the content does not exceed the viewport height */
+  max-width: 100%;/* Ensures the content is not wider than its container */
+  max-height: 50vh; /* Ensures the content does not exceed the viewport height */
   object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
   margin: auto; /* Centers the content if it's smaller than its container */
 }
 
 .project-description {
-  position: fixed; /* or absolute, depending on your layout */
-  top: 20%; /* Adjust based on your layout */
+  position: fixed; 
   left: 0;
   right: 0;
+  top:40%;
   margin: auto;
-  font-size: 20px;
+  font-size: 30px;
   color: black; /* Text color */
-  padding: 20px;
   max-width: 800px; /* Or any max-width or width you prefer */
   z-index: 1000; /* Ensure it's above other content */
   border-radius: 10px; /* Optional: for rounded corners */
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+  ;
+
 }
 
 

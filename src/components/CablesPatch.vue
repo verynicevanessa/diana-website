@@ -27,6 +27,7 @@ export default {
   },
   computed: {
     mergedPatchOptions() {
+      console.log(this.projectsData);
       const defaultOptions = {
         'prefixAssetPath': this.patchDir,
         'jsPath': this.patchDir + '/js/',
@@ -34,7 +35,7 @@ export default {
         'glCanvasResizeToWindow': true,
         'canvas': {'alpha': true, 'premultipliedAlpha': true},
         variables: {
-          inputJsonString: JSON.stringify(this.projectsData)
+          inputJson: this.projectsData
         }
       };
       return {...defaultOptions, ...this.patchOptions }

@@ -8,7 +8,7 @@ import FetchProjectsMixin from "@/mixins/FetchProjectsMixin.vue";
   <div>
     <CablesPatch
       v-if="projects.length"
-      patchDir="/patch_test/"
+      patchDir="/patch_blink_4/"
       :patchOptions="{ glCanvasResizeToWindow: true }"
       :projectsData="mappedData"
       @patch-loaded="handlePatchLoaded"
@@ -35,7 +35,7 @@ export default {
       // Assume you have the cablesGL script loaded and the patch initialized
       // Now, we listen to a specific variable from the patch
       console.log("Cables patch initialized");
-      const myVar = CABLES.patch.getVar("testNumber");
+      const myVar = CABLES.patch.getVar("selected_project_ids");
       // localStorage.removeItem("savedData");
       let savedData = [];
       localStorage.removeItem("savedData");
@@ -101,7 +101,16 @@ export default {
   computed: {
     mappedData() {
       console.log(this.projects);
-      return this.projects.map(o => ({id: o.id, url: o.heroImage.url, mime: o.heroImage.mimeType}))
+      return {
+  items: this.projects
+    .filter(o => o.heroImage.mimeType !== "video/mp4") // Filter out "video/mp4"
+    .map(o => ({
+      id: o.id,
+      url: o.heroImage.url,
+      mime: o.heroImage.mimeType
+    }))
+};
+
     }
   }
 };

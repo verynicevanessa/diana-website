@@ -1,6 +1,6 @@
 <template>
   <main>
-    VUE data: {{ selectedProjects }}
+    Selected id's: {{ selectedProjects }}
   </main>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     };
   },
   mounted() {
-    this.selectedProjects = JSON.parse(localStorage.getItem("savedData"));
+    this.selectedProjects = JSON.parse(localStorage.getItem("savedData"))[2];
   },
 };
 </script>

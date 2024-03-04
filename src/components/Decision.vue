@@ -9,7 +9,7 @@
             experience
           </h3>
           <div class="btn">
-            <button>Me</button>
+            <button @click="goToProjects" >Me</button>
             <button @click="handleYou">You</button>
           </div>
         </div>
@@ -44,7 +44,8 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: aqua;
+  background-color: rgb(255, 111, 0);
+  z-index: 500;
 }
 .content {
   display: flex;

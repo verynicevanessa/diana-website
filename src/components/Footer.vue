@@ -19,8 +19,8 @@ export default {
             <ul>
                 <li><router-link to="/">Projects</router-link></li>
                 <li> <router-link to="/about">About</router-link></li>
-                <li> <router-link to="/blinking">Blink</router-link></li>
-                <li> <router-link to="/">Contact</router-link></li>
+                <li> <router-link to="/selected">Selected</router-link></li>
+                <li> <router-link to="/">Restart</router-link></li>
             </ul>
            
         </div>

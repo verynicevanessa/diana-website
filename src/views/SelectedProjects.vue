@@ -1,6 +1,7 @@
 <template>
   <main>
     Selected id's: {{ selectedProjects }}
+
   </main>
 </template>
 

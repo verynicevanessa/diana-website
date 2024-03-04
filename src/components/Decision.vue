@@ -1,11 +1,11 @@
 <template>
   <div class="main">
     <div class="content">
-      <img class="img" src="http://placekitten.com/100/100" />
+      <img class="img" src="../assets/Menu-Snowflake.png" />
       <div v-if="!permissionGiven">
         <div class="makeDecision" v-if="!decisionMade">
           <h3>
-            ((Decision option text:)) who will decide the path to explore this
+            who will decide the path to explore this
             experience
           </h3>
           <div class="btn">

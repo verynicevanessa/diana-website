@@ -11,6 +11,11 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      component: MakeDecision
+    },
+    {
+      path: '/projects',
+      name: 'projects',
       component: Work
     },
     {
@@ -24,17 +29,12 @@ const router = createRouter({
       component: () => import('@/views/Blinking.vue')
     },
     {
-      path: '/makeDecision',
-      name: 'makeDecision',
-      component: MakeDecision
-    },
-    {
       path: '/selectedProjects',
       name: 'selectedProjects',
       component: SelectedProjects
     },
     {
-    path: '/project/:projectSlug', // Define the route parameter ':projectSlug'
+    path: '/project/:projectSlug', 
     name: 'ProjectDetail',
     component: () => import('@/views/ProjectDetail.vue'),
     props: true, // Automatically pass route params as props to the component

@@ -13,7 +13,7 @@ import ThreeDLogo from './ThreeDLogo.vue';
             <di><ul>
                 <li><router-link @click="$emit('close-menu')" to="/">Projects</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/about">About</router-link></li>
-                <li> <router-link @click="$emit('close-menu')" to="/blinking">Blink</router-link></li>
+                <li> <router-link @click="$emit('close-menu')" to="/SelectedProjects">Selected</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/">Contact</router-link></li>
             </ul>
         </di>

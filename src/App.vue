@@ -22,6 +22,7 @@ import ThreeDLogo from './components/ThreeDLogo.vue'
 
 .menu-wrapper {
     position: fixed;
+    pointer-events: none;
 }
 
 /* .slide-enter-active, .slide-leave-active {

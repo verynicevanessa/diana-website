@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="content">
-      <img class="img" src="../assets/Menu-Snowflake.png" />
+      <video class="video" src="../assets/SF-small.mp4" autoplay loop muted></video>
       <div v-if="!permissionGiven">
         <div class="makeDecision" v-if="!decisionMade">
           <h3>
@@ -52,10 +52,8 @@
   justify-content: center;
   align-items: center;
 }
-.img {
-  width: 100px;
-  height: 100px;
-}
+
+
 h3 {
   margin: 0;
   width: 200px;

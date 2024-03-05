@@ -91,7 +91,7 @@ beforeUnmount() {
       <img src="/DWLogo.png" class="about-logo">
       <h1 v-html="aboutInfo.aboutText.html" ></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
-      <p class="about-title">Published</p><div v-html="aboutInfo.published.html" class="about-links"></div>
+      <p class="about-title">PUBLISHED</p><div v-html="aboutInfo.published.html" class="about-links"></div>
       <p class="about-title">CLIENTS</p><div v-html="aboutInfo.clients.html" class="about-links"></div>
       <p class="about-title">PREVIOUSLY AT</p><div v-html="aboutInfo.previouslyAt.html" class="about-links"></div>
       <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
@@ -124,6 +124,7 @@ h1 {
   z-index: 100;
   font-weight: 400;
   font-size: clamp(20px, 5vw, 50px);
+  
 }
 
 .about-logo {
@@ -142,6 +143,9 @@ h1 {
 .about-title {
   font-size: clamp(12px, 2vw, 16px);
   margin-top: clamp(20px, 10vw, 200px);
+  font-family: Kommuna Demo;
+  src: url(@/assets/Kommuna-Demo-400-Narrow.woff) format("opentype");
+
 }
 
 .about-image {

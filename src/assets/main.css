@@ -2,7 +2,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #E7EBF3; 
+  background-color: #E9EFF5; 
 }
 
 a {
@@ -22,6 +22,10 @@ a {
   backdrop-filter: blur(10px);
 } */
 
+a:hover {
+  color: white;
+}
+
 h1 {
   font-family: GreedTRIAL-SemiBold;
   src:local("GreedTRIAL-SemiBold.woff");
@@ -33,7 +37,10 @@ h1 {
 }
 
 .about-title {
-  font-family: Kommuna-Demo-400-Narrow;
-  src:local("Kommuna-Demo-400-Narrow.woff");
-  src: url(@/assets/Kommuna-Demo-400-Narrow.woff);
+  font-family: Kommuna Demo;
+  src: url(@/assets/Kommuna-Demo-400-Narrow.woff) format("opentype");
+}
+
+.footer p {
+  font-family: Kommuna Demo;
 }

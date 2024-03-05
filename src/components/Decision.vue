@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="content">
-      <video class="video" src="../assets/SF-small.mp4" autoplay loop muted></video>
+      <video class="video" src="../assets/SF-small.mp4" autoplay loop muted playsinline></video>
       <div v-if="!permissionGiven">
         <div class="makeDecision" v-if="!decisionMade">
           <h3>
@@ -53,6 +53,9 @@
   align-items: center;
 }
 
+.video {
+  width: 100%;
+}
 
 h3 {
   margin: 0;

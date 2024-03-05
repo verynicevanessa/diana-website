@@ -144,7 +144,7 @@ h1 {
   font-size: clamp(12px, 2vw, 16px);
   margin-top: clamp(20px, 10vw, 200px);
   font-family: Kommuna Demo;
-  src: url(@/assets/Kommuna-Demo-400-Narrow.woff) format("opentype");
+  src: url(@/assets/kommuna_demo_400_narrow-webfont.woff) format("opentype");
 
 }
 
@@ -160,6 +160,7 @@ h1 {
   text-decoration: none;
   width: 50%;
   flex-direction: column;
+  text-transform: uppercase;
 
 }
 .contact {

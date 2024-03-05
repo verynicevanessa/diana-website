@@ -86,7 +86,6 @@ export default {
 .logo {
   width: 100%;
   max-width: 400px; 
-  cursor: grab;
   mix-blend-mode: exclusion;
 /* 
   background-image: url(/2.png);

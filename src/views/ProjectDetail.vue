@@ -119,7 +119,7 @@ onMounted(async () => {
   bottom: 0;
   color: #000000; /* Adjust text color as needed */
   text-align: center; /* Centers the project name */
-  z-index: 900;
+  z-index: 500;
   cursor: pointer;
   width: fit-content;
   margin: auto;

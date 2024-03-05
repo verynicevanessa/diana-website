@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #E9EFF5; 
+  
 }
 
 a {
@@ -36,10 +37,6 @@ h1 {
   font-family: GreedTRIAL-SemiBold;
 }
 
-.about-title {
-  font-family: Kommuna Demo;
-  src: url(@/assets/Kommuna-Demo-400-Narrow.woff) format("opentype");
-}
 
 .footer p {
   font-family: Kommuna Demo;

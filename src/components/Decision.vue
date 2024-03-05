@@ -11,7 +11,7 @@
             experience
           </h3>
           <div class="btn">
-            <button>Me</button>
+            <button @click="handleMe">Me</button>
             <button @click="handleYou">You</button>
           </div>
         </div>
@@ -44,6 +44,9 @@ export default {
     };
   },
   methods: {
+    handleMe(){
+      this.$router.push("/");
+    },
     handleYou() {
       this.decisionMade = true;
     },

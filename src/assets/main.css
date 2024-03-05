@@ -8,6 +8,8 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  font-family: GreedTRIAL-SemiBold;
+  text-transform: uppercase;
 }
 
 .logo:hover {
@@ -19,3 +21,19 @@ a {
 .logo {
   backdrop-filter: blur(10px);
 } */
+
+h1 {
+  font-family: GreedTRIAL-SemiBold;
+  src:local("GreedTRIAL-SemiBold.woff");
+  text-transform: uppercase;
+}
+
+.about-links {
+  font-family: GreedTRIAL-SemiBold;
+}
+
+.about-title {
+  font-family: Kommuna-Demo-400-Narrow;
+  src:local("Kommuna-Demo-400-Narrow.woff");
+  src: url(@/assets/Kommuna-Demo-400-Narrow.woff);
+}

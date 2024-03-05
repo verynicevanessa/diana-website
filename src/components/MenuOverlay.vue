@@ -9,8 +9,8 @@ import ThreeDLogo from './ThreeDLogo.vue';
         <!-- <ThreeDLogo /> -->
         <div class="menu-overlay-slide">
             <div class="overlay-text">
-            <p>DIANA WEISMAN, NEW YORK</p>
-            <p>©2024</p>
+            <h1>DIANA WEISMAN, NEW YORK<br>
+                ©2024</h1>
             <di><ul>
                 <li><router-link @click="$emit('close-menu')" to="/projects">Projects</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/about">About</router-link></li>

@@ -29,7 +29,7 @@ export default {
 
 <style>
 .footer {
-    height: 80vh;
+    height: 90vh;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -44,7 +44,7 @@ export default {
 }
 .footer-image {
     width: 80%;
-  max-width: 800px;
+    max-width: 500px;
 }
 
 @media (max-width: 768px) {

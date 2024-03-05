@@ -55,6 +55,7 @@
 
 .video {
   width: 100%;
+  max-width: 400px;
 }
 
 h3 {

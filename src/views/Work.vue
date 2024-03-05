@@ -100,7 +100,7 @@ export default {
             <div v-if="project.heroImage">
               <img v-if="isImage(project.heroImage)" :src="getTransformedImageUrl(project.heroImage.url, project.heroImage.mimeType)" alt="Project Hero Image" class="media-item" :class="{ 'blurred': isHovered(project.id) }">
 
-              <video v-else :src="project.heroImage.url" class="media-item" autoplay muted loop :class="{ 'blurred': isHovered(project.id) }">
+              <video v-else :src="project.heroImage.url" class="media-item" autoplay muted loop playsinline :class="{ 'blurred': isHovered(project.id) }">
                 Your browser does not support the video tag.
               </video>
             </div>

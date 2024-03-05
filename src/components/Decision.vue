@@ -25,7 +25,7 @@
       </div>
       <div class="enter" v-if="permissionGiven">
         <h3>
-          ENTER experience
+          You can only blink 3 times, choose wisely
         </h3>
         <div class="btn">
           <button @click="handleEnter">Enter</button>

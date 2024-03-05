@@ -1,3 +1,7 @@
+<script setup>
+import CablesPatch from '@/components/CablesPatch.vue'
+</script>
+
 <template>
     <div id="about-page">
       <div v-if="loading">Loading...</div>
@@ -13,6 +17,8 @@
       </div>
       <div v-else>Error loading About page content.</div>
     </div>
+
+    <CablesPatch patchDir="/patch_3D_scan/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
   </template>
   
 <script>

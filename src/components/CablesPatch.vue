@@ -1,5 +1,5 @@
 <template>
-  <canvas v-bind:id="canvasId" tabIndex="1"></canvas>
+  <canvas v-bind:id="canvasId" tabIndex="1" style="height: 500px;"></canvas>
 </template>
 
 <script>
@@ -16,6 +16,9 @@ export default {
     patchOptions: {
       type: Object
     },
+    projectsData: {
+      type: Array
+    }
   },
   computed: {
     mergedPatchOptions() {
@@ -24,7 +27,10 @@ export default {
         'jsPath': this.patchDir + '/js/',
         'glCanvasId': this.canvasId,
         'glCanvasResizeToWindow': true,
-        'canvas': {'alpha': true, 'premultipliedAlpha': true}
+        'canvas': {'alpha': true, 'premultipliedAlpha': true},
+        variables: {
+          inputJson: this.projectsData
+        }
       };
       return {...defaultOptions, ...this.patchOptions }
     }
@@ -38,11 +44,13 @@ export default {
     const _patchFinishedLoading = (patch) => {
       // The patch is ready now, all assets have been loaded
       console.log(this.patchDir + ' finished loading');
+      this.$emit('patch-loaded');
     };
 
     const script = document.createElement('script');
     script.src = this.patchDir + '/js/patch.js';
     script.async = true;
+    
     script.onload = () => {
       const patchOptions = this.mergedPatchOptions;
       if (!patchOptions.patch) patchOptions.patch = CABLES.exportedPatch;

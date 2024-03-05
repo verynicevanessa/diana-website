@@ -26,10 +26,16 @@ const router = createRouter({
     {
       path: '/blinking',
       name: 'blinking',
+
       component: () => import('@/views/Blinking.vue')
     },
     {
-      path: '/selectedProjects',
+      path: '/decision',
+      name: 'makeDecision',
+      component: MakeDecision
+    },
+    {
+      path: '/selected-projects',
       name: 'selectedProjects',
       component: SelectedProjects
     },

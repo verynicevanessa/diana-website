@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <div class="content">
+
       <video class="video" src="../assets/SF-small.mp4" autoplay loop muted playsinline></video>
+
       <div v-if="!permissionGiven">
         <div class="makeDecision" v-if="!decisionMade">
           <h3>
@@ -9,7 +11,7 @@
             experience
           </h3>
           <div class="btn">
-            <button @click="goToProjects" >Me</button>
+            <button @click="handleMe">Me</button>
             <button @click="handleYou">You</button>
           </div>
         </div>
@@ -24,6 +26,7 @@
         </div>
       </div>
       <div class="enter" v-if="permissionGiven">
+
         <h3>
           You can only blink 3 times, choose wisely
         </h3>
@@ -35,39 +38,8 @@
   </div>
 </template>
 
-<style scoped>
-.main {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  z-index: 500;
-}
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.video {
-  width: 100%;
-  max-width: 400px;
-}
-
-h3 {
-  margin: 0;
-  width: 200px;
-}
-</style>
-
 <script>
 export default {
-  props: ["handlePermission"],
-
   data() {
     return {
       decisionMade: false,
@@ -75,6 +47,9 @@ export default {
     };
   },
   methods: {
+    handleMe(){
+      this.$router.push("/");
+    },
     handleYou() {
       this.decisionMade = true;
     },
@@ -90,8 +65,62 @@ export default {
     },
 
     handleEnter() {
-      this.handlePermission({ cameraAccess: true });
+      this.$emit('proceed');
     },
   },
 };
 </script>
+
+<style scoped>
+.main {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e7ebf3;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+.video {
+  width: 100%;
+  max-width: 400px;
+}
+
+.makeDecision {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h3 {
+  margin: 0;
+  width: 200px;
+  font-style: "NewEdge 666";
+  font-size: 18px;
+}
+
+.btn {
+  background-color: red;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+button{
+  padding: 10px 30px 10px 30px;
+}
+</style>

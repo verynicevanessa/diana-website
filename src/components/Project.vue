@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .project-wrapper {
   position: relative;
   overflow: hidden; /* Hide overflow for consistent layout */
@@ -76,7 +76,6 @@ export default {
   color: #fff;
   padding: 10px;
   font-size: 4rem;
-  opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
   background-blend-mode: difference;

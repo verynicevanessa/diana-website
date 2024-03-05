@@ -117,8 +117,8 @@ onMounted(async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  color: #000000; /* Adjust text color as needed */
-  text-align: center; /* Centers the project name */
+  color: #000000; 
+  text-align: center; 
   z-index: 500;
   cursor: pointer;
   width: fit-content;
@@ -154,13 +154,6 @@ onMounted(async () => {
   justify-content: center;
   align-items: center;
 } 
-/*.swiper-slide img {
-    display: block;
-  width: 100%;
-  height: 100%; /* Set height to fill the full height of the swiper container 
-  object-fit: contain; /* Scale the image down proportionally to fit within the container 
-  margin: 0 auto; /* Center the image horizontally 
-}*/
 
 .swiper-slide img, .swiper-slide video {
   max-width: 100%;/* Ensures the content is not wider than its container */

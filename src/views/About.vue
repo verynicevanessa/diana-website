@@ -1,6 +1,6 @@
 <script>
 import { request } from 'graphql-request';
-import Footer from '../components/Footer.vue'
+import Footer from '@/components/Footer.vue'
 import CablesPatch from '@/components/CablesPatch.vue'
 
 export default {

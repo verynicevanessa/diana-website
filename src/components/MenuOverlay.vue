@@ -11,7 +11,7 @@ import ThreeDLogo from './ThreeDLogo.vue';
             <p>DIANA WEISMAN, NEW YORK</p>
             <p>©2024</p>
             <di><ul>
-                <li><router-link @click="$emit('close-menu')" to="/">Projects</router-link></li>
+                <li><router-link @click="$emit('close-menu')" to="/projects">Projects</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/about">About</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/SelectedProjects">Selected</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/">Contact</router-link></li>

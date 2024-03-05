@@ -4,8 +4,8 @@
 
 <script>
 import { onMounted, onUnmounted } from 'vue';
-import SFeye from '@/assets/SF-eye.svg'; // Import the SF-eye.svg file
-import SFblink from '@/assets/SF-blink.svg'; // Import the SF-blink.svg file
+import SFeye from '../assets/SF-eye.svg'; 
+import SFblink from '/SF-blink.svg'; 
 
 export default {
   setup() {

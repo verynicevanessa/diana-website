@@ -115,36 +115,6 @@ a {
   transform: translateY(0); /* Slide the menu overlay into view */
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex; /* Display the list items in a row */
-}
-
-ul li {
-  margin: 0 10px; /* Add margin between menu items */
-}
-
-ul li a {
-  color: rgb(0, 0, 0);
-  font-size: 50px;
-  text-decoration: none;
-}
-
-.menu-overlay p {
-  color: rgb(0, 0, 0);
-  font-size: 50px;
-  margin-bottom: 10px;
-}
-
-.menu-overlay-slide {
-  justify-content: center;
-  flex-direction: columns;
-    width: 100vw;
-    height: 100vh;
-}
-
 
 </style>
 

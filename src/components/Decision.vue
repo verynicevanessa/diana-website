@@ -44,7 +44,6 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgb(255, 111, 0);
   z-index: 500;
 }
 .content {

@@ -114,7 +114,6 @@ h3 {
 }
 
 .btn {
-  background-color: red;
   width: 100%;
   display: flex;
   justify-content: center;

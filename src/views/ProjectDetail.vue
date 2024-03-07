@@ -4,15 +4,16 @@
     <div v-if="project" class="project-page">
       <!-- Swiper -->
       <swiper-container class="swiper" 
-        :slidesPerView="3"
+        :slidesPerView="2"
         :spaceBetween="30"
-        :freeMode="true"
         :loop="true" 
         :grid="{
           rows: 2,
           }"
         :mousewheel="true"
-        :grabCursor="true">
+        :grabCursor="true"
+        :breakpoints="{600:{ slidesPerView:1, rows:1, }, 900:{ slidesPerView:4, } }"
+        >
         <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
           <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
           <video v-else :src="image.url" class="media-item" autoplay muted loop playsinline>
@@ -78,7 +79,7 @@ onMounted(async () => {
                 mimeType
             }
             projectSlug
-            projectimages {
+            projectimages(first: 500) {
                 url
                 mimeType
             }

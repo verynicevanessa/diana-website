@@ -2,7 +2,7 @@
   <div class="main">
     <div class="content">
 
-      <video class="video" src="../assets/SF-small.mp4" autoplay loop muted playsinline></video>
+      <img class="video" src="/D-SF.gif" ></img>
 
       <div v-if="!permissionGiven">
         <div class="makeDecision" v-if="!decisionMade">
@@ -97,7 +97,7 @@ export default {
 }
 .video {
   width: 100%;
-  max-width: 400px;
+  max-width: 800px;
 }
 
 .makeDecision {
@@ -108,9 +108,9 @@ export default {
 
 h3 {
   margin: 0;
-  width: 200px;
-  font-style: "NewEdge 666";
-  font-size: 18px;
+  width: 400px;
+  font-size: 24px;
+  margin: 1em 0;
 }
 
 .btn {

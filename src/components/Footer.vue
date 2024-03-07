@@ -12,7 +12,7 @@ export default {
 <template>
     <div class="footer">
         <!-- <ThreeDLogo /> -->
-        <img src="../assets/Menu-Snowflake.png" class="footer-image">
+        <img src="/D-SF.gif" class="footer-image">
         <div class="footer-text">
             <p>DIANA WEISMAN, NEW YORK</p>
             <p>©2024</p>

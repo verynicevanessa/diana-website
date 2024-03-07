@@ -27,7 +27,7 @@ main {
   align-items: center;
   flex-direction: row;
 }
-.project {
+/* .project {
 
-}
+} */
 </style>

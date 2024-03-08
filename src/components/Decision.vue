@@ -6,10 +6,10 @@
 
       <div v-if="!permissionGiven">
         <div class="makeDecision" v-if="!decisionMade">
-          <h3>
+          <h2>
             who will decide the path to explore this
             experience
-          </h3>
+          </h2>
           <div class="btn">
             <button @click="handleMe">Me</button>
             <button @click="handleYou">You</button>
@@ -80,13 +80,14 @@ export default {
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: #e7ebf3;
+  background: radial-gradient(circle, #d4dde7, #8e9aa8);
 }
 .content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .imgContainer {
@@ -97,7 +98,7 @@ export default {
 }
 .video {
   width: 100%;
-  max-width: 800px;
+  max-width: 200px;
 }
 
 .makeDecision {
@@ -106,10 +107,11 @@ export default {
   align-items: center;
 }
 
-h3 {
+h2 {
   margin: 0;
   width: 400px;
-  font-size: 24px;
+  font-size: 32px;
+  text-transform: uppercase;
   margin: 1em 0;
 }
 
@@ -121,5 +123,17 @@ h3 {
 
 button{
   padding: 10px 30px 10px 30px;
+  margin: 5px;
+  border: none;
+  border-radius: 16px;
+  background-color: #ffffff4e;
+  transition: background 0.5s ease-in-out;
+  font-family: Kommuna Demo;
+  font-size: 20px;
+}
+
+button:hover {
+  background-color: #fff;
+  
 }
 </style>

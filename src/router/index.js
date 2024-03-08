@@ -50,6 +50,11 @@ const router = createRouter({
       path: '/intro',
       name: 'intro',
       component: () => import('@/views/intro.vue')
+    },
+    {
+      path: '/first',
+      name: 'first',
+      component: () => import('@/views/First.vue')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

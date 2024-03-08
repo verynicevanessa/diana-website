@@ -44,7 +44,7 @@ export default {
     };
   },
   methods: {
-    handleMe(){
+    handleMe() {
       this.$router.push("/");
     },
     handleYou() {
@@ -57,12 +57,13 @@ export default {
         });
         this.permissionGiven = response.active;
       } catch (e) {
+        this.$router.push("/blinking");
         console.log("Error", e);
       }
     },
 
     handleEnter() {
-      this.$emit('proceed');
+      this.$emit("proceed");
     },
   },
 };
@@ -117,7 +118,7 @@ h3 {
   justify-content: center;
 }
 
-button{
+button {
   padding: 10px 30px 10px 30px;
 }
 </style>

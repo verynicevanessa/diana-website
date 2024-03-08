@@ -10,7 +10,22 @@
 import Project from "@/components/Project.vue";
 
 export default {
-  methods: {},
+  mounted() {
+    this.disableCameraAccess();
+  },
+  methods: {
+    async disableCameraAccess() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
+      } catch (error) {
+        console.log("Error", error);
+      }
+    },
+  },
   computed: {
     selectedProjects() {
       return this.$store.state.selectedProjects;

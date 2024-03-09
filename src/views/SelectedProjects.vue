@@ -25,8 +25,8 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding-top: 100px;
+  flex-direction: row;
+  height: 100vh;
 }
 /* .project {
 
@@ -35,9 +35,7 @@ main {
 
 .project {
   width: 100%;
-  max-width: 500px;
   left: 0;
   top: 0;
-  margin-top: -100px; /* Adjust as needed for the amount of overlap */
 }
 </style>

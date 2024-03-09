@@ -11,7 +11,7 @@
       }"
       :mousewheel="true"
       :grabCursor="true"
-      :breakpoints="{600:{ slidesPerView:1, rows:1, }, 900:{ slidesPerView:4, } }"
+      :breakpoints="{600:{ slidesPerView:1, rows:1, spaceBetween:30 }, 900:{ slidesPerView:3, spaceBetween:30 } }"
       >
       <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
         <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />

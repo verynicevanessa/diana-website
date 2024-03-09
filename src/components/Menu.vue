@@ -87,12 +87,16 @@ export default {
 .logo {
   width: 100%;
   max-width: 200px; 
+  z-index: 900;
 /* 
   background-image: url(/2.png);
      filter: blur(3px);
      background-size: contain; */
 }
 
+.menu-wrapper .logo:hover  {
+ mix-blend-mode: difference;
+}
 
 a {
   margin-left: auto; /* Push the button to the right */

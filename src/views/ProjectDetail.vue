@@ -28,7 +28,7 @@
 
     <div  class="project-name" >
       <h1 @click="navigateToPreviousProject" class="Previous">PREV</h1>
-      <h1 @click="toggleDescription" class="this-project">{{ project.projectName }}</h1>
+      <h1 @click="toggleDescription" class="this-project">ABOUT {{ project.projectName }}</h1>
       <h1 @click="navigateToNextProject" class="Next">NEXT</h1>
     </div>
   

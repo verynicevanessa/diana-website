@@ -87,6 +87,14 @@ export default {
 
     next();
   },
+
+  beforeUnmount() {
+    // Reset the logo visibility when the component is about to be destroyed
+    const menu = document.querySelector('.menu-wrapper');
+    if (menu) {
+      menu.style.display = ''; // Remove the inline style to reset its visibility
+    }
+  }
 };
 </script>
 

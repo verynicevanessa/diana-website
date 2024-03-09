@@ -9,7 +9,7 @@
   <div class="menu-wrapper">
     <div class="menu">
       <router-link to="/"><img src="/DWLogo.png" class="logo"></router-link>
-      <a @click="toggleMenu" aria-label="Toggle menu"><img src="@/assets/Menu-Snowflake.png" class="menu-button" alt="SVG Image"></a>
+      <a @click="toggleMenu" aria-label="Toggle menu"><img src="/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
     </div>
   </div>
   
@@ -81,12 +81,12 @@ export default {
   width: 3em;
   margin: 10px 10px 0 0;
   z-index: 900;
+  mix-blend-mode: exclusion;
 }
 
 .logo {
   width: 100%;
-  max-width: 400px; 
-  mix-blend-mode: exclusion;
+  max-width: 200px; 
 /* 
   background-image: url(/2.png);
      filter: blur(3px);

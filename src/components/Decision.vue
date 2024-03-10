@@ -47,8 +47,8 @@ export default {
     };
   },
   methods: {
-    handleMe(){
-      this.$router.push("/projects");
+    handleMe() {
+      this.$router.push("/");
     },
     handleYou() {
       this.decisionMade = true;
@@ -60,12 +60,13 @@ export default {
         });
         this.permissionGiven = response.active;
       } catch (e) {
+        this.$router.push("/blinking");
         console.log("Error", e);
       }
     },
 
     handleEnter() {
-      this.$emit('proceed');
+      this.$emit("proceed");
     },
   },
 };
@@ -121,7 +122,7 @@ h2 {
   justify-content: center;
 }
 
-button{
+button {
   padding: 10px 30px 10px 30px;
   margin: 5px;
   border: none;

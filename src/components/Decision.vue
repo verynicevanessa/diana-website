@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     handleMe() {
-      this.$router.push("/");
+      this.$router.push("/projects");
     },
     handleYou() {
       this.decisionMade = true;

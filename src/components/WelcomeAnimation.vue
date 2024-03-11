@@ -7,11 +7,6 @@
 <script>
 export default {
   mounted() {
-    const menu = document.querySelector(".menu-wrapper");
-    if (menu) {
-      menu.style.display = "none"; // Hide the logo
-    }
-
     class TextScramble {
       constructor(el) {
         this.el = el;
@@ -82,6 +77,9 @@ export default {
 </script>
 
 <style>
+.menu {
+  display: none;
+}
 .shuffle-container {
   display: flex;
   justify-content: center;

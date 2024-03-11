@@ -1,23 +1,17 @@
 <script setup>
-import Menu from './components/Menu.vue'
-import Cursor from './components/Cursor.vue'
+import Menu from "./components/Menu.vue";
+import Cursor from "./components/Cursor.vue";
 </script>
 
 <template>
-    <Cursor></Cursor>
- <Menu></Menu>
-<router-view></router-view>
-
-
+  <Cursor></Cursor>
+  <Menu></Menu>
+  <router-view></router-view>
 </template>
 
 <style>
-
-
 .menu-wrapper {
-    position: fixed;
-    z-index: 900;
+  position: fixed;
+  z-index: 900;
 }
-
-
 </style>

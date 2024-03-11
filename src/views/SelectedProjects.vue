@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 main {
   display: flex;
   justify-content: center;
@@ -50,6 +50,7 @@ main {
 
 .project {
   width: 100%;
+  max-width:200px;
   left: 0;
   top: 0;
 }

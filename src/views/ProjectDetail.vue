@@ -11,7 +11,7 @@
       }"
       :mousewheel="true"
       :grabCursor="true"
-      :breakpoints="{600:{ slidesPerView:1, rows:1, spaceBetween:30 }, 900:{ slidesPerView:3, spaceBetween:30 } }"
+      :breakpoints="{600:{ slidesPerView:1, rows:1, spaceBetween:30 }, 900:{ slidesPerView:3, spaceBetween:30 }, 1200:{ slidesPerView:3, spaceBetween:30 } }"
       >
       <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
         <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
@@ -47,9 +47,6 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { request } from 'graphql-request';
 
-
-
-
 import { register } from 'swiper/element/bundle';
 // Install modules
 register();
@@ -81,18 +78,18 @@ const navigateToPreviousProject = async () => {
     console.log('No previous project found, looping to last project');
     project.value = allProjects[allProjects.length - 1];
   }
+  await this.$router.push({ name: 'Project', params: { projectSlug: project.value.projectSlug } })
 };
 
 const navigateToNextProject = async () => {
-  // Assuming you have a list of all projects and the current project's index in that list
-  const allProjects = await fetchAllProjects(); // You need to implement this function
+  const allProjects = await fetchAllProjects();
   const currentIndex = allProjects.findIndex(p => p.id === project.value.id);
   if (currentIndex < allProjects.length - 1) {
     project.value = allProjects[currentIndex + 1];
   } else {
-    // If there's no next project, you can loop back to the first project
     project.value = allProjects[0];
   }
+  await router.push({ name: 'Project', params: { projectSlug: project.value.projectSlug } });
 };
 
 const fetchAllProjects = async () => {

@@ -22,6 +22,7 @@
               autoplay
               muted
               loop
+              playsinline
             >
               Your browser does not support the video tag.
             </video>

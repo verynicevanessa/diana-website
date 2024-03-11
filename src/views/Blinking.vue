@@ -1,9 +1,12 @@
 <script setup>
 import CablesPatch from "@/components/CablesPatch.vue"; //imported in root for possible use in other views
 import useProjectData from "@/mixins/useProjectData";
+import loadingMixin from "@/mixins/loadingMixin";
+import WelcomeAnimation from "@/components/WelcomeAnimation.vue";
 </script>
 
 <template>
+  <WelcomeAnimation v-if="isLoading"></WelcomeAnimation>
   <div class="canvasContainer">
     <CablesPatch
       v-if="projects.length"
@@ -18,9 +21,13 @@ import useProjectData from "@/mixins/useProjectData";
 <script>
 export default {
   name: "CablesGLComponent",
-  mixins: [useProjectData],
+  mixins: [useProjectData, loadingMixin],
+  mounted() {
+    this.startLoading();
+  },
   methods: {
     handlePatchLoaded() {
+      this.stopLoading();
       // Handle any initialization you might need here
       this.initializeCablesPatch();
 
@@ -80,18 +87,12 @@ export default {
       };
     },
   },
-  mounted() {
-    // Disable the logo when the component mounts
-    const logo = document.querySelector('.logo');
-    if (logo) {
-      logo.style.display = 'none'; // Hide the logo
-    }
-  },
+
   beforeUnmount() {
     // Reset the logo visibility when the component is about to be destroyed
-    const logo = document.querySelector('.logo');
+    const logo = document.querySelector(".logo");
     if (logo) {
-      logo.style.display = ''; // Remove the inline style to reset its visibility
+      logo.style.display = ""; // Remove the inline style to reset its visibility
     }
   },
 };

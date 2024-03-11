@@ -73,13 +73,16 @@ export default {
       }, 1000);
     });
   },
+  beforeMount() {
+    document.querySelector('.menu').style.display = 'none'
+  },
+  beforeUnmount() {
+    document.querySelector('.menu').style.display = 'flex'
+  }
 };
 </script>
 
 <style>
-.menu {
-  display: none;
-}
 .shuffle-container {
   display: flex;
   justify-content: center;

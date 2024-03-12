@@ -89,6 +89,9 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-color: rgb(182, 201, 216);
+  border-radius: 18px;
+  padding: 10px;
 }
 
 .imgContainer {

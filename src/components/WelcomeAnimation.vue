@@ -90,6 +90,7 @@ export default {
   align-items: center;
   height: 100vh;
   padding: 10px;
+  /* background: url(/D-SF.gif); */
 }
 
 .text-animation {

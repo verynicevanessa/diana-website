@@ -7,12 +7,17 @@ import Cursor from "./components/Cursor.vue";
   <Cursor></Cursor>
   <Menu></Menu>
   <Transition name="slide-fade" ><router-view></router-view></Transition>
+ 
 </template>
 
 <style>
 .menu-wrapper {
   position: fixed;
   z-index: 900;
+}
+
+#app {
+  position: relative;
 }
 
 .slide-fade-enter-active {
@@ -28,5 +33,6 @@ import Cursor from "./components/Cursor.vue";
   transform: translateY(20px);
   opacity: 0;
 }
+
 
 </style>

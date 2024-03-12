@@ -56,5 +56,6 @@ main {
   max-width: 200px;
   left: 0;
   top: 0;
+  margin: 10px;
 }
 </style>

@@ -18,7 +18,7 @@ import CablesPatch from '@/components/CablesPatch.vue'
       <div v-else>Error loading About page content.</div>
     </div>
 
-    <CablesPatch patchDir="/patch_3D_scan/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
+    <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
   </template>
   
 <script>

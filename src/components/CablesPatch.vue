@@ -29,9 +29,11 @@ export default {
         'glCanvasResizeToWindow': true,
         'canvas': {'alpha': true, 'premultipliedAlpha': true},
         variables: {
-          inputJson: this.projectsData
+          inputJson: this.projectsData,
+          HiresDisplay: true
         }
       };
+      console.log(this.projectsData);
       return {...defaultOptions, ...this.patchOptions }
     }
   },

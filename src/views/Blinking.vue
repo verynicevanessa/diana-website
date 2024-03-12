@@ -10,7 +10,7 @@ import WelcomeAnimation from "@/components/WelcomeAnimation.vue";
   <div class="canvasContainer">
     <CablesPatch
       v-if="projects.length"
-      patchDir="/patch_blink_4/"
+      patchDir="/patch_blink_5/"
       :patchOptions="{ glCanvasResizeToWindow: true }"
       :projectsData="mappedData"
       @patch-loaded="handlePatchLoaded"
@@ -46,7 +46,6 @@ export default {
 
       if (arrayOfIdsString.length === 3) {
         this.$store.commit("selectProjects", arrayOfIdsString);
-        this.$router.push({name: 'selectedProjects'});
       }
     },
     watchPatchVisibility() {

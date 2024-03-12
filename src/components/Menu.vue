@@ -8,7 +8,7 @@
     </transition>
   <div class="menu-wrapper">
     <div class="menu">
-      <h1>DIANA WEISMAN</h1>
+      <span><router-link to="/projects"><h1>DIANA WEISMAN</h1></router-link></span>
       <router-link to="/"><img src="/DWLogo.png" class="logo"></router-link>
       <a @click="toggleMenu" aria-label="Toggle menu"><img src="/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
     </div>

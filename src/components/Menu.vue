@@ -1,5 +1,5 @@
 <template>
-    <transition name="menu-overlay-section">
+    <transition name="fade">
       <div v-if="menuOpen" class="menu-overlay" :class="{ 'active': menuOpen }" ref="MenuOverlay">
 
         <!-- Your menu overlay content goes here -->
@@ -119,6 +119,15 @@ a {
   transform: translateY(0); /* Slide the menu overlay into view */
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 </style>
 

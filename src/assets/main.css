@@ -51,10 +51,6 @@ h1 {
 }
 
 
-.footer p {
-  font-family: Kommuna Demo;
-}
-
-p {
+.footer p,  .menu-overlay p {
   font-family: Kommuna Demo;
 }

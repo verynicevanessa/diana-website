@@ -107,8 +107,8 @@ beforeUnmount() {
 
 <style scoped>
 #about-page {
-    padding: 5em;
-    max-width: 1200px; /* Adjust this value to your desired maximum width */
+    padding: 3em;
+    max-width: 1440px; /* Adjust this value to your desired maximum width */
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -120,12 +120,12 @@ beforeUnmount() {
 
 h1 {
   text-align: center;
-  font-size: 50px;
+  font-family: GreedTRIAL-SemiBold;
   z-index: 100;
   font-weight: 400;
-  font-size: clamp(20px, 5vw, 50px);
-  text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5);
-    filter: blur(0.01em) saturate(2);
+  font-size: clamp(32px, 5vw, 70px);
+  /* text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5); */
+  filter: blur(0.01em) saturate(2);
   
 }
 

@@ -189,7 +189,7 @@ onMounted(async () => {
 .this-project {
   flex: 1; /* Take up remaining space */
   text-align: center;
-  background-color: rgba(137, 137, 137, 0.37);
+  background-color: rgba(170, 171, 204, 0.37);
   border-radius: 8px;
   padding: 8px 16px;
   backdrop-filter: blur(10px);
@@ -197,7 +197,7 @@ onMounted(async () => {
 }
 
 .previous, .next {
-  background-color: rgba(137, 137, 137, 0.37);
+  background-color: rgba(170, 171, 204, 0.37);
   border-radius: 8px;
   padding: 8px 16px;
   backdrop-filter: blur(10px);

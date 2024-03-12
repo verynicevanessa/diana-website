@@ -19,7 +19,7 @@ export default {
             <ul>
                 <li><router-link to="/projects">Projects</router-link></li>
                 <li> <router-link to="/about">About</router-link></li>
-                <li> <router-link to="/selected">Selected</router-link></li>
+                <li> <router-link to="/selected-projects">Selected</router-link></li>
                 <li> <router-link to="/">Restart</router-link></li>
             </ul>
            

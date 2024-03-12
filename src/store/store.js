@@ -33,4 +33,8 @@ export const store = createStore({
       }
     },
   },
+  getters: {
+    // Getter for the projects count
+    projectsCount: state => state.loadedProjects.length,
+  },
 });

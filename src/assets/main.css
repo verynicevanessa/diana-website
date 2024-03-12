@@ -1,12 +1,29 @@
+@font-face {
+  font-family: GreedTRIAL-SemiBold;
+  src: local('GreedTRIAL-SemiBold'), url('@/assets/GreedTRIAL-SemiBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: Kommuna Demo;
+  src: local('kommuna_demo_400_narrow-webfont.woff'), url('@/assets/kommuna_demo_400_narrow-webfont.woff') format('woff');
+}
+
+body, a {
+  font-family: GreedTRIAL-SemiBold, sans-serif;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  /* background-color: #E7EBF3;  */
+  background-color: #d4dde7; 
+  
 }
 
 a {
+  color: inherit;
   text-decoration: none;
+  font-family: GreedTRIAL-SemiBold;
+  text-transform: uppercase;
 }
 
 .logo:hover {
@@ -18,3 +35,22 @@ a {
 .logo {
   backdrop-filter: blur(10px);
 } */
+
+a:hover {
+  color: white;
+  
+}
+
+h1 {
+  font-family: GreedTRIAL-SemiBold;
+  text-transform: uppercase;
+}
+
+.about-links {
+  font-family: GreedTRIAL-SemiBold;
+}
+
+
+.footer p,  .menu-overlay p {
+  font-family: Kommuna Demo;
+}

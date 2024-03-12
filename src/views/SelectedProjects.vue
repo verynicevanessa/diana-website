@@ -6,8 +6,10 @@
 
 <script>
 import Project from "@/components/Project.vue";
+import useProjectData from "@/mixins/useProjectData";
 
 export default {
+  mixins: [useProjectData],
   mounted() {
     this.disableCameraAccess();
   },
@@ -26,18 +28,34 @@ export default {
   },
   computed: {
     selectedProjects() {
-      return this.$store.state.selectedProjects;
+      if (this.$store.state.selectedProjects.length === 0) {
+        const random = [...this.$store.state.loadedProjects].sort(
+          () => 0.5 - Math.random()
+        );
+        return random.slice(0, 3);
+      } else {
+        return this.$store.state.selectedProjects;
+      }
     },
   },
   components: { Project },
 };
 </script>
 
-<style>
+<style scoped>
 main {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.project {
+  width: 100%;
+  max-width: 500px;
+  left: 0;
+  top: 0;
+  margin: 10px;
 }
 </style>

@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import Work from '../views/Work.vue'
-import ProjectDetail from '../views/ProjectDetail.vue'; 
-import About from '../views/About.vue'; 
-import Blinking from '../views/Blinking.vue'
 import MakeDecision from '../views/MakeDecision.vue'
 import SelectedProjects from '../views/SelectedProjects.vue'
 
@@ -13,17 +11,23 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      component: MakeDecision
+    },
+    {
+      path: '/projects',
+      name: 'projects',
       component: Work
     },
     {
       path: '/about',
       name: 'about',
-      component: About
+      component: () => import('@/views/About.vue')
     },
     {
       path: '/blinking',
       name: 'blinking',
-      component: Blinking
+
+      component: () => import('@/views/Blinking.vue')
     },
     {
       path: '/decision',
@@ -36,12 +40,31 @@ const router = createRouter({
       component: SelectedProjects
     },
     {
-    path: '/project/:projectSlug', // Define the route parameter ':projectSlug'
+    path: '/project/:projectSlug', 
     name: 'ProjectDetail',
-    component: ProjectDetail,
+    component: () => import('@/views/ProjectDetail.vue'),
     props: true, // Automatically pass route params as props to the component
+  
+    },
+    {
+      path: '/intro',
+      name: 'intro',
+      component: () => import('@/views/Intro.vue')
+    },
+    {
+      path: '/first',
+      name: 'first',
+      component: () => import('@/views/First.vue')
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // return desired position
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0 };
+    }
+  }
 })
 
 export default router

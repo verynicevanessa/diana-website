@@ -1,39 +1,45 @@
 <!-- freemode -->
-
 <template>
-    <div v-if="project" class="project-page">
-      <!-- Swiper -->
-      <swiper-container class="swiper" 
-        :slidesPerView="2"
-
-        :spaceBetween="30"
-        :freeMode="true"
-        :loop="true" 
-
-        :mousewheel="true"
-        :grabCursor="true">
-        <swiper-slide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
-          <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item"/>
-          <video v-else :src="image.url" class="media-item" autoplay muted loop>
-                  Your browser does not support the video tag.
-                </video>
-        </swiper-slide>
-        <!-- Pagination -->
+  <div v-if="project" class="project-page">
+    <!-- Swiper -->
+    <swiper-container class="swiper" 
+      :slidesPerView="2"
+      :spaceBetween="30"
+      :loop="true" 
+      :grid="{
+        rows: 2,
+      }"
+      :mousewheel="true"
+      :grabCursor="true"
+      :breakpoints="{600:{ slidesPerView:1, rows:1, spaceBetween:30 }, 900:{ slidesPerView:3, spaceBetween:30 }, 1200:{ slidesPerView:3, spaceBetween:30 } }"
+      >
+      <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
+        <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
+        <video v-else :src="image.url" class="media-item" autoplay muted loop playsinline>
+          Your browser does not support the video tag.
+        </video>
+      </SwiperSlide>
     </swiper-container>
 
-    <div class="project-name" @click="toggleDescription">
-        <h1>{{ project.projectName }}</h1>
+    <!-- Previous and Next buttons -->
+    <div  class="project-navigation">
+     
     </div>
- 
+
+    <div  class="project-name" >
+      <h1 @click="navigateToPreviousProject" class="Previous">PREV</h1>
+      <h1 @click="toggleDescription" class="this-project">ABOUT {{ project.projectName }}</h1>
+      <h1 @click="navigateToNextProject" class="Next">NEXT</h1>
+    </div>
+  
     <div v-if="showDescription" class="project-description">
-        <p>{{ project.projectDescription }}</p>
+      <p>{{ project.projectDescription }}</p>
     </div>
+  </div>
 
+  <div v-else>Loading</div>
+</template>
 
-
-</div>
-    <div v-else>Loading project details...</div>
-  </template>
 
 
 <script setup>
@@ -60,11 +66,68 @@ const toggleDescription = () => {
   showDescription.value = !showDescription.value;
 };
 
+const navigateToPreviousProject = async () => {
+  console.log('Navigating to previous project');
+  const allProjects = await fetchAllProjects();
+  console.log('All projects:', allProjects);
+  const currentIndex = allProjects.findIndex(p => p.id === project.value.id);
+  console.log('Current index:', currentIndex);
+  if (currentIndex > 0) {
+    project.value = allProjects[currentIndex - 1];
+  } else {
+    console.log('No previous project found, looping to last project');
+    project.value = allProjects[allProjects.length - 1];
+  }
+  await this.$router.push({ name: 'Project', params: { projectSlug: project.value.projectSlug } })
+};
+
+const navigateToNextProject = async () => {
+  const allProjects = await fetchAllProjects();
+  const currentIndex = allProjects.findIndex(p => p.id === project.value.id);
+  if (currentIndex < allProjects.length - 1) {
+    project.value = allProjects[currentIndex + 1];
+  } else {
+    project.value = allProjects[0];
+  }
+  await router.push({ name: 'Project', params: { projectSlug: project.value.projectSlug } });
+};
+
+const fetchAllProjects = async () => {
+  try {
+    // Fetch all projects from your GraphQL endpoint
+    const authToken = import.meta.env.VITE_GRAPHQL_AUTH_TOKEN;
+    const query = `
+      query AllProjects {
+        projects {
+          id
+          projectName
+          projectDescription
+          heroImage {
+            url
+            mimeType
+          }
+          projectSlug
+          projectimages(first: 500) {
+            url
+            mimeType
+          }
+        }
+      }`;
+    const response = await request('https://api-us-east-1-shared-usea1-02.hygraph.com/v2/cls8zdyz71jh301w39jxzvc9k/master', query, null, {
+      Authorization: `Bearer ${authToken}`,
+    });
+   
+    return response.projects;
+  } catch (error) {
+    console.error('Error fetching all projects:', error);
+    return [];
+  }
+};
 
 onMounted(async () => {
   try {
     const projectSlug = route.params.projectSlug; 
-    const authToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MDczMjUzMDEsImF1ZCI6WyJodHRwczovL2FwaS11cy1lYXN0LTEtc2hhcmVkLXVzZWExLTAyLmh5Z3JhcGguY29tL3YyL2Nsczh6ZHl6NzFqaDMwMXczOWp4enZjOWsvbWFzdGVyIiwibWFuYWdlbWVudC1uZXh0LmdyYXBoY21zLmNvbSJdLCJpc3MiOiJodHRwczovL21hbmFnZW1lbnQtdXMtZWFzdC0xLXNoYXJlZC11c2VhMS0wMi5oeWdyYXBoLmNvbS8iLCJzdWIiOiI3ZDE0ZmI3NC01MGZhLTRkYTMtODMwMi00ZTBjYzIyODk5ZjciLCJqdGkiOiJjbHNjMWVobXQwMWdxMDFscTk0ZHNjOXBzIn0.TstUbA1fSKAzEGxJLofSbJe1PPSdiVl9s6lJMzhhHLSjxo-mCRp0_7j7sZuBjrKamNge_42qwl4omSngbiuloNirqolmC8c6QtFncBobjTYPblYRQqvQGE9ogHd5ZkLLJlXQEllcB-yoehxZB7vDCLFAt-t_b6y4rAnqIZqlA5scAF5hQJvgJYEmV4fm5aeUC3WE2PsG038umlGvoVt46Jr1xsbKQScgotO1EkRsusbSDwez8nr-u3RznKFBwLayJe8jxj0UbJXrvHaSdPNbog6j1xo6Y_6Gfv_qm9V-pVRfX-55XONj-Mag4Lrge_G9rw3t53E26UigxiwDpZtS8xiW_bdDCZDUp3l3z7TqTeOf996hHixz9Sp9mpreJw2b0bb2q9_uSBemCzZ6nJAzZma7Q_RCi9WP8rZS-TWKmp8P4nJ0qvibk57XtNfQiDnHQt5RWACS6LIrQT7hFLkj_NWvEUO1E_zAtiaUlEIVduTRQ355oCEtL-fs82iq6vELbXVnntX8zL6Q0iTwfJt7Iw_HE41dK7AOYjxIwBskUNk4O2QrmBWhfgpQd4AzpOiVvgLBbOo7nT3OT9JW7NnKE1IwPCygX_ZMnxvPSkoRLeOWqBkzLBgfOx81Y4WvpeaQ2uCEHQVsgoFwV8vNSWB6iXamCBaf7AC6MtEo3xYkcl0';
+    const authToken = import.meta.env.VITE_GRAPHQL_AUTH_TOKEN;
     const query = `
     query ProjectBySlug($slug: String!) {
         project(where: {projectSlug: $slug}) {
@@ -76,7 +139,7 @@ onMounted(async () => {
                 mimeType
             }
             projectSlug
-            projectimages {
+            projectimages(first: 500) {
                 url
                 mimeType
             }
@@ -96,6 +159,8 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching project:', error);
   }
+
+  
 });
 
 </script>
@@ -108,16 +173,50 @@ onMounted(async () => {
     width: 100vw;
     height: 100vh;
 }
+
 .project-name {
-  position: fixed;
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  color: #000000; /* Adjust text color as needed */
-  padding: 20px;
-  text-align: center; /* Centers the project name */
-  z-index: 900;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 500;
+}
+
+.this-project {
+  flex: 1; /* Take up remaining space */
+  text-align: center;
+  background-color: rgba(170, 171, 204, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
   cursor: pointer;
+}
+
+.previous, .next {
+  background-color: rgba(170, 171, 204, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+.previous:hover, .next:hover {
+  background-color: rgba(223, 223, 223, 0.37);
+}
+
+.project-name h1 {
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+}
+
+.project-name h1:hover {
+  background-color: rgba(223, 223, 223, 0.37);
 }
 
 .swiper {
@@ -130,8 +229,6 @@ onMounted(async () => {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
-
   overflow-x: scroll;
   overflow-y: hidden;
   /* Center slide text vertically */
@@ -139,33 +236,31 @@ onMounted(async () => {
   justify-content: center;
   align-items: center;
 } 
-/*.swiper-slide img {
-    display: block;
-  width: 100%;
-  height: 100%; /* Set height to fill the full height of the swiper container 
-  object-fit: contain; /* Scale the image down proportionally to fit within the container 
-  margin: 0 auto; /* Center the image horizontally 
-}*/
 
 .swiper-slide img, .swiper-slide video {
-  max-width: 100%; /* Ensures the content is not wider than its container */
-  max-height: 100vh; /* Ensures the content does not exceed the viewport height */
+  max-width: 100%;/* Ensures the content is not wider than its container */
+  max-height: 50vh; /* Ensures the content does not exceed the viewport height */
   object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
   margin: auto; /* Centers the content if it's smaller than its container */
 }
 
 .project-description {
-  position: fixed; /* or absolute, depending on your layout */
-  top: 20%; /* Adjust based on your layout */
+  position: fixed; 
   left: 0;
   right: 0;
+  top:40%;
   margin: auto;
-  font-size: 20px;
+  font-size: 30px;
   color: black; /* Text color */
-  padding: 20px;
   max-width: 800px; /* Or any max-width or width you prefer */
   z-index: 1000; /* Ensure it's above other content */
   border-radius: 10px; /* Optional: for rounded corners */
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+  ;
+
 }
 
 

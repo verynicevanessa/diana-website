@@ -1,28 +1,7 @@
-<script setup>
-import CablesPatch from '@/components/CablesPatch.vue'
-</script>
-
-<template>
-    <div id="about-page">
-      <div v-if="loading">Loading...</div>
-      <div v-else-if="aboutInfo">
-        <!-- Display aboutText as HTML -->
-        <h1>{{ aboutInfo.aboutText }}</h1>
-        <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image">
-        <div v-html="aboutInfo.clients.html"></div>
-        <div v-html="aboutInfo.previouslyAt.html"></div>
-        <div v-html="aboutInfo.contact.html"></div>
-
-        <!-- Display other fields as needed -->
-      </div>
-      <div v-else>Error loading About page content.</div>
-    </div>
-
-    <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
-  </template>
-  
 <script>
 import { request } from 'graphql-request';
+import Footer from '@/components/Footer.vue'
+import CablesPatch from '@/components/CablesPatch.vue'
 
 export default {
   data() {
@@ -37,13 +16,20 @@ export default {
   },
 
   mounted() {
-    // Set the background color when the component mounts
-    document.body.style.backgroundColor = 'lightblue';
-  },
-  beforeUnmount() {
-    // Reset the background color when the component is about to be destroyed
-    document.body.style.backgroundColor = ''; // Set to your default or previous value
-  },
+  // Disable the logo when the component mounts
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.display = 'none'; // Hide the logo
+  }
+},
+beforeUnmount() {
+  // Reset the logo visibility when the component is about to be destroyed
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.display = ''; // Remove the inline style to reset its visibility
+  }
+},
+
 
   methods: {
     async fetchAbout() {
@@ -52,7 +38,14 @@ export default {
         const query = `
         query GetFirstAbout {
             abouts(first: 1) {
-              aboutText
+              aboutText {
+                html
+                text
+              }
+              published {
+                html
+                text
+              }
               aboutimage {
                 url
               }
@@ -84,30 +77,106 @@ export default {
         this.loading = false;
       }
     },
-  }
-  
+  },
+  components: { Footer }
 };
-
 
 </script>
 
+<template>
+  <div id="about-page">
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="aboutInfo">
+      <!-- Display aboutText as HTML -->
+      <img src="/DWLogo.png" class="about-logo">
+      <h1 v-html="aboutInfo.aboutText.html" ></h1>
+      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
+      <p class="about-title">PUBLISHED</p><div v-html="aboutInfo.published.html" class="about-links"></div>
+      <p class="about-title">CLIENTS</p><div v-html="aboutInfo.clients.html" class="about-links"></div>
+      <p class="about-title">PREVIOUSLY AT</p><div v-html="aboutInfo.previouslyAt.html" class="about-links"></div>
+      <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
+
+      <!-- Display other fields as needed -->
+       <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
+    </div>
+
+  </div>
+  <Footer />
+</template>
+
+
 <style scoped>
 #about-page {
-    padding: 5em;
-    max-width: 1200px; /* Adjust this value to your desired maximum width */
+    padding: 3em;
+    max-width: 1440px; /* Adjust this value to your desired maximum width */
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 100;
+    margin-top: 60%;
 }
 
 h1 {
   text-align: center;
-  font-size: 50px;
+  font-family: GreedTRIAL-SemiBold;
+  z-index: 100;
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 70px);
+  /* text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5); */
+  filter: blur(0.01em) saturate(2);
+  
 }
 
-.logo {
-  display: none;
+.about-logo {
+  width: 80%;
+  max-width: 800px; 
+  position: fixed;
+  z-index: -1;
+  margin: auto;
+  left: 0;
+  right:0;
+  top:0;
+  bottom: 0;
 }
 
-body {
-  background-color: red;
+
+.about-title {
+  font-size: clamp(12px, 2vw, 16px);
+  margin-top: clamp(20px, 10vw, 200px);
+  font-family: Kommuna Demo;
+  src: url(@/assets/kommuna_demo_400_narrow-webfont.woff) format("opentype");
+
 }
+
+.about-image {
+  display: block;
+  width: 100%;
+  margin: 10em auto;
+  max-width: 400px;
+}
+
+.about-links {
+  font-size: clamp(18px, 3vw, 32px);
+  text-decoration: none;
+  width: 50%;
+  flex-direction: column;
+  text-transform: uppercase;
+
+}
+.contact {
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  #about-page {
+    padding: 1em;
+  }
+
+  h1 {
+    font-size: 20px;
+  }  
+}
+
 </style>

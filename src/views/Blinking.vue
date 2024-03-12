@@ -1,9 +1,12 @@
 <script setup>
 import CablesPatch from "@/components/CablesPatch.vue"; //imported in root for possible use in other views
 import useProjectData from "@/mixins/useProjectData";
+import loadingMixin from "@/mixins/loadingMixin";
+import WelcomeAnimation from "@/components/WelcomeAnimation.vue";
 </script>
 
 <template>
+  <WelcomeAnimation v-if="isLoading"></WelcomeAnimation>
   <div class="canvasContainer">
     <CablesPatch
       v-if="projects.length"
@@ -18,9 +21,13 @@ import useProjectData from "@/mixins/useProjectData";
 <script>
 export default {
   name: "CablesGLComponent",
-  mixins: [useProjectData],
+  mixins: [useProjectData, loadingMixin],
+  mounted() {
+    this.startLoading();
+  },
   methods: {
     handlePatchLoaded() {
+      this.stopLoading();
       // Handle any initialization you might need here
       this.initializeCablesPatch();
 
@@ -39,17 +46,6 @@ export default {
 
       if (arrayOfIdsString.length === 3) {
         this.$store.commit("selectProjects", arrayOfIdsString);
-        CABLES.patch.setVariable("outroAnimation",true);
-
-        // Start a timeout to redirect after 4 seconds
-        this.timeoutId = setTimeout(() => {
-              this.$router.push("/selected-projects");
-        }, 4000);
-      }
-      // or after another "blink" or click
-      if (arrayOfIdsString.length === 4) {
-        clearTimeout(this.timeoutId); 
-        this.$router.push("/selected-projects");
       }
     },
     watchPatchVisibility() {
@@ -89,6 +85,14 @@ export default {
           })),
       };
     },
+  },
+
+  beforeUnmount() {
+    // Reset the logo visibility when the component is about to be destroyed
+    const logo = document.querySelector(".logo");
+    if (logo) {
+      logo.style.display = ""; // Remove the inline style to reset its visibility
+    }
   },
 };
 </script>

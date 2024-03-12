@@ -1,60 +1,60 @@
-
 <template>
-    <div class="menu-wrapper">
-        <div class="menu">
-            <router-link to="/"><img src="/2.png" class="logo" ></router-link>
-            <a @click="toggleMenu" ref="menuButton"><img src="../assets/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
-        </div>
-        <div class="menu-overlay" :class="{ 'active': menuOpen }" ref="menuOverlay" >
-            <p> DIANA WEISMAN, NEW YORK</p><br>
-      <ul>
-        <li><router-link @click.native="closeMenu" to="/">Projects</router-link></li>
-        <li><router-link @click.native="closeMenu" to="/about">About</router-link></li>
-        <li><router-link @click.native="closeMenu" to="/decision">Blink</router-link></li>
-        <li>Contact</li>
-      </ul>
+    <transition name="fade">
+      <div v-if="menuOpen" class="menu-overlay" :class="{ 'active': menuOpen }" ref="MenuOverlay">
+
+        <!-- Your menu overlay content goes here -->
+        <MenuOverlay @close-menu="closeMenu"/>
+      </div>
+    </transition>
+  <div class="menu-wrapper">
+    <div class="menu">
+      <span><router-link to="/projects" @click="closeMenu"><h1>DIANA WEISMAN</h1></router-link></span>
+      <router-link to="/" @click="closeMenu"><img src="/DWLogo.png" class="logo"></router-link>
+      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
     </div>
-    </div>
+  </div>
+  
+
 </template>
-    
 
 <script>
-
+import MenuOverlay from './MenuOverlay.vue';
 
 export default {
+  components: {
+    MenuOverlay
+  },
   data() {
     return {
-      menuOpen: false,
+      menuOpen: false
     };
   },
-  methods: {
-    toggleMenu() {
-      this.menuOpen = !this.menuOpen;
-    },
-    closeMenu() {
-      this.menuOpen = false;
-    },
-    handleClickOutside(event) {
-      const menuButton = this.$refs.menuButton;
-      const menuElement = this.$refs.menuOverlay;
-      if (menuElement && !menuElement.contains(event.target) && this.menuOpen && !menuButton.contains(event.target)) {
-        this.closeMenu();
+  watch: {
+    // Watcher on the menuOpen property to handle the body scroll
+    menuOpen(newValue) {
+      if (newValue) {
+        // If menuOpen is true, disable scrolling
+        document.body.style.overflow = 'hidden';
+      } else {
+        // If menuOpen is false, enable scrolling
+        document.body.style.overflow = '';
       }
     }
   },
-  mounted() {
-    document.addEventListener('click', this.handleClickOutside, true);
-  },
-  beforeUnmount() {
-    document.removeEventListener('click', this.handleClickOutside, true);
+  methods: {
+
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
+      console.log('Menu state:', this.menuOpen); 
+    },
+    closeMenu() {
+    this.menuOpen = false; // Directly close the menu
+  }
   }
 };
-
-
 </script>
 
 
-    
 
 <style>
 .menu-wrapper {
@@ -66,7 +66,8 @@ export default {
   padding: 0 20px; 
   box-sizing: border-box; 
   z-index: 900; 
-
+  position: relative;
+  /* mix-blend-mode: difference; */
 }
 
 .menu {
@@ -74,76 +75,59 @@ export default {
   justify-content: center; /* Center the menu items */
   width: 100%; /* Ensure the menu spans the full width of its container */
   position: relative;
-}
-
-.menu-button {
-  width: 1em;
-  margin: 10px 10px 0 0;
   z-index: 900;
 }
 
-.menu-button svg {
-  mix-blend-mode: exclusion !important; filter: invert(1) !important;}
-
+.menu-button {
+  width: 2em;
+  margin: 10px 0 0 0;
+  z-index: 900;
+  mix-blend-mode: exclusion;
+}
 
 .logo {
-  width: 300px;
-  cursor: grab;
-  mix-blend-mode: exclusion;
+  width: 100%;
+  max-width: 200px; 
+  z-index: 900;
 /* 
   background-image: url(/2.png);
      filter: blur(3px);
      background-size: contain; */
 }
 
+.menu-wrapper .logo:hover  {
+ mix-blend-mode: difference;
+}
 
 a {
   margin-left: auto; /* Push the button to the right */
-  font-size: 50px;
 }
 
 .menu-overlay {
-  position: absolute;
-  top: 100%; /* Position the menu below the logo */
-  left: 50%; /* Horizontally center the menu */
-  transform: translateX(-50%); /* Adjust for centering */
-  width: auto; /* Set the width to auto */
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center;
-  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.234); /* Adjust background color as needed */
   z-index: 800; /* Ensure it's above other content */
-  transition: opacity 0.3s ease; /* Smooth transition for opacity */
-  opacity: 0; /* Initially hidden */
-  pointer-events: none; /* Disallow clicking on overlay while its inactive */
+  transition: transform 0.3s ease; /* Smooth transition for sliding animation */
+  transform: translateY(-100%); /* Initially hide the menu overlay */
 }
 
 .menu-overlay.active {
-  opacity: 1; /* Show the overlay */
-  pointer-events: auto; /* Allow clicking on the overlay */
+  transform: translateY(0); /* Slide the menu overlay into view */
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex; /* Display the list items in a row */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s ease;
 }
 
-ul li {
-  margin: 0 10px; /* Add margin between menu items */
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
-ul li a {
-  color: rgb(0, 0, 0);
-  font-size: 50px;
-  text-decoration: none;
-}
-
-.menu-overlay p {
-  color: rgb(0, 0, 0);
-  font-size: 50px;
-  margin-bottom: 10px;
-}
 </style>
 

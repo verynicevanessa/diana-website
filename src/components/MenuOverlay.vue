@@ -1,18 +1,29 @@
 <script>
-import ThreeDLogo from './ThreeDLogo.vue';
+
+export default {
+    computed: {
+        projectsCount() {
+            return this.$store.getters.projectsCount;
+        },
+    },
+    mounted() {
+        if (this.$store.state.loadedProjects.length === 0) {
+            this.$store.dispatch('loadProjects');
+        }
+    },
+};
+
 
 </script>
 
 
 <template>
     <div>
-        <!-- <ThreeDLogo /> -->
         <div class="menu-overlay-slide">
             <div class="overlay-text">
-            <h1>DIANA WEISMAN, NEW YORK<br>
-                ©2024</h1>
+            <p>DIANA WEISMAN, BALTIMORE ©2024</p>
             <di><ul>
-                <li><router-link @click="$emit('close-menu')" to="/projects">Projects</router-link></li>
+                <li><router-link @click="$emit('close-menu')" to="/projects">Projects<sup>{{ projectsCount }}</sup></router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/about">About</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link></li>
                 <li> <router-link @click="$emit('close-menu')" to="/">Restart</router-link></li>
@@ -57,6 +68,8 @@ ul {
 
 ul li {
   margin: 0 10px; /* Add margin between menu items */
+    display: flex;
+    align-items:end;
 }
 
 ul li a {

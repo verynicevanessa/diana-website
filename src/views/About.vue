@@ -115,7 +115,7 @@ beforeUnmount() {
     align-items: center;
     flex-direction: column;
     z-index: 100;
-    margin-top: 20%;
+    margin-top: 60%;
 }
 
 h1 {
@@ -124,6 +124,8 @@ h1 {
   z-index: 100;
   font-weight: 400;
   font-size: clamp(20px, 5vw, 50px);
+  text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5);
+    filter: blur(0.01em) saturate(2);
   
 }
 

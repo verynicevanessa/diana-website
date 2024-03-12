@@ -81,7 +81,7 @@ export default {
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle, #d4dde7, #8e9aa8);
+  /* background: radial-gradient(circle, #d4dde7, #8e9aa8); */
 }
 .content {
   display: flex;

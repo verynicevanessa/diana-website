@@ -53,7 +53,7 @@ main {
 
 .project {
   width: 100%;
-  max-width: 200px;
+  max-width: 500px;
   left: 0;
   top: 0;
   margin: 10px;

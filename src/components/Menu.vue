@@ -8,9 +8,9 @@
     </transition>
   <div class="menu-wrapper">
     <div class="menu">
-      <span><router-link to="/projects"><h1>DIANA WEISMAN</h1></router-link></span>
-      <router-link to="/"><img src="/DWLogo.png" class="logo"></router-link>
-      <a @click="toggleMenu" aria-label="Toggle menu"><img src="/menu-snowflake.svg" class="menu-button" alt="SVG Image"></a>
+      <span><router-link to="/projects" @click="closeMenu"><h1>DIANA WEISMAN</h1></router-link></span>
+      <router-link to="/" @click="closeMenu"><img src="/DWLogo.png" class="logo"></router-link>
+      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
     </div>
   </div>
   
@@ -79,8 +79,8 @@ export default {
 }
 
 .menu-button {
-  width: 3em;
-  margin: 10px 10px 0 0;
+  width: 2em;
+  margin: 10px 0 0 0;
   z-index: 900;
   mix-blend-mode: exclusion;
 }

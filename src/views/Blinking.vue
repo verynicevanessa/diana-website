@@ -10,7 +10,7 @@ import WelcomeAnimation from "@/components/WelcomeAnimation.vue";
   <div class="canvasContainer">
     <CablesPatch
       v-if="projects.length"
-      patchDir="/patch_blink_5/"
+      patchDir="/patch_blink_6/"
       :patchOptions="{ glCanvasResizeToWindow: true }"
       :projectsData="mappedData"
       @patch-loaded="handlePatchLoaded"
@@ -86,9 +86,10 @@ export default {
   },
   computed: {
     mappedData() {
+      return; //REMOVE TO FETCH FROM CMS
       return {
         items: this.projects
-          .filter((o) => o.heroImage.mimeType.indexOf("video") < 0) // Filter out "video"
+          // .filter((o) => o.heroImage.mimeType.indexOf("video") < 0) // Filter out "video"
           .map((o) => ({
             id: o.id,
             url: o.heroImage.url,
@@ -111,6 +112,12 @@ export default {
 <style>
 .canvasContainer {
   height: 100vh;
+  overflow: hidden;
+}
+.canvasContainer video{
+  left:0;
+  top:0;
+  position: fixed;
   overflow: hidden;
 }
 </style>

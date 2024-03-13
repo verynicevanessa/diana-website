@@ -30,7 +30,8 @@ export default {
         'canvas': {'alpha': true, 'premultipliedAlpha': true},
         variables: {
           inputJson: this.projectsData,
-          HiresDisplay: true
+          HiresDisplay: true,
+          showUI: false
         }
       };
       console.log(this.projectsData);

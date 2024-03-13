@@ -97,7 +97,7 @@ beforeUnmount() {
       <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
 
       <!-- Display other fields as needed -->
-       <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
+       <CablesPatch patchDir="/patch_3D_scan/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
     </div>
 
   </div>
@@ -115,7 +115,7 @@ beforeUnmount() {
     align-items: center;
     flex-direction: column;
     z-index: 100;
-    margin-top: 60%;
+    margin-top: 50%;
 }
 
 h1 {

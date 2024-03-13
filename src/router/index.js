@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Work from '../views/Work.vue'
 import MakeDecision from '../views/MakeDecision.vue'
 import SelectedProjects from '../views/SelectedProjects.vue'
+import ProjectDetailEdited from '@/views/ProjectDetailEdited.vue'
+// import ProjectDetail from '@/views/ProjectDetail.vue'
 
 
 const router = createRouter({
@@ -42,7 +44,7 @@ const router = createRouter({
     {
     path: '/project/:projectSlug', 
     name: 'ProjectDetail',
-    component: () => import('@/views/ProjectDetail.vue'),
+    component: ProjectDetailEdited,
     props: true, // Automatically pass route params as props to the component
   
     },

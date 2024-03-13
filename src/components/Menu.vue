@@ -9,7 +9,7 @@
   <div class="menu-wrapper">
     <div class="menu">
       <span><router-link to="/projects" @click="closeMenu"><h1>DIANA WEISMAN</h1></router-link></span>
-      <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo"></router-link>
+      <router-link to="/" @click="closeMenu"><img src="/DWLogo.png" class="logo"></router-link>
       <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
     </div>
   </div>

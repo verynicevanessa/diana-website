@@ -21,12 +21,20 @@ export default {
   if (logo) {
     logo.style.display = 'none'; // Hide the logo
   }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = 'none'; // Hide the logo
+  }
 },
 beforeUnmount() {
   // Reset the logo visibility when the component is about to be destroyed
   const logo = document.querySelector('.logo');
   if (logo) {
     logo.style.display = ''; // Remove the inline style to reset its visibility
+  }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = ''; // Hide the logo
   }
 },
 
@@ -88,7 +96,8 @@ beforeUnmount() {
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
       <!-- Display aboutText as HTML -->
-      <img src="/DWLogo.png" class="about-logo">
+      <!-- <img src="/DWLogo.png" class="about-logo"> -->
+      <video src="/Comp_4.mp4" class="about-logo" autoplay loop muted playsinline></video>
       <h1 v-html="aboutInfo.aboutText.html" ></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <p class="about-title">PUBLISHED</p><div v-html="aboutInfo.published.html" class="about-links"></div>
@@ -130,8 +139,9 @@ h1 {
 }
 
 .about-logo {
-  width: 80%;
-  max-width: 800px; 
+  /* width: 80%;
+  max-width: 800px;  */
+  width: 100%;
   position: fixed;
   z-index: -1;
   margin: auto;
@@ -153,8 +163,8 @@ h1 {
 .about-image {
   display: block;
   width: 100%;
-  margin: 10em auto;
-  max-width: 400px;
+  margin: 10em auto; 
+  max-width: 400px; 
 }
 
 .about-links {
@@ -167,6 +177,11 @@ h1 {
 }
 .contact {
   line-height: 1.5;
+}
+
+.footer {
+  justify-content: end;
+  padding-bottom: 10%;
 }
 
 @media (max-width: 768px) {

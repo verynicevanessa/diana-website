@@ -10,7 +10,7 @@ import WelcomeAnimation from "@/components/WelcomeAnimation.vue";
   <div class="canvasContainer">
     <CablesPatch
       v-if="projects.length"
-      patchDir="/patch_blink_5/"
+      patchDir="/patch_blink_6/"
       :patchOptions="{ glCanvasResizeToWindow: true }"
       :projectsData="mappedData"
       @patch-loaded="handlePatchLoaded"
@@ -46,6 +46,7 @@ export default {
 
       if (arrayOfIdsString.length === 3) {
         this.$store.commit("selectProjects", arrayOfIdsString);
+        console.log("Selected 3 projects updated");
       }
     },
     watchPatchVisibility() {
@@ -75,9 +76,10 @@ export default {
   },
   computed: {
     mappedData() {
+      return; //REMOVE TO FETCH FROM CMS
       return {
         items: this.projects
-          .filter((o) => o.heroImage.mimeType.indexOf("video") < 0) // Filter out "video"
+          // .filter((o) => o.heroImage.mimeType.indexOf("video") < 0) // Filter out "video"
           .map((o) => ({
             id: o.id,
             url: o.heroImage.url,

@@ -23,10 +23,10 @@ export default {
             <div class="overlay-text">
             <p>DIANA WEISMAN, BALTIMORE ©2024</p>
             <di><ul>
-                <li><router-link @click="$emit('close-menu')" to="/projects">Projects<sup>{{ projectsCount }}</sup></router-link></li>
-                <li> <router-link @click="$emit('close-menu')" to="/about">About</router-link></li>
-                <li> <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link></li>
-                <li> <router-link @click="$emit('close-menu')" to="/">Restart</router-link></li>
+                <li class="list-item-icon"><router-link @click="$emit('close-menu')" to="/projects">Projects<sup>{{ projectsCount }}</sup></router-link></li>
+                <li class="list-item-icon"> <router-link @click="$emit('close-menu')" to="/about">About</router-link></li>
+                <li class="list-item-icon"> <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link></li>
+                <li class="list-item-icon"> <router-link @click="$emit('close-menu')" to="/">Restart</router-link></li>
             </ul>
         </di>
     </div>
@@ -37,6 +37,7 @@ export default {
 <style>
 .menu-overlay-slide {
     height: 100vh;
+    width:100vw;
     position: fixed;
     backdrop-filter:  blur(20px);
 }
@@ -87,9 +88,13 @@ ul li a {
 .menu-overlay-slide {
   justify-content: center;
   flex-direction: columns;
-    width: 100vw;
-    height: 100vh;
 }
 
-
+.list-item-icon {
+    padding-left: 30px;
+  background-image: url('/src/assets/DW-Menu.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: left center;
+}
 </style>

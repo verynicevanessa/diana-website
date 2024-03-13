@@ -123,7 +123,8 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure the media covers the full screen */
+  object-fit: contain; 
+  object-position: center;
   z-index: -1; /* Place it behind the content */
 }
 

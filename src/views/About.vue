@@ -88,7 +88,8 @@ beforeUnmount() {
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
       <!-- Display aboutText as HTML -->
-      <img src="/DWLogo.png" class="about-logo">
+      
+      <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
       <h1 v-html="aboutInfo.aboutText.html" ></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <p class="about-title">PUBLISHED</p><div v-html="aboutInfo.published.html" class="about-links"></div>
@@ -97,7 +98,7 @@ beforeUnmount() {
       <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
 
       <!-- Display other fields as needed -->
-       <CablesPatch patchDir="/patch_3D_scan/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
+      
     </div>
 
   </div>
@@ -115,7 +116,7 @@ beforeUnmount() {
     align-items: center;
     flex-direction: column;
     z-index: 100;
-    margin-top: 60%;
+    margin-top: 40%;
 }
 
 h1 {
@@ -158,7 +159,7 @@ h1 {
 }
 
 .about-links {
-  font-size: clamp(18px, 3vw, 32px);
+  font-size: clamp(24px, 3vw, 46px);
   text-decoration: none;
   width: 50%;
   flex-direction: column;

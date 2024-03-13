@@ -46,10 +46,17 @@ export default {
 
       if (arrayOfIdsString.length === 3) {
         this.$store.commit("selectProjects", arrayOfIdsString);
-        console.log("Selected 3 projects updated");
+        CABLES.patch.setVariable("outroAnimation",true);
 
-        this.$router.push({name: 'selectedProjects'});
-
+        // Start a timeout to redirect after 4 seconds
+        this.timeoutId = setTimeout(() => {
+              this.$router.push("/selected-projects");
+        }, 4000);
+      }
+      // or after another "blink" or click
+      if (arrayOfIdsString.length === 4) {
+        clearTimeout(this.timeoutId); 
+        this.$router.push("/selected-projects");
       }
     },
     watchPatchVisibility() {

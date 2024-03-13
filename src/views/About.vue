@@ -115,7 +115,7 @@ beforeUnmount() {
     align-items: center;
     flex-direction: column;
     z-index: 100;
-    margin-top: 50%;
+    margin-top: 40%;
 }
 
 h1 {
@@ -158,7 +158,7 @@ h1 {
 }
 
 .about-links {
-  font-size: clamp(18px, 3vw, 32px);
+  font-size: clamp(24px, 3vw, 46px);
   text-decoration: none;
   width: 50%;
   flex-direction: column;

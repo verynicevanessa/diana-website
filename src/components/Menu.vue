@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade">
+    <transition name="flip">
       <div v-if="menuOpen" class="menu-overlay" :class="{ 'active': menuOpen }" ref="MenuOverlay">
 
         <!-- Your menu overlay content goes here -->
@@ -127,6 +127,19 @@ a {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+
+.flip-enter-active, .flip-leave-active {
+  transition: transform 0.5s ease-out;
+}
+
+.flip-enter-from, .flip-leave-to {
+  transform: rotateY(90deg);
+}
+
+.flip-enter-to, .flip-leave-from {
+  transform: rotateY(0deg);
 }
 
 </style>

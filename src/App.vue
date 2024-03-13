@@ -1,9 +1,11 @@
 <script setup>
 import Menu from "./components/Menu.vue";
 import Cursor from "./components/Cursor.vue";
+import NoiseOverlay from "./components/NoiseOverlay.vue";
 </script>
 
 <template>
+  <NoiseOverlay />
   <Cursor></Cursor>
   <Menu></Menu>
   <Transition name="slide-fade" ><router-view></router-view></Transition>

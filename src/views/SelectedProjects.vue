@@ -1,6 +1,7 @@
 <template>
   <main>
     <Project :project="project" v-for="project in selectedProjects"></Project>
+    
   </main>
 </template>
 

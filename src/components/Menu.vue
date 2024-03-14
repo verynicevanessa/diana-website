@@ -8,7 +8,7 @@
     </transition>
     <div class="menu-wrapper">
       <div class="menu">
-        <span><router-link to="/projects" @click="closeMenu"><h1 class="name-logo">DIANA WEISMAN</h1></router-link></span>
+        <span class="name-logo"><router-link to="/projects" @click="closeMenu"><h1 >DIANA WEISMAN</h1></router-link></span>
         <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo"></router-link>
       </div>
     </div>
@@ -90,11 +90,6 @@ export default {
   mix-blend-mode: difference;
 }
 
-.name-logo {
-  width: 100%;
-  z-index: 900;
-  mix-blend-mode: difference;
-}
 
 .logo {
   width: 100%;

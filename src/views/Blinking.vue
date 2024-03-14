@@ -46,6 +46,7 @@ export default {
 
       if (arrayOfIdsString.length === 3) {
         this.$store.commit("selectProjects", arrayOfIdsString);
+        this.$router.push({name: 'selectedProjects'});
       }
     },
     watchPatchVisibility() {

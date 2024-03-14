@@ -9,7 +9,7 @@
     <div class="menu-wrapper">
       <div class="menu">
         <span><router-link to="/projects" @click="closeMenu"><h1 class="name-logo">DIANA WEISMAN</h1></router-link></span>
-        <router-link to="/" @click="closeMenu"><img src="/DWLogo.png" class="logo"></router-link>
+        <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo"></router-link>
       </div>
     </div>
     <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
@@ -91,16 +91,15 @@ export default {
 }
 
 .name-logo {
+  width: 100%;
+  z-index: 900;
   mix-blend-mode: difference;
 }
+
 .logo {
   width: 100%;
   max-width: 200px; 
   z-index: 900;
-/* 
-  background-image: url(/2.png);
-     filter: blur(3px);
-     background-size: contain; */
 }
 
 .menu-wrapper .logo:hover  {

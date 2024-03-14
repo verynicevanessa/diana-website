@@ -177,6 +177,11 @@ h1 {
   line-height: 1.5;
 }
 
+.footer {
+  justify-content: end;
+  padding-bottom: 18rem;
+}
+
 @media (max-width: 768px) {
   #about-page {
     padding: 1em;

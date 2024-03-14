@@ -21,12 +21,20 @@ export default {
   if (logo) {
     logo.style.display = 'none'; // Hide the logo
   }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = 'none'; // Hide the logo
+  }
 },
 beforeUnmount() {
   // Reset the logo visibility when the component is about to be destroyed
   const logo = document.querySelector('.logo');
   if (logo) {
     logo.style.display = ''; // Remove the inline style to reset its visibility
+  }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = ''; // Hide the logo
   }
 },
 
@@ -88,7 +96,7 @@ beforeUnmount() {
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
       <!-- Display aboutText as HTML -->
-      
+      <video src="/DW-LogoTest.mp4" autoplay loop muted playsinline class="about-logo"></video>
       <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
       <h1 v-html="aboutInfo.aboutText.html" ></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
@@ -131,8 +139,7 @@ h1 {
 }
 
 .about-logo {
-  width: 80%;
-  max-width: 800px; 
+  width: 100%;
   position: fixed;
   z-index: -1;
   margin: auto;

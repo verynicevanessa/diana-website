@@ -106,7 +106,6 @@ beforeUnmount() {
       <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
 
       <!-- Display other fields as needed -->
-       <CablesPatch patchDir="/patch_3D_scan/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
       
     </div>
 

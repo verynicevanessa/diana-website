@@ -107,6 +107,7 @@ beforeUnmount() {
 
       <!-- Display other fields as needed -->
        <CablesPatch patchDir="/patch_3D_scan/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
+      
     </div>
 
   </div>

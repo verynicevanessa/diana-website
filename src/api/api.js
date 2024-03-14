@@ -17,6 +17,7 @@ export async function fetchProjects() {
                 projectSlug
                 projectimages(first: 500) {
                     url
+                    mimeType
                 }
             }
         }

@@ -21,12 +21,20 @@ export default {
   if (logo) {
     logo.style.display = 'none'; // Hide the logo
   }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = 'none'; // Hide the logo
+  }
 },
 beforeUnmount() {
   // Reset the logo visibility when the component is about to be destroyed
   const logo = document.querySelector('.logo');
   if (logo) {
     logo.style.display = ''; // Remove the inline style to reset its visibility
+  }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = ''; // Hide the logo
   }
 },
 
@@ -88,7 +96,8 @@ beforeUnmount() {
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
       <!-- Display aboutText as HTML -->
-      <img src="/DWLogo.png" class="about-logo">
+      <video src="/Diana_FrozenGlow01-small.mp4" autoplay loop muted playsinline class="about-logo"></video>
+      <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
       <h1 v-html="aboutInfo.aboutText.html" ></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <p class="about-title">PUBLISHED</p><div v-html="aboutInfo.published.html" class="about-links"></div>
@@ -97,7 +106,7 @@ beforeUnmount() {
       <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
 
       <!-- Display other fields as needed -->
-       <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
+      
     </div>
 
   </div>
@@ -115,7 +124,7 @@ beforeUnmount() {
     align-items: center;
     flex-direction: column;
     z-index: 100;
-    margin-top: 60%;
+    margin-top: 40%;
 }
 
 h1 {
@@ -130,8 +139,7 @@ h1 {
 }
 
 .about-logo {
-  width: 80%;
-  max-width: 800px; 
+  width: 100%;
   position: fixed;
   z-index: -1;
   margin: auto;
@@ -158,7 +166,7 @@ h1 {
 }
 
 .about-links {
-  font-size: clamp(18px, 3vw, 32px);
+  font-size: clamp(24px, 3vw, 46px);
   text-decoration: none;
   width: 50%;
   flex-direction: column;

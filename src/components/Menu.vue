@@ -1,18 +1,18 @@
 <template>
-    <transition name="fade">
+    <transition name="flip">
       <div v-if="menuOpen" class="menu-overlay" :class="{ 'active': menuOpen }" ref="MenuOverlay">
 
         <!-- Your menu overlay content goes here -->
         <MenuOverlay @close-menu="closeMenu"/>
       </div>
     </transition>
-  <div class="menu-wrapper">
-    <div class="menu">
-      <span><router-link to="/projects" @click="closeMenu"><h1>DIANA WEISMAN</h1></router-link></span>
-      <router-link to="/" @click="closeMenu"><img src="/DWLogo.png" class="logo"></router-link>
-      <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
+    <div class="menu-wrapper">
+      <div class="menu">
+        <span class="name-logo"><router-link to="/projects" @click="closeMenu"><h1 >DIANA WEISMAN</h1></router-link></span>
+        <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo"></router-link>
+      </div>
     </div>
-  </div>
+    <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
   
 
 </template>
@@ -60,47 +60,52 @@ export default {
 .menu-wrapper {
   top: 0;
   left: 0;
-  width: 100%; 
-  display: flex; 
-  justify-content: space-between; 
-  padding: 0 20px; 
-  box-sizing: border-box; 
-  z-index: 900; 
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 900;
   position: relative;
-  /* mix-blend-mode: difference; */
 }
 
 .menu {
   display: flex;
-  justify-content: center; /* Center the menu items */
-  width: 100%; /* Ensure the menu spans the full width of its container */
+  justify-content: center;
+  /* Center the menu items */
+  width: 100%;
+  /* Ensure the menu spans the full width of its container */
   position: relative;
   z-index: 900;
+}
+.menu span {
+  position: absolute;
+  left: 0;
 }
 
 .menu-button {
   width: 2em;
-  margin: 10px 0 0 0;
+  /* margin: 10px 0 0 0; */
   z-index: 900;
-  mix-blend-mode: exclusion;
+  mix-blend-mode: difference;
 }
+
 
 .logo {
   width: 100%;
   max-width: 200px; 
   z-index: 900;
-/* 
-  background-image: url(/2.png);
-     filter: blur(3px);
-     background-size: contain; */
 }
 
 .menu-wrapper .logo:hover  {
  mix-blend-mode: difference;
 }
 
-a {
-  margin-left: auto; /* Push the button to the right */
+a .menu-button{
+  position: fixed;
+  right: 50px;
+  top: 20px;
+
 }
 
 .menu-overlay {
@@ -127,6 +132,31 @@ a {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+
+.flip-enter-active, .flip-leave-active {
+  transition: transform 0.5s ease-out;
+}
+
+.flip-enter-from, .flip-leave-to {
+  transform: rotateY(90deg);
+}
+
+.flip-enter-to, .flip-leave-from {
+  transform: rotateY(0deg);
+}
+@media (max-width: 650px) {
+  span h1{
+    width: 100px;
+  }
+  .menu{
+    justify-content: end;
+    margin-right: 30px;
+  }
+  a .menu-button{
+    right: 10px;
+  }
 }
 
 </style>

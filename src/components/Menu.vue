@@ -7,11 +7,13 @@
       </div>
     </transition>
     <div class="menu-wrapper">
-      <div class="menu">
-        <span class="name-logo"><router-link to="/projects" @click="closeMenu"><h1 >DIANA WEISMAN</h1></router-link></span>
+      <!-- <div class="menu"> -->
+        
         <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo"></router-link>
-      </div>
+      <!-- </div> -->
     </div>
+    <span class="name-logo"><router-link to="/projects" @click="closeMenu"><h1 >DIANA WEISMAN</h1></router-link></span>
+
     <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
   
 
@@ -69,11 +71,20 @@ export default {
   position: relative;
 }
 
+.name-logo {
+  mix-blend-mode: difference; 
+  color: white;
+  position: fixed;
+  left: 50px;
+  top: 0;
+  z-index: 900;
+}
+
 .menu {
   display: flex;
   justify-content: center;
   /* Center the menu items */
-  width: 100%;
+  width: 30%;
   /* Ensure the menu spans the full width of its container */
   position: relative;
   z-index: 900;

@@ -96,7 +96,7 @@ beforeUnmount() {
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
       <!-- Display aboutText as HTML -->
-      <video src="/Diana_FrozenGlow01-small.mp4" autoplay loop muted playsinline class="about-logo"></video>
+      <video src="/Diana_FrozenGlow06.mp4" autoplay loop muted playsinline class="about-logo"></video>
       <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
       <h1 v-html="aboutInfo.aboutText.html" ></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">

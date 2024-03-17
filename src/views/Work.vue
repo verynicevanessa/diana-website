@@ -34,9 +34,9 @@ export default {
 <style scoped>
 .masonry {
   column-count: 3;
-  gap: 100px;
+  gap: 70px;
   row-gap: 100px;
-  margin: 100px;
+  margin: 70px;
 }
 
 .project {
@@ -51,6 +51,7 @@ export default {
 @media (max-width: 768px) {
   .masonry {
     column-count: 2; /* Switch to two columns for screens up to 768px */
+    margin: 20px;
   }
 }
 

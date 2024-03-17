@@ -50,11 +50,11 @@ import { SwiperSlide } from 'swiper/vue';
     <div class="project-navigation"></div>
 
     <div class="project-name">
-      <h1 @click="navigateToPreviousProject" class="Previous">PREV</h1>
-      <h1 @click="toggleDescription" class="this-project">
+      <h3 @click="navigateToPreviousProject" class="Previous">PREV</h3>
+      <h3 @click="toggleDescription" class="this-project">
         ABOUT {{ project.projectName }}
-      </h1>
-      <h1 @click="navigateToNextProject" class="Next">NEXT</h1>
+      </h3>
+      <h3 @click="navigateToNextProject" class="Next">NEXT</h3>
     </div>
 
     <div v-if="showDescription" class="project-description">
@@ -191,14 +191,14 @@ export default {
   background-color: rgba(223, 223, 223, 0.37);
 }
 
-.project-name h1 {
+.project-name h3 {
   background-color: rgba(137, 137, 137, 0.37);
   border-radius: 8px;
   padding: 8px 16px;
   backdrop-filter: blur(10px);
 }
 
-.project-name h1:hover {
+.project-name h3:hover {
   background-color: rgba(223, 223, 223, 0.37);
 }
 

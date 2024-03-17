@@ -135,15 +135,18 @@ h1 {
 }
 
 .about-logo {
-  width: 100%;
+  width: auto; /* Adjust width automatically */
+  height: 100vh; /* Make video height 100% of the viewport height */
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%; /* Ensure it covers the full width */
+  min-height: 100%; /* Ensure it covers the full height */
   z-index: -1;
-  margin: auto;
-  left: 0;
-  right:0;
-  top:0;
-  bottom: 0;
+  object-fit: cover; /* Cover the area without losing the aspect ratio */
 }
+
 
 
 .about-title {

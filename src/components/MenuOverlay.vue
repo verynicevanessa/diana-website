@@ -34,7 +34,7 @@ export default {
     </div>
 </template>
 
-<style>
+<style scoped>
 .menu-overlay-slide {
     height: 100vh;
     width:100vw;
@@ -111,7 +111,7 @@ ul li a {
   ul li {
     margin: 10px 0; /* Adjust margin for vertical layout */
   }
-  
+
 }
 
 </style>

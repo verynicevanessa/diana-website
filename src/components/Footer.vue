@@ -34,7 +34,7 @@ export default {
     </div>
 </template>
 
-<style>
+<style scoped>
 .footer {
     height: 90vh;
      display: flex;
@@ -57,6 +57,25 @@ export default {
 .footer-text ul li {
     display: flex;
     align-items:end;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Display the list items in a row */
+}
+
+ul li {
+  margin: 0 10px; /* Add margin between menu items */
+    display: flex;
+    align-items:end;
+}
+
+ul li a {
+  color: rgb(0, 0, 0);
+  font-size: clamp(20px, 5vw, 50px);
+  text-decoration: none;
 }
 
 

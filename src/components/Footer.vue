@@ -20,7 +20,7 @@ export default {
 
 <template>
     <div class="footer">
-        <img src="/D-SF.gif" class="footer-image">
+        <img src="/D-SF.gif" alt="Footer Decorative" class="footer-image">
         <div class="footer-text">
             <p>DIANA WEISMAN, BALTIMORE ©2024</p>
             <ul>
@@ -59,11 +59,20 @@ export default {
     align-items:end;
 }
 
-@media (max-width: 768px) {
-.footer-text ul li a{
-    font-size: 20px;
-}
 
+/* Enhancements for smaller screens */
+@media (max-width: 768px) {
+    .footer {
+        padding: 10px;
+    }
+
+    .footer-text ul li a {
+        font-size: 16px; /* Adjusted for better readability on small screens */
+    }
+
+    .footer-text p {
+        font-size: 14px; /* Slightly smaller text size for the footer text */
+    }
 }
 
 </style>

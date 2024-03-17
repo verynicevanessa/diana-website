@@ -92,26 +92,22 @@ beforeUnmount() {
 </script>
 
 <template>
-  <div id="about-page">
+  <section id="about-page">
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
-      <!-- Display aboutText as HTML -->
-      <video src="/Diana_FrozenGlow06.mp4" autoplay loop muted playsinline class="about-logo"></video>
-      <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }"  @patch-loaded="handlePatchLoaded" />
-      <h1 v-html="aboutInfo.aboutText.html" ></h1>
+      <video src="/Diana_FrozenGlow06.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
+      <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }" @patch-loaded="handlePatchLoaded" />
+      <h1 v-html="aboutInfo.aboutText.html"></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
-      <p class="about-title">PUBLISHED</p><div v-html="aboutInfo.published.html" class="about-links"></div>
-      <p class="about-title">CLIENTS</p><div v-html="aboutInfo.clients.html" class="about-links"></div>
-      <p class="about-title">PREVIOUSLY AT</p><div v-html="aboutInfo.previouslyAt.html" class="about-links"></div>
-      <p class="about-title">CONTACT</p><div v-html="aboutInfo.contact.html" class="about-links contact"></div>
-
-      <!-- Display other fields as needed -->
-      
+      <div class="section" v-for="(section, index) in ['published', 'clients', 'previouslyAt', 'contact']" :key="index">
+        <h2 class="about-title">{{ section.toUpperCase() }}</h2>
+        <div v-html="aboutInfo[section].html" class="about-links"></div>
+      </div>
     </div>
-
-  </div>
-  <Footer />
+    <Footer />
+  </section>
 </template>
+
 
 
 <style scoped>
@@ -182,12 +178,17 @@ h1 {
   padding-bottom: 18rem;
 }
 
-@media (max-width: 768px) {
-  #about-page {
-    padding: 1em;
-  }
 
-  h1 {
+@media (max-width: 768px) {
+    #about-page {
+        padding: 1em;
+        margin-top: 10%;
+    }
+
+    .about-title {
+        margin-top: 1em;
+    }
+    h1 {
     font-size: 20px;
   }  
 }

@@ -22,14 +22,14 @@ export default {
         <div class="menu-overlay-slide">
             <div class="overlay-text">
             <p>DIANA WEISMAN, BALTIMORE ©2024</p>
-            <di><ul>
+            <div><ul>
                 <li class="list-item-icon"><router-link @click="$emit('close-menu')" to="/projects">Projects<sup>{{ projectsCount }}</sup></router-link></li>
                 <li class="list-item-icon"> <router-link @click="$emit('close-menu')" to="/about">About</router-link></li>
                 <li class="list-item-icon"> <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link></li>
                 <li class="list-item-icon"> <router-link @click="$emit('close-menu')" to="/">Restart</router-link></li>
             </ul>
-        </di>
-    </div>
+            </div>
+        </div>
         </div>
     </div>
 </template>
@@ -97,4 +97,21 @@ ul li a {
   background-size: 24px 24px;
   background-position: left center;
 }
+
+@media (max-width: 768px) {
+    .overlay-text {
+        max-width: 80%;
+    }
+
+    ul {
+    flex-direction: column; /* Stack the list items vertically on small screens */
+    align-items: start; /* Align items to the start of the container */
+  }
+  
+  ul li {
+    margin: 10px 0; /* Adjust margin for vertical layout */
+  }
+  
+}
+
 </style>

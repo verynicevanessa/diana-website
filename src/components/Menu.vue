@@ -161,6 +161,13 @@ a .menu-button{
   span h1{
     width: 100px;
   }
+
+  .name-logo {
+    left:20px;
+  }
+  .name-logo h1 {
+    font-size: 1.5rem; /* Adjust font size instead of width for better readability */
+  }
   .menu{
     justify-content: end;
     margin-right: 30px;
@@ -168,7 +175,11 @@ a .menu-button{
   a .menu-button{
     right: 10px;
   }
+  .menu-button {
+    right: 20px; /* Adjust for consistency */
+  }
 }
+
 
 </style>
 

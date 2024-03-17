@@ -187,4 +187,49 @@ button:hover {
   background-color: #fff;
   
 }
+
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .content {
+    width: 90vw; /* Adjust content width on smaller screens */
+    margin-top: 20vh; /* Add some top margin on smaller screens */
+  }
+
+  h2 {
+    font-size: 24px; /* Smaller font size for h2 on small devices */
+    width: 90%; /* Make the width more responsive */
+  }
+
+  .video {
+    max-width: 150px; /* Smaller video width on smaller screens */
+  }
+
+  .btn button {
+    font-size: 16px; /* Smaller font size for buttons */
+    padding: 8px 20px; /* Adjust button padding */
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    width: 95vw; /* Adjust content width for very small screens */
+  }
+
+  h2 {
+    font-size: 20px; /* Even smaller font size for h2 on very small devices */
+  }
+
+  .makeDecision, .proceed, .enter {
+    padding: 5px; /* Reduce padding for decision-making elements */
+  }
+
+  .btn button {
+    font-size: 14px; /* Further reduce font size for buttons */
+  }
+}
+
 </style>

@@ -13,10 +13,10 @@
       <!-- <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image"> -->
       <div class="canvasContainer">
       <CablesPatch
-      patchDir="/patch_test/"
-      :patchOptions="{ glCanvasResizeToWindow: false }"
+      patchDir="/patch_3D_scan/"
+      :patchOptions="{ glCanvasResizeToWindow: true }"
       />
-        </div>
+      </div>
       <div class="section" v-for="(section, index) in ['published', 'clients', 'previouslyAt', 'contact']" :key="index">
         <h2 class="about-title">{{ section.toUpperCase() }}</h2>
         <div v-html="aboutInfo[section].html" class="about-links"></div>
@@ -188,6 +188,10 @@ h1 {
 .footer {
   justify-content: end;
   padding-bottom: 18rem;
+}
+
+.canvasContainer{
+  position: relative;
 }
 
 #glcanvas{

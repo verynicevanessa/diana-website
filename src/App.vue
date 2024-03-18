@@ -8,7 +8,9 @@ import NoiseOverlay from "./components/NoiseOverlay.vue";
   <NoiseOverlay />
   <Cursor></Cursor>
   <Menu></Menu>
-  <Transition name="slide-fade" ><router-view></router-view></Transition>
+  <!-- <Transition name="slide-fade"> -->
+    <router-view></router-view>
+  <!-- </Transition> -->
  
 </template>
 

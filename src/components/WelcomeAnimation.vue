@@ -73,12 +73,12 @@ export default {
       }, 1000);
     });
   },
-  beforeMount() {
-    document.querySelector('.menu').style.display = 'none'
-  },
-  beforeUnmount() {
-    document.querySelector('.menu').style.display = 'flex'
-  }
+  // beforeMount() {
+  //   document.querySelector('.menu').style.display = 'none';
+  // },
+  // beforeUnmount() {
+  //   document.querySelector('.menu').style.display = 'flex';
+  // }
 };
 </script>
 

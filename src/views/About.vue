@@ -1,8 +1,32 @@
-<script>
-import { request } from 'graphql-request';
-import Footer from '@/components/Footer.vue'
-import CablesPatch from '@/components/CablesPatch.vue'
+<script setup>
+  import CablesPatch from '@/components/CablesPatch.vue'
+  import { request } from 'graphql-request';
+  import Footer from '@/components/Footer.vue';
+</script>
 
+<template>
+  <section id="about-page">
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="aboutInfo">
+      <video src="/Diana_FrozenGlow06.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
+      <h1 v-html="aboutInfo.aboutText.html"></h1>
+      <!-- <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image"> -->
+      <div class="canvasContainer">
+      <CablesPatch
+      patchDir="/patch_test/"
+      :patchOptions="{ glCanvasResizeToWindow: false }"
+      />
+        </div>
+      <div class="section" v-for="(section, index) in ['published', 'clients', 'previouslyAt', 'contact']" :key="index">
+        <h2 class="about-title">{{ section.toUpperCase() }}</h2>
+        <div v-html="aboutInfo[section].html" class="about-links"></div>
+      </div>
+    </div>
+    <Footer />
+  </section>
+</template>
+
+<script>
 export default {
   data() {
     return {
@@ -91,22 +115,7 @@ beforeUnmount() {
 
 </script>
 
-<template>
-  <section id="about-page">
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="aboutInfo">
-      <video src="/Diana_FrozenGlow06.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
-      <CablesPatch patchDir="/patch_test/" :patchOptions="{ glCanvasResizeToWindow: true }" @patch-loaded="handlePatchLoaded" />
-      <h1 v-html="aboutInfo.aboutText.html"></h1>
-      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
-      <div class="section" v-for="(section, index) in ['published', 'clients', 'previouslyAt', 'contact']" :key="index">
-        <h2 class="about-title">{{ section.toUpperCase() }}</h2>
-        <div v-html="aboutInfo[section].html" class="about-links"></div>
-      </div>
-    </div>
-    <Footer />
-  </section>
-</template>
+
 
 
 
@@ -181,6 +190,11 @@ h1 {
   padding-bottom: 18rem;
 }
 
+#glcanvas{
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
 
 @media (max-width: 768px) {
     #about-page {

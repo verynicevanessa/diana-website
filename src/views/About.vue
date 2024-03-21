@@ -8,7 +8,7 @@
   <section id="about-page">
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
-      <video src="/Diana_FrozenGlow06.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
+      <video src="/lens.webm" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
       <h1 v-html="aboutInfo.aboutText.html"></h1>
       <!-- <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image"> -->
       <div class="canvasContainer">

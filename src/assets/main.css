@@ -15,8 +15,8 @@ body, a {
 body {
   margin: 0;
   padding: 0;
-  background-color: #d4dde7; 
-  
+  /* background-color: #d4dde7;  */
+  background-color: #eef2f6; 
 }
 
 a {

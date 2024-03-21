@@ -12,9 +12,9 @@
         <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo"></router-link>
       <!-- </div> -->
     </div>
-    <span class="name-logo"><router-link to="/projects" @click="closeMenu"><h1 >DIANA WEISMAN</h1></router-link></span>
+    <span class="name-logo"><router-link to="/projects" @click="closeMenu"><h3 >DIANA WEISMAN</h3></router-link></span>
 
-    <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/DW-Menu.svg" class="menu-button" alt="SVG Image"></a>
+    <a @click="toggleMenu" aria-label="Toggle menu"><img src="../assets/Menu-Snowflake.png" class="menu-button" alt="SVG Image"></a>
   
 
 </template>
@@ -104,7 +104,7 @@ export default {
 
 .logo {
   width: 100%;
-  max-width: 200px; 
+  max-width: 150px; 
   z-index: 900;
 }
 

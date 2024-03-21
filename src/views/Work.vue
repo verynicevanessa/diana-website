@@ -34,13 +34,9 @@ export default {
 <style scoped>
 .masonry {
   column-count: 3;
-  gap: 70px;
-  row-gap: 100px;
-  margin: 70px;
-}
-
-.project {
-  margin-top: 100px;
+  gap: 20px;
+  row-gap: 20px;
+  margin: 20px;
 }
 
 @media (min-width: 1000px) {

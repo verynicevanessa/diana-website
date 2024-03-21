@@ -1,7 +1,6 @@
 <template>
   <div class="main">
-    <img v-if="currentMediaType === 'image'" :src="currentMediaUrl" class="background-media" alt="Background image">
-    <video v-if="currentMediaType === 'video'" :src="currentMediaUrl" class="background-media" autoplay loop muted playsinline></video>
+   
     <div class="content">
 
       <img class="video" src="/D-SF.gif" ></img>
@@ -74,12 +73,7 @@ export default {
   }
 },
   methods: {
-    nextImage() {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
-    },
-    startImageLoop() {
-      setInterval(this.nextImage, 300); // Change image every 5 seconds
-    },
+
     handleMe() {
       this.$router.push("/projects");
     },
@@ -135,7 +129,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: rgba(182, 201, 216, 0.401);
+  background-color: rgba(216 221 224 / 40%);
   backdrop-filter: blur(10px);
   border-radius: 18px;
   padding: 10px;

@@ -237,11 +237,24 @@ export default {
   font-size: 30px;
   color: black; /* Text color */
   max-width: 800px; /* Or any max-width or width you prefer */
-  z-index: 1000; /* Ensure it's above other content */
+  z-index: 10; /* Ensure it's above other content */
   border-radius: 10px; /* Optional: for rounded corners */
   background-color: rgba(137, 137, 137, 0.37);
   border-radius: 8px;
   padding: 8px 16px;
   backdrop-filter: blur(10px);
 }
+
+@media (max-width: 650px) {
+  .project-page {
+    width: 100vw;
+    height: 90vh;
+}
+
+.project-description {
+  font-size: 15px;
+  max-width: 80%;
+}
+}
+
 </style>

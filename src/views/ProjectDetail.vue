@@ -3,15 +3,15 @@
   <div v-if="project" class="project-page">
     <!-- Swiper -->
     <swiper-container class="swiper" 
-      :slidesPerView="2"
+      :slidesPerView="1"
       :spaceBetween="30"
       :loop="true" 
       :grid="{
-        rows: 2,
+        rows: 1,
       }"
       :mousewheel="true"
       :grabCursor="true"
-      :breakpoints="{600:{ slidesPerView:1, rows:1, spaceBetween:30 }, 900:{ slidesPerView:3, spaceBetween:30 }, 1200:{ slidesPerView:3, spaceBetween:30 } }"
+      :breakpoints="{400:{ slidesPerView:1, rows:1, spaceBetween:30 }, 600:{ slidesPerView:1, rows:1, spaceBetween:30 }, 900:{ slidesPerView:3, spaceBetween:30 }, 1200:{ slidesPerView:3, spaceBetween:30 } }"
       >
       <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
         <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
@@ -250,7 +250,6 @@ onMounted(async () => {
   right: 0;
   top:40%;
   margin: auto;
-  font-size: 30px;
   color: black; /* Text color */
   max-width: 800px; /* Or any max-width or width you prefer */
   z-index: 10; /* Ensure it's above other content */
@@ -259,10 +258,11 @@ onMounted(async () => {
   border-radius: 8px;
   padding: 8px 16px;
   backdrop-filter: blur(10px);
-  ;
-
 }
 
+.project-description p {
+  font-size: clamp(32px, 5vw, 70px);
+}
 
 
 </style>

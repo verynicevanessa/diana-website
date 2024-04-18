@@ -80,10 +80,12 @@ export default {
   pointer-events: none;
   transition: opacity 0.3s ease;
   mix-blend-mode: exclusion;
-  opacity: 0;
+  opacity: 1;
 }
+
+/*  I'm testing out if I want to keep this
 
 .project-wrapper:hover .project-name {
   opacity: 1;
-}
+} */
 </style>

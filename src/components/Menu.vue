@@ -104,7 +104,7 @@ export default {
   position: fixed;
   left: 50px;
   top: 0;
-  z-index: 900;
+  z-index: 800;
 }
 
 .menu {
@@ -201,6 +201,7 @@ a .menu-button{
 
   .name-logo {
     left:20px;
+    display: none;
   }
   .name-logo h1 {
     font-size: 1.5rem; /* Adjust font size instead of width for better readability */

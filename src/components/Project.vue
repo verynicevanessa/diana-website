@@ -76,7 +76,7 @@ export default {
   transform: translate(-50%, -50%);
   color: #ffffff;
   padding: 10px;
-  font-size: clamp(22px, 3vw, 50px);
+  font-size: clamp(22px, 3vw, 40px);
   pointer-events: none;
   transition: opacity 0.3s ease;
   mix-blend-mode: exclusion;

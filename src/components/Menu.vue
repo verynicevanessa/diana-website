@@ -9,7 +9,7 @@
     <div class="menu-wrapper">
       <!-- <div class="menu"> -->
         
-        <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo"></router-link>
+        <router-link to="/" @click="closeMenu"><img src="/Diana_FrozenLogo.png" class="logo" ref="logo"></router-link>
       <!-- </div> -->
     </div>
     <span class="name-logo"><router-link to="/projects" @click="closeMenu"><h3 >DIANA WEISMAN</h3></router-link></span>
@@ -44,14 +44,41 @@ export default {
     }
   },
   methods: {
-
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
-      console.log('Menu state:', this.menuOpen); 
     },
     closeMenu() {
-    this.menuOpen = false; // Directly close the menu
-  }
+      this.menuOpen = false;
+    },
+    handleScroll() {
+      const logo = this.$refs.logo;
+      if (!logo) return;
+
+      if (this.$route.path === '/projects') {
+        logo.style.width = window.scrollY > 100 ? '200px' : '100%';
+      } else {
+        logo.style.width = '200px';
+      }
+    },
+    adjustLogoSizeInitially() {
+      const logo = this.$refs.logo;
+      if (this.$route.path === '/projects') {
+        // Set logo to 100% width immediately for '/projects'
+        logo.style.width = '100%';
+      } else {
+        // For all other pages, fix at 200px
+        logo.style.width = '200px';
+      }
+    }
+  },
+  mounted() {
+    this.adjustLogoSizeInitially();
+    window.addEventListener('scroll', this.handleScroll);
+    // Force a scroll check in case the page is loaded with a scroll position already
+    this.handleScroll();
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 };
 </script>
@@ -102,10 +129,20 @@ export default {
 }
 
 
-.logo {
+/* .logo {
   width: 100%;
   max-width: 150px; 
   z-index: 900;
+} */
+
+.logo {
+  width: 100%;
+  position: fixed;
+  transition: width 0.5s ease-in-out;
+   transform-origin: top center;
+   top:0;
+   left:50%;
+  transform:translateX(-50%);
 }
 
 .menu-wrapper .logo:hover  {

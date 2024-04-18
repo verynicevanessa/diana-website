@@ -37,6 +37,7 @@ export default {
   gap: 20px;
   row-gap: 20px;
   margin: 20px;
+  margin-top: 20%;
 }
 
 @media (min-width: 1000px) {

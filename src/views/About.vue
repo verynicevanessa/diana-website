@@ -8,7 +8,8 @@
   <section id="about-page">
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
-      <video src="/lens.webm" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
+      <!-- <video src="/Diana_FrozenGlow.webm" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->
+      <img src="/DLW_Visual-White.svg" class="about-logo">
       <h1 v-html="aboutInfo.aboutText.html"></h1>
       <!-- <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image"> -->
       <div class="canvasContainer">
@@ -49,7 +50,9 @@ export default {
   if (footerimg) {
     footerimg.style.display = 'none'; // Hide the logo
   }
+  document.body.style.backgroundColor = '#bdc4cb';
 },
+
 beforeUnmount() {
   // Reset the logo visibility when the component is about to be destroyed
   const logo = document.querySelector('.logo');
@@ -60,6 +63,7 @@ beforeUnmount() {
   if (footerimg) {
     footerimg.style.display = ''; // Hide the logo
   }
+  document.body.style.backgroundColor = ''; 
 },
 
 
@@ -124,12 +128,12 @@ beforeUnmount() {
     padding: 3em;
     max-width: 1440px; /* Adjust this value to your desired maximum width */
     margin: 0 auto;
-    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     z-index: 100;
     margin-top: 40%;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -144,16 +148,15 @@ h1 {
 }
 
 .about-logo {
-  width: auto; /* Adjust width automatically */
-  height: 100vh; /* Make video height 100% of the viewport height */
+  width: 80%; 
+  height: auto; 
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 100%; /* Ensure it covers the full width */
-  min-height: 100%; /* Ensure it covers the full height */
+  /* min-width: 100%; 
+  min-height: 100%;  */
   z-index: -1;
-  object-fit: cover; /* Cover the area without losing the aspect ratio */
 }
 
 

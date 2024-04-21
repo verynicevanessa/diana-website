@@ -1,9 +1,9 @@
 <template>
     <transition name="flip">
-      <div v-if="menuOpen" class="menu-overlay" :class="{ 'active': menuOpen }" ref="MenuOverlay">
+      <div v-if="menuOpen" class="menu-overlay" :class="{ 'active': menuOpen }" ref="MenuOverlay" >
 
         <!-- Your menu overlay content goes here -->
-        <MenuOverlay @close-menu="closeMenu"/>
+        <MenuOverlay @click="closeMenu"/>
       </div>
     </transition>
     <div class="menu-wrapper">
@@ -50,6 +50,7 @@ export default {
     closeMenu() {
       this.menuOpen = false;
     },
+    
     handleScroll() {
       const logo = this.$refs.logo;
       if (!logo) return;

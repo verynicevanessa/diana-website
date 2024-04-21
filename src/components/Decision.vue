@@ -6,17 +6,8 @@
       <img class="video" src="/D-SF.gif" ></img>
 
       <div v-if="!permissionGiven">
-        <div class="makeDecision" v-if="!decisionMade">
-          <h2>
-            who will decide the path to explore this
-            experience
-          </h2>
-          <div class="btn">
-            <button @click="handleMe">Me</button>
-            <button @click="handleYou">You</button>
-          </div>
-        </div>
-        <div class="proceed" v-if="decisionMade">
+        
+        <div class="proceed">
           <h3>
             For a personal on-site experience, enable camera and let your mind
             decide
@@ -67,24 +58,18 @@ export default {
       url: project.heroImage.url,
       type: project.heroImage.mimeType.startsWith('video/') ? 'video' : 'image'
     }));
-    this.startImageLoop();
   } catch (error) {
     console.error("Error fetching projects:", error);
   }
 },
   methods: {
-
-    handleMe() {
-      this.$router.push("/projects");
-    },
-    handleYou() {
-      this.decisionMade = true;
-    },
     async handleProceed() {
       try {
         const response = await navigator.mediaDevices.getUserMedia({
           video: true,
         });
+        window.currentStream = response;
+        console.log({currentStream});
         this.permissionGiven = response.active;
       } catch (e) {
         this.$router.push("/blinking");

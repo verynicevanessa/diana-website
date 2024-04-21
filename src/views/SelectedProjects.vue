@@ -1,7 +1,6 @@
 <template>
   <main>
     <Project :project="project" v-for="project in selectedProjects"></Project>
-    
   </main>
 </template>
 
@@ -13,6 +12,7 @@ export default {
   mixins: [useProjectData],
   mounted() {
     this.disableCameraAccess();
+    // this.$router.go()
   },
   methods: {
     async disableCameraAccess() {
@@ -21,7 +21,13 @@ export default {
           video: true,
         });
         const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
+
+        tracks.forEach((track) => {
+          track.stop();
+          track.enabled = false;
+          console.log(`Track ${track.kind} stopped and disabled`);
+        });
+        console.log('All tracks processed:', tracks);
       } catch (error) {
         console.log("Error", error);
       }

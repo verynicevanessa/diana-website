@@ -50,7 +50,8 @@ export default {
 
         // Start a timeout to redirect after 4 seconds
         this.timeoutId = setTimeout(() => {
-              this.$router.push("/selected-projects");
+          // window.location.href = '/selected-projects'
+          this.$router.push("/selected-projects");
         }, 4000);
       }
       // or after another "blink" or click
@@ -83,6 +84,24 @@ export default {
         console.error("Target element for observing is not available");
       }
     },
+  
+    async disableCameraAccess() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        const tracks = stream.getTracks();
+
+        tracks.forEach((track) => {
+          track.stop();
+          track.enabled = false;
+          console.log(`Track ${track.kind} stopped and disabled`);
+        });
+      } catch (error) {
+        console.log("Error", error);
+      }
+    },
+ 
   },
   computed: {
     mappedData() {
@@ -105,7 +124,9 @@ export default {
     if (logo) {
       logo.style.display = ""; // Remove the inline style to reset its visibility
     }
+    // disableCameraAccess();
   },
+  
 };
 </script>
 

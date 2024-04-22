@@ -1,38 +1,63 @@
-<!-- freemode -->
+<script setup>
+import { SwiperSlide } from "swiper/vue";
+</script>
 <template>
   <div v-if="project" class="project-page">
     <!-- Swiper -->
-    <swiper-container class="swiper" 
-      :slidesPerView="1"
+    <swiper-container
+      class="swiper"
+      ref="projectSwiper"
+      :slidesPerView="2"
       :spaceBetween="30"
-      :loop="true" 
+      :loop="true"
       :grid="{
-        rows: 1,
+        rows: 2,
       }"
       :mousewheel="true"
       :grabCursor="true"
-      :breakpoints="{400:{ slidesPerView:1, rows:1, spaceBetween:30 }, 600:{ slidesPerView:1, rows:1, spaceBetween:30 }, 900:{ slidesPerView:3, spaceBetween:30 }, 1200:{ slidesPerView:3, spaceBetween:30 } }"
+      :breakpoints="{
+        600: { slidesPerView: 1, rows: 1, spaceBetween: 30 },
+        900: { slidesPerView: 3, spaceBetween: 30 },
+        1200: { slidesPerView: 3, spaceBetween: 30 },
+      }"
+    >
+      <SwiperSlide
+        v-for="(image, index) in project.projectimages"
+        :key="index"
+        class="swiper-slide"
       >
-      <SwiperSlide v-for="(image, index) in project.projectimages" :key="index" class="swiper-slide">
-        <img v-if="isImage(image)" :src="image.url" alt="Project Image" class="media-item" />
-        <video v-else :src="image.url" class="media-item" autoplay muted loop playsinline>
+        <img
+          v-if="isImage(image)"
+          :src="image.url"
+          alt="Project Image"
+          class="media-item"
+        />
+        <video
+          v-else
+          :src="image.url"
+          class="media-item"
+          autoplay
+          muted
+          loop
+          playsinline
+        >
           Your browser does not support the video tag.
         </video>
       </SwiperSlide>
     </swiper-container>
 
     <!-- Previous and Next buttons -->
-    <div  class="project-navigation">
-     
+    <div class="project-navigation"></div>
+
+    <div class="project-name">
+      <h3 @click="navigateToPreviousProject" class="Previous">PREV</h3>
+      <h3 @click.stop="toggleDescription" class="this-project">
+        ABOUT {{ project.projectName }}
+      </h3>
+      <h3 @click="navigateToNextProject" class="Next">NEXT</h3>
     </div>
 
-    <div  class="project-name" >
-      <h1 @click="navigateToPreviousProject" class="Previous">PREV</h1>
-      <h1 @click="toggleDescription" class="this-project">ABOUT {{ project.projectName }}</h1>
-      <h1 @click="navigateToNextProject" class="Next">NEXT</h1>
-    </div>
-  
-    <div v-if="showDescription" class="project-description">
+    <div v-if="showDescription" ref="description" class="project-description">
       <p>{{ project.projectDescription }}</p>
     </div>
   </div>
@@ -40,138 +65,102 @@
   <div v-else>Loading</div>
 </template>
 
+<script>
+import useProjectData from "@/mixins/useProjectData";
+import { register } from "swiper/element/bundle";
 
-
-<script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { request } from 'graphql-request';
-
-import { register } from 'swiper/element/bundle';
-// Install modules
 register();
 
-
-const project = ref(null);
-const route = useRoute();
-
-const isImage = (media) => {
-  if (!media || !media.url) return false; // Check if media or media.url is undefined/null
-  return media.mimeType.startsWith('image/');
-};
-
-const showDescription = ref(false); // Initially, the description is not shown
-
-const toggleDescription = () => {
-  showDescription.value = !showDescription.value;
-};
-
-const navigateToPreviousProject = async () => {
-  console.log('Navigating to previous project');
-  const allProjects = await fetchAllProjects();
-  console.log('All projects:', allProjects);
-  const currentIndex = allProjects.findIndex(p => p.id === project.value.id);
-  console.log('Current index:', currentIndex);
-  if (currentIndex > 0) {
-    project.value = allProjects[currentIndex - 1];
-  } else {
-    console.log('No previous project found, looping to last project');
-    project.value = allProjects[allProjects.length - 1];
-  }
-  await this.$router.push({ name: 'Project', params: { projectSlug: project.value.projectSlug } })
-};
-
-const navigateToNextProject = async () => {
-  const allProjects = await fetchAllProjects();
-  const currentIndex = allProjects.findIndex(p => p.id === project.value.id);
-  if (currentIndex < allProjects.length - 1) {
-    project.value = allProjects[currentIndex + 1];
-  } else {
-    project.value = allProjects[0];
-  }
-  await router.push({ name: 'Project', params: { projectSlug: project.value.projectSlug } });
-};
-
-const fetchAllProjects = async () => {
-  try {
-    // Fetch all projects from your GraphQL endpoint
-    const authToken = import.meta.env.VITE_GRAPHQL_AUTH_TOKEN;
-    const query = `
-      query AllProjects {
-        projects {
-          id
-          projectName
-          projectDescription
-          heroImage {
-            url
-            mimeType
-          }
-          projectSlug
-          projectimages(first: 500) {
-            url
-            mimeType
-          }
+export default {
+  data() {
+    return {
+      projectSlug: null,
+      showDescription: false,
+    };
+  },
+  mounted() {
+    this.swiper = document.querySelector("swiper-container");
+    document.addEventListener("click", this.closeDescriptionOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.closeDescriptionOutside);
+  },
+  mixins: [useProjectData],
+  methods: {
+    isImage(media) {
+      if (!media || !media.url) return false; // Check if media or media.url is undefined/null
+      return media.mimeType.startsWith("image/");
+    },
+    navigateToPreviousProject() {
+      let prevSlug;
+      const currentIndex = this.projects.findIndex(
+        (p) => p.id === this.project.id
+      );
+      if (currentIndex > 0) {
+        prevSlug = this.projects[currentIndex - 1].projectSlug;
+      } else {
+        console.log("No previous project found, looping to last project");
+        prevSlug = this.projects[this.projects.length - 1].projectSlug;
+      }
+      this.$router.push({
+        name: "ProjectDetail",
+        params: { projectSlug: prevSlug },
+      });
+    },
+    navigateToNextProject() {
+      let nextSlug;
+      const currentIndex = this.projects.findIndex(
+        (p) => p.id === this.project.id
+      );
+      if (currentIndex >= 0 && currentIndex < this.projects.length - 1) {
+        nextSlug = this.projects[currentIndex + 1].projectSlug;
+      } else {
+        console.log("No next project found, looping to last project");
+        nextSlug = this.projects[0].projectSlug;
+      }
+      this.$router.push({
+        name: "ProjectDetail",
+        params: { projectSlug: nextSlug },
+      });
+    },
+    toggleDescription() {
+      this.showDescription = !this.showDescription;
+    },
+    closeDescriptionOutside(event) {
+      if (
+        this.showDescription &&
+        this.$refs.description &&
+        !this.$refs.description.contains(event.target)
+      ) {
+        this.showDescription = false;
+      }
+    },
+  },
+  computed: {
+    projectSlug() {
+      return this.$route.params.projectSlug;
+    },
+    project() {
+      return this.getProjectBySlug(this.$route.params.projectSlug);
+    },
+  },
+  watch: {
+    $route() {
+      console.log("updated");
+      this.$nextTick(() => {
+        if (this.$refs.projectSwiper && this.$refs.projectSwiper.swiper) {
+          this.$refs.projectSwiper.swiper.update();
         }
-      }`;
-    const response = await request('https://api-us-east-1-shared-usea1-02.hygraph.com/v2/cls8zdyz71jh301w39jxzvc9k/master', query, null, {
-      Authorization: `Bearer ${authToken}`,
-    });
-   
-    return response.projects;
-  } catch (error) {
-    console.error('Error fetching all projects:', error);
-    return [];
-  }
+      });
+    },
+  },
 };
-
-onMounted(async () => {
-  try {
-    const projectSlug = route.params.projectSlug; 
-    const authToken = import.meta.env.VITE_GRAPHQL_AUTH_TOKEN;
-    const query = `
-    query ProjectBySlug($slug: String!) {
-        project(where: {projectSlug: $slug}) {
-            id
-            projectName
-            projectDescription
-            heroImage {
-                url
-                mimeType
-            }
-            projectSlug
-            projectimages(first: 500) {
-                url
-                mimeType
-            }
-        }
-    }`;
-    const variables = { slug: projectSlug };
-    const response = await request('https://api-us-east-1-shared-usea1-02.hygraph.com/v2/cls8zdyz71jh301w39jxzvc9k/master', query, variables, {
-      Authorization: `Bearer ${authToken}`,
-    });
-   
-    // Directly assign the project from the response, assuming your query correctly fetches a single project
-    if (response.project) {
-      project.value = response.project;
-    } else {
-      console.error('Project not found');
-    }
-  } catch (error) {
-    console.error('Error fetching project:', error);
-  }
-
-  
-});
-
 </script>
-
-
-
 
 <style scoped>
 .project-page {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 .project-name {
@@ -196,7 +185,8 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.previous, .next {
+.previous,
+.next {
   background-color: rgba(170, 171, 204, 0.37);
   border-radius: 8px;
   padding: 8px 16px;
@@ -204,18 +194,19 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.previous:hover, .next:hover {
+.previous:hover,
+.next:hover {
   background-color: rgba(223, 223, 223, 0.37);
 }
 
-.project-name h1 {
+.project-name h3 {
   background-color: rgba(137, 137, 137, 0.37);
   border-radius: 8px;
   padding: 8px 16px;
   backdrop-filter: blur(10px);
 }
 
-.project-name h1:hover {
+.project-name h3:hover {
   background-color: rgba(223, 223, 223, 0.37);
 }
 
@@ -229,27 +220,29 @@ onMounted(async () => {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  overflow-x: scroll;
+  overflow-x: hidden;
   overflow-y: hidden;
   /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
-} 
+}
 
-.swiper-slide img, .swiper-slide video {
-  max-width: 100%;/* Ensures the content is not wider than its container */
+.swiper-slide img,
+.swiper-slide video {
+  max-width: 100%; /* Ensures the content is not wider than its container */
   max-height: 50vh; /* Ensures the content does not exceed the viewport height */
   object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
   margin: auto; /* Centers the content if it's smaller than its container */
 }
 
 .project-description {
-  position: fixed; 
+  position: fixed;
   left: 0;
   right: 0;
-  top:40%;
+  top: 40%;
   margin: auto;
+  font-size: 30px;
   color: black; /* Text color */
   max-width: 800px; /* Or any max-width or width you prefer */
   z-index: 10; /* Ensure it's above other content */
@@ -260,9 +253,15 @@ onMounted(async () => {
   backdrop-filter: blur(10px);
 }
 
-.project-description p {
-  font-size: clamp(32px, 5vw, 70px);
+@media (max-width: 650px) {
+  .project-page {
+    width: 100vw;
+    height: 90vh;
+  }
+
+  .project-description {
+    font-size: 15px;
+    max-width: 80%;
+  }
 }
-
-
 </style>

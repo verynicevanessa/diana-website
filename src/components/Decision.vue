@@ -13,6 +13,7 @@
             decide
           </h3>
           <div class="btn">
+            <button @click="handleMe">Pass</button>
             <button @click="handleProceed">Proceed</button>
           </div>
         </div>
@@ -63,6 +64,12 @@ export default {
   }
 },
   methods: {
+    handleMe() {
+      this.$router.push("/projects");
+    },
+    handleYou() {
+      this.decisionMade = true;
+    },
     async handleProceed() {
       try {
         const response = await navigator.mediaDevices.getUserMedia({

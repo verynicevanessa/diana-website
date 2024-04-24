@@ -1,50 +1,11 @@
 <script setup>
-import { SwiperSlide } from "swiper/vue";
+import Slider from "@/components/Slider.vue";
 </script>
+
 <template>
   <div v-if="project" class="project-page">
     <!-- Swiper -->
-    <swiper-container
-      class="swiper"
-      ref="projectSwiper"
-      :slidesPerView="2"
-      :spaceBetween="30"
-      :loop="true"
-      :grid="{
-        rows: 2,
-      }"
-      :mousewheel="true"
-      :grabCursor="true"
-      :breakpoints="{
-        600: { slidesPerView: 1, rows: 1, spaceBetween: 30 },
-        900: { slidesPerView: 3, spaceBetween: 30 },
-        1200: { slidesPerView: 3, spaceBetween: 30 },
-      }"
-    >
-      <SwiperSlide
-        v-for="(image, index) in project.projectimages"
-        :key="index"
-        class="swiper-slide"
-      >
-        <img
-          v-if="isImage(image)"
-          :src="image.url"
-          alt="Project Image"
-          class="media-item"
-        />
-        <video
-          v-else
-          :src="image.url"
-          class="media-item"
-          autoplay
-          muted
-          loop
-          playsinline
-        >
-          Your browser does not support the video tag.
-        </video>
-      </SwiperSlide>
-    </swiper-container>
+    <Slider :images="project.projectimages" />
 
     <!-- Previous and Next buttons -->
     <div class="project-navigation"></div>
@@ -67,9 +28,6 @@ import { SwiperSlide } from "swiper/vue";
 
 <script>
 import useProjectData from "@/mixins/useProjectData";
-import { register } from "swiper/element/bundle";
-
-register();
 
 export default {
   data() {
@@ -79,7 +37,6 @@ export default {
     };
   },
   mounted() {
-    this.swiper = document.querySelector("swiper-container");
     document.addEventListener("click", this.closeDescriptionOutside);
   },
   beforeDestroy() {
@@ -87,10 +44,6 @@ export default {
   },
   mixins: [useProjectData],
   methods: {
-    isImage(media) {
-      if (!media || !media.url) return false; // Check if media or media.url is undefined/null
-      return media.mimeType.startsWith("image/");
-    },
     navigateToPreviousProject() {
       let prevSlug;
       const currentIndex = this.projects.findIndex(
@@ -142,16 +95,6 @@ export default {
     },
     project() {
       return this.getProjectBySlug(this.$route.params.projectSlug);
-    },
-  },
-  watch: {
-    $route() {
-      console.log("updated");
-      this.$nextTick(() => {
-        if (this.$refs.projectSwiper && this.$refs.projectSwiper.swiper) {
-          this.$refs.projectSwiper.swiper.update();
-        }
-      });
     },
   },
 };
@@ -208,32 +151,6 @@ export default {
 
 .project-name h3:hover {
   background-color: rgba(223, 223, 223, 0.37);
-}
-
-.swiper {
-  height: 100%;
-}
-
-.swiper-container {
-  height: 100%;
-}
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-slide img,
-.swiper-slide video {
-  max-width: 100%; /* Ensures the content is not wider than its container */
-  max-height: 50vh; /* Ensures the content does not exceed the viewport height */
-  object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
-  margin: auto; /* Centers the content if it's smaller than its container */
 }
 
 .project-description {

@@ -14,5 +14,8 @@ export default {
     projects() {
       return this.$store.state.loadedProjects;
     },
+    sortedByPriotity() {
+      return this.$store.state.loadedProjects.sort(({priority}) => priority);
+    },
   },
 };

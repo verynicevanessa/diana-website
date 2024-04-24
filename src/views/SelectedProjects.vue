@@ -1,6 +1,13 @@
+<script setup>
+import Slider from "@/components/Slider.vue";
+</script>
+
 <template>
   <main>
-    <Project :project="project" v-for="project in selectedProjects"></Project>
+    <Slider
+      v-if="selectedProjectsImages.length"
+      :images="selectedProjectsImages"
+    />
   </main>
 </template>
 
@@ -11,27 +18,7 @@ import useProjectData from "@/mixins/useProjectData";
 export default {
   mixins: [useProjectData],
   mounted() {
-    this.disableCameraAccess();
-    // this.$router.go()
-  },
-  methods: {
-    async disableCameraAccess() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        const tracks = stream.getTracks();
-
-        tracks.forEach((track) => {
-          track.stop();
-          track.enabled = false;
-          console.log(`Track ${track.kind} stopped and disabled`);
-        });
-        console.log('All tracks processed:', tracks);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    },
+    this.swiper = document.querySelector("swiper-container");
   },
   computed: {
     selectedProjects() {
@@ -44,25 +31,20 @@ export default {
         return this.$store.state.selectedProjects;
       }
     },
+    selectedProjectsImages() {
+      return this.selectedProjects.reduce((acc, item) => {
+        console.log(item.projectimages);
+        return [...acc, ...item.projectimages];
+      }, []);
+    },
   },
   components: { Project },
 };
 </script>
 
-<style scoped>
+<style>
 main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
+  width: 100vw;
   height: 100vh;
-}
-
-.project {
-  width: 100%;
-  max-width: 500px;
-  left: 0;
-  top: 0;
-  margin: 10px;
 }
 </style>

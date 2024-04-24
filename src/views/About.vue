@@ -188,11 +188,6 @@ h1 {
   line-height: 1.5;
 }
 
-/* .footer {
-  justify-content: end;
-  padding-bottom: 18rem;
-} */
-
 .canvasContainer{
   position: relative;
 }

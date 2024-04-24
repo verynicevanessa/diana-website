@@ -47,9 +47,9 @@ export default {
     logo.style.display = 'none'; // Hide the logo
   }
   const footerimg = document.querySelector('.footer-image');
-  if (footerimg) {
-    footerimg.style.display = 'none'; // Hide the logo
-  }
+  // if (footerimg) {
+  //   footerimg.style.display = 'none'; // Hide the logo
+  // }
   document.body.style.backgroundColor = '#bdc4cb';
 },
 
@@ -59,10 +59,10 @@ beforeUnmount() {
   if (logo) {
     logo.style.display = ''; // Remove the inline style to reset its visibility
   }
-  const footerimg = document.querySelector('.footer-image');
-  if (footerimg) {
-    footerimg.style.display = ''; // Hide the logo
-  }
+  // const footerimg = document.querySelector('.footer-image');
+  // if (footerimg) {
+  //   footerimg.style.display = ''; // Hide the logo
+  // }
   document.body.style.backgroundColor = ''; 
 },
 
@@ -188,10 +188,10 @@ h1 {
   line-height: 1.5;
 }
 
-.footer {
+/* .footer {
   justify-content: end;
   padding-bottom: 18rem;
-}
+} */
 
 .canvasContainer{
   position: relative;

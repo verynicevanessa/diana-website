@@ -74,7 +74,7 @@ ul li {
 
 ul li a {
   color: rgb(0, 0, 0);
-  font-size: clamp(20px, 5vw, 50px);
+  font-size: clamp(24px, 5vw, 50px);
   text-decoration: none;
 }
 

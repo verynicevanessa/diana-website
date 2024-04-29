@@ -22,7 +22,7 @@ export default {
     <div class="footer">
         <img src="/D-SF.gif" alt="Footer Decorative" class="footer-image">
         <div class="footer-text">
-            <p>DIANA WEISMAN, BALTIMORE ©2024</p>
+            <p>STAY FROSTY LLC. © 2024</p>
             <ul>
                 <li><router-link to="/projects">Projects <sup>{{ projectsCount }}</sup></router-link></li>
                 <li> <router-link to="/about">About</router-link></li>

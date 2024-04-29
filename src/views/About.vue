@@ -11,14 +11,14 @@
       <!-- <video src="/Diana_FrozenGlow.webm" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->
       <img src="/DLW_Visual-White.svg" class="about-logo">
       <h1 v-html="aboutInfo.aboutText.html"></h1>
-      <!-- <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image"> -->
+      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <div class="canvasContainer">
       <CablesPatch
       patchDir="/patch_3D_scan/"
       :patchOptions="{ glCanvasResizeToWindow: true }"
       />
       </div>
-      <div class="section" v-for="(section, index) in ['published', 'clients', 'previouslyAt', 'contact']" :key="index">
+      <div class="section" v-for="(section, index) in ['published', 'clients', 'previously_at', 'contact']" :key="index">
         <h2 class="about-title">{{ section.toUpperCase() }}</h2>
         <div v-html="aboutInfo[section].html" class="about-links"></div>
       </div>

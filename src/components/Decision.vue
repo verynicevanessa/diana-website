@@ -125,6 +125,7 @@ export default {
   backdrop-filter: blur(10px);
   border-radius: 18px;
   padding: 10px;
+  margin: 10%;
 }
 
 .imgContainer {
@@ -183,6 +184,8 @@ button:hover {
   .content {
     width: 90vw; /* Adjust content width on smaller screens */
     margin-top: 20vh; /* Add some top margin on smaller screens */
+    margin-left: 1vw;
+    margin-right: 1vw;
   }
 
   h2 {

@@ -200,7 +200,7 @@ h1 {
 
 @media (max-width: 768px) {
     #about-page {
-        padding: 1em;
+        padding: 5em;
         margin-top: 10%;
     }
 

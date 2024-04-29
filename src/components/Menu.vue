@@ -13,7 +13,7 @@
   <div class="menu-wrapper">
     <span class="name-logo">
       <router-link to="/projects" @click="closeMenu">
-        <h3>DIANA WEISMAN</h3>
+        <h3 style="color: black;">DIANA WEISMAN</h3>
       </router-link>
     </span>
     <!-- <div class="menu"> -->

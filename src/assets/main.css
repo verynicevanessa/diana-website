@@ -1,6 +1,6 @@
 @font-face {
   font-family: GreedTRIAL-SemiBold;
-  src: local('GreedTRIAL-SemiBold'), url('@/assets/GreedTRIAL-SemiBold.woff') format('woff');
+  src: local('GreedNarrowTRIAL-SemiBold'), url('@/assets/GreedNarrowTRIAL-SemiBold.woff') format('woff');
 }
 
 @font-face {

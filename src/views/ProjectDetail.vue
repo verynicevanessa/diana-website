@@ -168,6 +168,7 @@ export default {
   border-radius: 8px;
   padding: 8px 16px;
   backdrop-filter: blur(10px);
+  font-family: Kommuna Demo;
 }
 
 @media (max-width: 650px) {

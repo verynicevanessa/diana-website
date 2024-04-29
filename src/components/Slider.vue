@@ -2,16 +2,20 @@
   <swiper-container
     class="swiper"
     ref="projectSwiper"
+    :direction="horizontal"
     :slidesPerView="2"
     :spaceBetween="30"
     :loop="true"
     :grid="{
       rows: 2,
-    }"
+   }"
+   :max-columns="1"
+
     :mousewheel="true"
     :grabCursor="true"
     :breakpoints="{
-      600: { slidesPerView: 1, rows: 1, spaceBetween: 30 },
+      100: { slidesPerView: 1, spaceBetween: 0, direction: vertical},
+      600: { slidesPerView: 2, spaceBetween: 30,direction: vertical },
       900: { slidesPerView: 3, spaceBetween: 30 },
       1200: { slidesPerView: 3, spaceBetween: 30 },
     }"
@@ -21,25 +25,26 @@
       :key="index"
       class="swiper-slide"
     >
-      <img
-        v-if="isImage(image)"
-        :src="image.url"
-        alt="Project Image"
-        class="media-item"
-      />
-      <video
-        v-else
-        :src="image.url"
-        class="media-item"
-        autoplay
-        muted
-        loop
-        playsinline
-      >
-        Your browser does not support the video tag.
-      </video>
-    </SwiperSlide>
-  </swiper-container>
+    <img
+    v-if="isImage(image)"
+    :src="image.url"
+    alt="Project Image"
+    class="media-item"
+    />
+    <video
+    v-else
+    :src="image.url"
+    class="media-item"
+    autoplay
+    muted
+    loop
+    playsinline
+    >
+    Your browser does not support the video tag.
+  </video>
+</SwiperSlide>
+
+</swiper-container>
 </template>
 
 <script>

@@ -28,7 +28,7 @@ export default {
   <div>
     <div class="menu-overlay-slide">
       <div class="overlay-text">
-        <p>DIANA WEISMAN, BALTIMORE ©2024</p>
+        <p>STAY FROSTY LLC. © 2024</p>
         <div>
           <ul>
             <li class="list-item-icon">

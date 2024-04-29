@@ -19,7 +19,8 @@
       />
       </div>
       <div class="section" v-for="(section, index) in ['published', 'clients', 'previously_at', 'contact']" :key="index">
-        <h2 class="about-title">{{ section.toUpperCase() }}</h2>
+
+        <h2 class="about-title">{{ section.toUpperCase().replace("_", " ") }}</h2>
         <div v-html="aboutInfo[section].html" class="about-links"></div>
       </div>
     </div>
@@ -89,7 +90,7 @@ beforeUnmount() {
                 html
                 text
               }
-              previouslyAt {
+              previously_at {
                 html
                 text
               }
@@ -104,7 +105,8 @@ beforeUnmount() {
         
         const response = await request('https://api-us-east-1-shared-usea1-02.hygraph.com/v2/cls8zdyz71jh301w39jxzvc9k/master', query, null, {
           Authorization: `Bearer ${authToken}`,
-        });
+        })
+        console.log(response, "=====");
 
         this.aboutInfo = response.abouts[0]; 
         this.loading = false;

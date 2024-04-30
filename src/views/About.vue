@@ -202,16 +202,21 @@ h1 {
 
 @media (max-width: 768px) {
     #about-page {
-        padding: 5em;
         margin-top: 10%;
     }
 
+    .footer {
+      padding: 0em;
+    }
     .about-title {
         margin-top: 1em;
     }
     h1 {
     font-size: 20px;
   }  
+  .about-links {
+  width: 80%;
+  }
 }
 
 </style>

@@ -8,8 +8,8 @@
   <section id="about-page">
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
-      <!-- <video src="/Diana_FrozenGlow.webm" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->
-      <img src="/DLW_Visual-White.svg" class="about-logo">
+      <video src="/dianafrosted_0430_02.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
+      <!-- <img src="/Diana_FrozenLogo.png" class="about-logo"> -->
       <h1 v-html="aboutInfo.aboutText.html"></h1>
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <div class="canvasContainer">
@@ -150,7 +150,7 @@ h1 {
 }
 
 .about-logo {
-  width: 80%; 
+  width: 100%; 
   height: auto; 
   position: fixed;
   top: 50%;

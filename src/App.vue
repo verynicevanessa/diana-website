@@ -5,7 +5,7 @@ import NoiseOverlay from "./components/NoiseOverlay.vue";
 </script>
 
 <template>
-  <NoiseOverlay />
+  <!-- <NoiseOverlay /> -->
   <Cursor></Cursor>
   <Menu></Menu>
   <!-- <Transition name="slide-fade"> -->

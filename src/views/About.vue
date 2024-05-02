@@ -6,18 +6,21 @@
 
 <template>
   <section id="about-page">
+    
     <div v-if="loading">Loading...</div>
     <div v-else-if="aboutInfo">
-      <video src="/dianafrosted_0430_02.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video>
-      <!-- <img src="/Diana_FrozenLogo.png" class="about-logo"> -->
-      <h1 v-html="aboutInfo.aboutText.html"></h1>
-      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <div class="canvasContainer">
       <CablesPatch
       patchDir="/patch_3D_scan/"
       :patchOptions="{ glCanvasResizeToWindow: true }"
       />
       </div>
+      <!-- <video src="/dianafrosted_0430_02.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->
+      <img src="/Diana_FrozenLogo.png" class="about-logo">
+      <h1 v-html="aboutInfo.aboutText.html"></h1>
+      
+      
+      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
       <div class="section" v-for="(section, index) in ['published', 'clients', 'previously_at', 'contact']" :key="index">
 
         <h2 class="about-title">{{ section.toUpperCase().replace("_", " ") }}</h2>
@@ -51,7 +54,8 @@ export default {
   // if (footerimg) {
   //   footerimg.style.display = 'none'; // Hide the logo
   // }
-  document.body.style.backgroundColor = '#bdc4cb';
+  // document.body.style.backgroundColor = '#bdc4cb';
+  document.body.style.backgroundColor = '#fff';
 },
 
 beforeUnmount() {
@@ -134,7 +138,7 @@ beforeUnmount() {
     align-items: center;
     flex-direction: column;
     z-index: 100;
-    margin-top: 40%;
+    /* margin-top: 40%; */
     box-sizing: border-box;
 }
 
@@ -145,12 +149,13 @@ h1 {
   font-weight: 400;
   font-size: clamp(32px, 5vw, 70px);
   /* text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5); */
-  filter: blur(0.01em) saturate(2);
+  /* filter: blur(0.01em) saturate(2); */
   
 }
 
 .about-logo {
-  width: 100%; 
+  /* width: 100%;  */
+  width: 50%;
   height: auto; 
   position: fixed;
   top: 50%;
@@ -158,7 +163,7 @@ h1 {
   transform: translate(-50%, -50%);
   /* min-width: 100%; 
   min-height: 100%;  */
-  z-index: -1;
+  z-index: 100;
 }
 
 

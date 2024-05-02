@@ -13,7 +13,7 @@ import Slider from "@/components/Slider.vue";
     <div class="project-name">
       <h3 @click="navigateToPreviousProject" class="Previous">PREV</h3>
       <h3 @click.stop="toggleDescription" class="this-project">
-        ABOUT {{ project.projectName }}
+       {{ project.projectName }}
       </h3>
       <h3 @click="navigateToNextProject" class="Next">NEXT</h3>
     </div>
@@ -116,6 +116,7 @@ export default {
   align-items: center;
   padding: 0 20px;
   z-index: 500;
+  text-transform: uppercase;
 }
 
 .this-project {

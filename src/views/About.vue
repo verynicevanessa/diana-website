@@ -16,7 +16,7 @@
       />
       </div>
       <!-- <video src="/dianafrosted_0430_02.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->
-      <img src="/Diana_FrozenLogo.png" class="about-logo">
+      <img src="/DLW-Visual-Re.png" class="about-logo">
       <h1 v-html="aboutInfo.aboutText.html"></h1>
       
       

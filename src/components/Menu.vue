@@ -24,7 +24,7 @@
       :style="!isLogoActive && { pointerEvents: 'none' }"
     >
       <img
-        src="/Diana_FrozenLogo.png"
+        src="/DLW-Visual-Re.png"
         :style="menuOpen ? {width: '200px'} : (logoWidth ? { width: logoWidth + 'px' } : '100%')"
         class="logo"
         ref="logo"

@@ -51,10 +51,10 @@ export default {
     logo.style.display = 'none'; // Hide the logo
   }
   const footerimg = document.querySelector('.footer-image');
-  // if (footerimg) {
-  //   footerimg.style.display = 'none'; // Hide the logo
-  // }
-  // document.body.style.backgroundColor = '#bdc4cb';
+  if (footerimg) {
+    footerimg.style.display = 'none'; // Hide the logo
+  }
+  document.body.style.backgroundColor = '#bdc4cb';
   document.body.style.backgroundColor = '#fff';
 },
 
@@ -64,10 +64,10 @@ beforeUnmount() {
   if (logo) {
     logo.style.display = ''; // Remove the inline style to reset its visibility
   }
-  // const footerimg = document.querySelector('.footer-image');
-  // if (footerimg) {
-  //   footerimg.style.display = ''; // Hide the logo
-  // }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = ''; // Hide the logo
+  }
   document.body.style.backgroundColor = ''; 
 },
 
@@ -164,6 +164,7 @@ h1 {
   /* min-width: 100%; 
   min-height: 100%;  */
   z-index: 100;
+  pointer-events: none;
 }
 
 

@@ -147,7 +147,7 @@ h1 {
   font-family: GreedTRIAL-SemiBold;
   z-index: 100;
   font-weight: 400;
-  font-size: clamp(32px, 5vw, 70px);
+  font-size: clamp(50px, 6vw, 70px);
   /* text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5); */
   /* filter: blur(0.01em) saturate(2); */
   
@@ -217,7 +217,7 @@ h1 {
         margin-top: 1em;
     }
     h1 {
-    font-size: 20px;
+    font-size: 36px;
   }  
   .about-links {
   width: 80%;

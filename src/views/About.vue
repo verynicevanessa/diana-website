@@ -7,7 +7,7 @@
 <template>
   <section id="about-page">
     
-    <div v-if="loading">Loading...</div>
+    <div v-if="loading"></div>
     <div v-else-if="aboutInfo">
       <div class="canvasContainer">
       <CablesPatch

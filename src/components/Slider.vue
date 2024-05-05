@@ -26,19 +26,19 @@
     }"
   >
     <SwiperSlide
-      v-for="(image, index) in images"
+      v-for="(media, index) in images"
       :key="index"
       class="swiper-slide"
     >
       <img
-        v-if="isImage(image)"
-        :src="image.url"
+        v-if="isImage(media)"
+        :src="media.url"
         alt="Project Image"
         class="media-item"
       />
       <video
-        v-else
-        :src="image.url"
+        v-if="isVideo(media)"
+        :src="media.url"
         class="media-item"
         autoplay
         muted
@@ -47,8 +47,16 @@
       >
         Your browser does not support the video tag.
       </video>
-      <div v-if="isNameProject(image)" class="about-card">
-        <h3 @click="">About {{ isNameProject(image) }}</h3>
+      <div v-if="isAboutLink(media)" class="about-card">
+        <h3 @click="aboutProject()">About {{ media.name }}</h3>
+      </div>
+      <div
+        @click="closeDescription()"
+        v-if="showDescription"
+        ref="description"
+        class="project-description"
+      >
+        <p>{{ media.description }}</p>
       </div>
     </SwiperSlide>
   </swiper-container>
@@ -68,6 +76,7 @@ export default {
   data() {
     return {
       isSelectedPage: false,
+      showDescription: false,
     };
   },
   mounted() {
@@ -80,16 +89,27 @@ export default {
         return (isSelectedPage = true);
       }
     },
-    isNameProject(media) {
-      if (typeof media !== "object") {
-        console.log(media, "+++++++++++");
-        return media;
-      }
+    isAboutLink(media) {
+      return media.type === "link";
     },
     isImage(media) {
-      console.log(media, "----------");
-      if (!media || !media.url) return false; // Check if media or media.url is undefined/null
+      if (!media || !media.url) return false;
       return media.mimeType.startsWith("image/");
+    },
+    isVideo(media) {
+      if (!media || !media.url || media.mimeType.startsWith("image/"))
+        return false;
+      return media.mimeType.startsWith("video/");
+    },
+    aboutProject() {
+      return (this.showDescription = true);
+    },
+    closeDescription() {
+      console.log(this.showDescription);
+      if (this.showDescription === true) {
+        return this.showDescription = false;
+      }
+      return;
     },
     initSwiper() {
       this.swiper = this.$refs.projectSwiper.swiper;
@@ -150,17 +170,40 @@ export default {
   background-color: #fff;
   max-width: 100%;
 }
+.project-description {
+  position: fixed;
+  /* left: 0;
+  right: 0; */
+  top: 40%;
+  margin: auto;
+  font-size: 30px;
+  color: black; /* Text color */
+  max-width: 800px; /* Or any max-width or width you prefer */
+  z-index: 10; /* Ensure it's above other content */
+  border-radius: 10px; /* Optional: for rounded corners */
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+  font-family: Kommuna Demo;
+}
 
 @media (max-width: 600px) {
   .swiper-slide {
     overflow-x: visible;
     overflow-y: visible;
-    padding: 20vh
+    padding: 20vh;
   }
   .swiper-slide img,
   .swiper-slide video {
     max-width: max-content;
     max-height: 50vh;
+  }
+  .project-description {
+    position: fixed;
+    /* left: 0;
+  right: 0; */
+    top: auto;
   }
 }
 </style>

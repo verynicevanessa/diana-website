@@ -88,7 +88,7 @@ export default {
       } else {
         const widthDiff = maxWidth - minWidth;
         this.logoWidth = maxWidth - widthDiff * (scrollTop / maxScroll);
-        this.logoWidth = Math.max(this.logoWidth, minWidth);
+        this.logoWidth = Math.max(this.logoWidth, minWidth)/1.5;
         this.isLogoActive = false;
       }
     },

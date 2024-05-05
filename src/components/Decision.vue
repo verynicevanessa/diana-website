@@ -204,8 +204,13 @@ button:hover {
 }
 
 @media (max-width: 480px) {
+  .main {
+    height: 90vh;
+  }
   .content {
-    width: 95vw; /* Adjust content width for very small screens */
+    width: 90vw; /* Adjust content width for very small screens */
+    margin-left: 1vw;
+    margin-right: 1vw;
   }
 
   h2 {

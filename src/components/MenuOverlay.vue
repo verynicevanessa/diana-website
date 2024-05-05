@@ -98,13 +98,13 @@ ul li {
 
 ul li a {
   color: rgb(0, 0, 0);
-  font-size: clamp(20px, 5vw, 50px);
+  font-size: clamp(30px, 5vw, 50px);
   text-decoration: none;
 }
 
 .menu-overlay p {
   color: rgb(0, 0, 0);
-  font-size: clamp(20px, 5vw, 50px);
+  font-size: clamp(30px, 5vw, 50px);
   margin-bottom: 10px;
 }
 

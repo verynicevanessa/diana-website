@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     isImage(media) {
-      if (!media.url) return false; // If there's no URL, it's not an image
+      if (!media.url && typeof media === 'object') return false; // If there's no URL, it's not an image
       return media.mimeType.startsWith("image/"); // Check if the MIME type starts with 'image/'
     },
   },

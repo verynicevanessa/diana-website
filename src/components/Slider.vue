@@ -8,20 +8,17 @@
     :grid="{
       rows: 2,
     }"
-
-
     :mousewheel="true"
     :grabCursor="true"
     :breakpoints="{
-      100: {
+      320: {
         slidesPerView: 1,
         spaceBetween: 10,
         direction: 'vertical',
         loop: false,
         grid: {
-          rows:1
-        }
-       
+          rows: 1,
+        },
       },
       600: { slidesPerView: 2, spaceBetween: 10 },
       900: { slidesPerView: 2, spaceBetween: 10 },
@@ -35,13 +32,11 @@
     >
       <img
         v-if="isImage(image)"
-      
         :src="image.url"
         alt="Project Image"
         class="media-item"
       />
       <video
-      
         v-else
         :src="image.url"
         class="media-item"
@@ -53,7 +48,7 @@
         Your browser does not support the video tag.
       </video>
       <div v-if="isNameProject(image)" class="about-card">
-        <h3>About {{ isNameProject(image) }}</h3>
+        <h3 @click="">About {{ isNameProject(image) }}</h3>
       </div>
     </SwiperSlide>
   </swiper-container>
@@ -87,7 +82,7 @@ export default {
     },
     isNameProject(media) {
       if (typeof media !== "object") {
-        console.log(media,"+++++++++++");
+        console.log(media, "+++++++++++");
         return media;
       }
     },
@@ -132,13 +127,12 @@ export default {
   font-size: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
- 
+
   /* Center slide text vertically */
 
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .swiper-slide img,
@@ -149,7 +143,7 @@ export default {
   margin: auto; /* Centers the content if it's smaller than its container */
 }
 .about-card {
-  text-align:left;
+  text-align: left;
   font-size: 50px;
   /* Center slide text vertically */
 
@@ -157,14 +151,16 @@ export default {
   max-width: 100%;
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px) {
   .swiper-slide {
- 
-  overflow-x:visible;
-  overflow-y: visible;
- 
-
+    overflow-x: visible;
+    overflow-y: visible;
+    padding: 20vh
+  }
+  .swiper-slide img,
+  .swiper-slide video {
+    max-width: max-content;
+    max-height: 50vh;
+  }
 }
-}
-
 </style>

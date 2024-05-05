@@ -33,7 +33,7 @@ export default {
     },
     selectedProjectsImages() {
       return this.selectedProjects.reduce((acc, item) => {
-        return [...acc, ...item.projectimages, ...[item.projectName]];
+        return [...acc, ...item.projectimages];
       }, []);
     },
   },

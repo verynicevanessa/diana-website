@@ -117,6 +117,7 @@ export default {
   padding: 0 20px;
   z-index: 500;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .this-project {

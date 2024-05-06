@@ -26,19 +26,19 @@
     }"
   >
     <SwiperSlide
-      v-for="(image, index) in images"
+      v-for="(media, index) in images"
       :key="index"
       class="swiper-slide"
     >
       <img
-        v-if="isImage(image)"
-        :src="image.url"
+        v-if="isImage(media)"
+        :src="media.url"
         alt="Project Image"
         class="media-item"
       />
       <video
-        v-else
-        :src="image.url"
+        v-if="isVideo(media)"
+        :src="media.url"
         class="media-item"
         autoplay
         muted
@@ -47,8 +47,31 @@
       >
         Your browser does not support the video tag.
       </video>
-      <div v-if="isNameProject(image)" class="about-card">
-        <h3 @click="">About {{ isNameProject(image) }}</h3>
+      <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
+        <h3>About {{ media.name }}</h3>
+        <svg
+          width="50"
+          height="30"
+          viewBox="0 0 50 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 15H42M42 15L29 2M42 15L29 28"
+            stroke="black"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <div
+        @click="closeDescription()"
+        v-if="showDescription"
+        ref="description"
+        class="project-description"
+      >
+        <p>{{ media.description }}</p>
       </div>
     </SwiperSlide>
   </swiper-container>
@@ -68,29 +91,43 @@ export default {
   data() {
     return {
       isSelectedPage: false,
+      showDescription: false,
     };
   },
   mounted() {
     this.initSwiper();
     this.updateSwiperOnMediaLoad();
   },
+
   methods: {
     isSelectedPage() {
       if (this.$route.name === "selected-page") {
         return (isSelectedPage = true);
       }
     },
-    isNameProject(media) {
-      if (typeof media !== "object") {
-        console.log(media, "+++++++++++");
-        return media;
-      }
+    isAboutLink(media) {
+      return media.type === "link";
     },
     isImage(media) {
-      console.log(media, "----------");
-      if (!media || !media.url) return false; // Check if media or media.url is undefined/null
+      if (!media || !media.url) return false;
       return media.mimeType.startsWith("image/");
     },
+    isVideo(media) {
+      if (!media || !media.url || media.mimeType.startsWith("image/"))
+        return false;
+      return media.mimeType.startsWith("video/");
+    },
+    aboutProject() {
+      return (this.showDescription = true);
+    },
+    closeDescription() {
+      if (this.showDescription === true) {
+        return (this.showDescription = false);
+      } else {
+        return;
+      }
+    },
+
     initSwiper() {
       this.swiper = this.$refs.projectSwiper.swiper;
     },
@@ -143,24 +180,49 @@ export default {
   margin: auto; /* Centers the content if it's smaller than its container */
 }
 .about-card {
-  text-align: left;
+  text-align: center;
   font-size: 50px;
-  /* Center slide text vertically */
-
-  background-color: #fff;
-  max-width: 100%;
+  max-width: auto;
+  padding: 10vw;
+}
+h3 {
+  margin: 0;
+  padding: 0;
+  font-family: Kommuna Demo;
+}
+.project-description {
+  position: fixed;
+  /* left: 0;
+  right: 0; */
+  top: 40%;
+  margin: auto;
+  font-size: 30px;
+  color: black; /* Text color */
+  max-width: 800px; /* Or any max-width or width you prefer */
+  z-index: 10; /* Ensure it's above other content */
+  border-radius: 10px; /* Optional: for rounded corners */
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  font-family: GreedTRIAL-SemiBold;
 }
 
 @media (max-width: 600px) {
   .swiper-slide {
     overflow-x: visible;
     overflow-y: visible;
-    padding: 20vh
+    padding: 20vh;
   }
   .swiper-slide img,
   .swiper-slide video {
     max-width: max-content;
     max-height: 50vh;
+  }
+  .project-description {
+    position: fixed;
+    /* left: 0;
+  right: 0; */
+    top: auto;
   }
 }
 </style>

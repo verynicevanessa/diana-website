@@ -47,8 +47,23 @@
       >
         Your browser does not support the video tag.
       </video>
-      <div v-if="isAboutLink(media)" class="about-card">
-        <h3 @click="aboutProject()">About {{ media.name }}</h3>
+      <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
+        <h3>About {{ media.name }}</h3>
+        <svg
+          width="50"
+          height="30"
+          viewBox="0 0 50 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 15H42M42 15L29 2M42 15L29 28"
+            stroke="black"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </div>
       <div
         @click="closeDescription()"
@@ -83,6 +98,7 @@ export default {
     this.initSwiper();
     this.updateSwiperOnMediaLoad();
   },
+
   methods: {
     isSelectedPage() {
       if (this.$route.name === "selected-page") {
@@ -105,12 +121,13 @@ export default {
       return (this.showDescription = true);
     },
     closeDescription() {
-      console.log(this.showDescription);
       if (this.showDescription === true) {
-        return this.showDescription = false;
+        return (this.showDescription = false);
+      } else {
+        return;
       }
-      return;
     },
+
     initSwiper() {
       this.swiper = this.$refs.projectSwiper.swiper;
     },
@@ -163,12 +180,15 @@ export default {
   margin: auto; /* Centers the content if it's smaller than its container */
 }
 .about-card {
-  text-align: left;
+  text-align: center;
   font-size: 50px;
-  /* Center slide text vertically */
-
-  background-color: #fff;
-  max-width: 100%;
+  max-width: auto;
+  padding: 10vw;
+}
+h3 {
+  margin: 0;
+  padding: 0;
+  font-family: Kommuna Demo;
 }
 .project-description {
   position: fixed;
@@ -183,9 +203,8 @@ export default {
   border-radius: 10px; /* Optional: for rounded corners */
   background-color: rgba(137, 137, 137, 0.37);
   border-radius: 8px;
-  padding: 8px 16px;
   backdrop-filter: blur(10px);
-  font-family: Kommuna Demo;
+  font-family: GreedTRIAL-SemiBold;
 }
 
 @media (max-width: 600px) {

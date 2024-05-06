@@ -9,13 +9,13 @@ export default {
   components: { Footer, Project },
   data() {
     return {
-      masonryKey: 0, // ключ для пересоздания компонента Masonry
+      masonryKey: 0, 
     };
   },
   mounted() {
     setTimeout(() => {
-      this.masonryKey++; // Изменение ключа вызовет пересоздание компонента
-    }, 100); // задержка 500 мс
+      this.masonryKey++; 
+    }, 100); 
   },
 };
 </script>

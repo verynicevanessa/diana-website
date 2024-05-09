@@ -39,6 +39,7 @@
       <video
         v-if="isVideo(media)"
         :src="media.url"
+        :ref="`videoElement-${index}`"
         class="media-item"
         autoplay
         muted
@@ -47,6 +48,8 @@
       >
         Your browser does not support the video tag.
       </video>
+      <button v-if="isVideo(media)" @click="toggleSound(index)" class="sound-toggle">Toggle Sound</button>
+
       <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
         <h3>About {{ media.name }}</h3>
         <svg
@@ -97,6 +100,7 @@ export default {
   mounted() {
     this.initSwiper();
     this.updateSwiperOnMediaLoad();
+    console.log("Component mounted. Methods:", this.toggleSound);
   },
 
   methods: {
@@ -138,6 +142,14 @@ export default {
         media.src = image.url;
       });
     },
+    toggleSound(index) {
+    console.log("Toggling sound for video index:", index);
+    const videoEl = this.$refs[`videoElement-${index}`][0];
+    if (videoEl) {
+      videoEl.muted = !videoEl.muted;
+    }
+  }
+
   },
   watch: {
     $route() {
@@ -206,6 +218,42 @@ h3 {
   backdrop-filter: blur(10px);
   font-family: GreedTRIAL-SemiBold;
 }
+.swiper-slide button {
+    top: 5%; /* Adjust based on your design */
+    right: 5%; /* Adjust based on your design */
+    padding: 10px;
+    background-color: #FFF; /* Button background color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .sound-toggle {
+  background-color: #333; /* Dark background */
+  border: none; /* No border */
+  color: white; /* White icon */
+  font-size: 16px; /* Icon size, adjust as needed */
+  padding: 10px; /* Padding around the icon */
+  border-radius: 50%; /* Circular button */
+  cursor: pointer; /* Pointer cursor on hover */
+  display: flex; /* Centering the icon */
+  align-items: center; /* Align icon vertically */
+  justify-content: center; /* Align icon horizontally */
+  width: 40px; /* Specific width */
+  height: 40px; /* Specific height */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Optional: shadow for depth */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.sound-toggle:hover {
+  background-color: #555; /* Slightly lighter on hover */
+}
+
+.sound-toggle:active {
+  background-color: #222; /* Slightly darker when clicked */
+}
+
 
 @media (max-width: 600px) {
   .swiper-slide {

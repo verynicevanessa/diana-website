@@ -181,13 +181,24 @@ initMuteStates() {
   });
 },
 
-  toggleSound(index) {
-    this.mutedStates[index] = !this.mutedStates[index];
+toggleSound(index) {
+  this.mutedStates[index] = !this.mutedStates[index];
+  this.$nextTick(() => {
     const videoElement = this.$refs[`videoElement-${index}`][0];
     if (videoElement) {
       videoElement.muted = this.mutedStates[index];
+      if (!videoElement.muted) { // Force play to ensure sound can be heard
+        videoElement.play().catch(e => {
+          console.error('Error attempting to play video:', e);
+          this.mutedStates[index] = true; // Revert if play fails
+        });
+      }
+    } else {
+      console.error('Video element not found');
     }
-  },
+  });
+}
+
 
   
   },
@@ -304,14 +315,14 @@ h3 {
   transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
-.sound-toggle:hover {
-  background-color: #ffffff8e; /* Slightly lighter on hover */
-}
+/* .sound-toggle:hover {
+  background-color: #ffffff8e;
+*/
 
-.sound-toggle:active {
-  background-color: #ffffff3a; /* Slightly darker when clicked */
+/* .sound-toggle:active {
+  background-color: #ffffff3a; 
   opacity: 0;
-}
+} */ 
 
 
 @media (max-width: 600px) {
@@ -341,4 +352,13 @@ h3 {
     top: auto;
   }
 }
+/* Enhance this by also checking the pointer accuracy */
+
+/* For touch screens with coarse pointers, disable hover effects */
+@media (hover: none) or (pointer: coarse) {
+  .button:hover {
+    background-color: initial;
+  }
+}
+
 </style>

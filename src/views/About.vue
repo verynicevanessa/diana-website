@@ -27,8 +27,8 @@
         <div v-html="aboutInfo[section].html" class="about-links"></div>
       </div>
     </div>
-    <Footer />
   </section>
+  <Footer />
 </template>
 
 <script>

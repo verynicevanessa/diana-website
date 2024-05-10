@@ -304,7 +304,7 @@ h3 {
 }
 
 .sound-toggle:hover {
-  background-color: #555; /* Slightly lighter on hover */
+  background-color: #ffffff8e; /* Slightly lighter on hover */
 }
 
 .sound-toggle:active {

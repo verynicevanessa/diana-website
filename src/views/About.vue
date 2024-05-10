@@ -144,9 +144,9 @@ beforeUnmount() {
 
 h1 {
   text-align: center;
-  font-family: GreedTRIAL-SemiBold;
+  font-family: GreedNarrow-SemiBold;
   z-index: 100;
-  font-weight: 400;
+  font-weight: normal;
   font-size: clamp(50px, 6vw, 70px);
   /* text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5); */
   /* filter: blur(0.01em) saturate(2); */

@@ -50,7 +50,8 @@
         Your browser does not support the video tag.
       </video>
       <button v-if="isVideo(media)" @click="toggleSound(index)" class="sound-toggle">
-        <svg viewBox="0 0 48 35.11" fill="#fff" xmlns="http://www.w3.org/2000/svg"><g id="Layer_2" data-name="Layer 2"><g id="Icon"><path d="m20.92.53-10.92 7.02h-6a4 4 0 0 0 -4 4v12a4 4 0 0 0 4 4h6l10.92 7a2 2 0 0 0 3.08-1.66v-30.67a2 2 0 0 0 -3.08-1.69z"/><path d="m31.07 27.46a2 2 0 0 1 0-2.83 10 10 0 0 0 0-14.15 2 2 0 0 1 2.83-2.82 14 14 0 0 1 0 19.8 2 2 0 0 1 -2.83 0z"/><path d="m38.14 34.53a2 2 0 0 1 0-2.83 20 20 0 0 0 0-28.29 2 2 0 0 1 2.86-2.82 24 24 0 0 1 0 33.94 2 2 0 0 1 -2.86 0z"/></g></g></svg>
+        T
+        <!-- <svg viewBox="0 0 48 35.11" fill="#fff" xmlns="http://www.w3.org/2000/svg"><g id="Layer_2" data-name="Layer 2"><g id="Icon"><path d="m20.92.53-10.92 7.02h-6a4 4 0 0 0 -4 4v12a4 4 0 0 0 4 4h6l10.92 7a2 2 0 0 0 3.08-1.66v-30.67a2 2 0 0 0 -3.08-1.69z"/><path d="m31.07 27.46a2 2 0 0 1 0-2.83 10 10 0 0 0 0-14.15 2 2 0 0 1 2.83-2.82 14 14 0 0 1 0 19.8 2 2 0 0 1 -2.83 0z"/><path d="m38.14 34.53a2 2 0 0 1 0-2.83 20 20 0 0 0 0-28.29 2 2 0 0 1 2.86-2.82 24 24 0 0 1 0 33.94 2 2 0 0 1 -2.86 0z"/></g></g></svg> -->
       </button>
     </div>
       <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
@@ -208,7 +209,7 @@ initMuteStates() {
 }
 
 .swiper-container {
-  height: 1000;
+  height: 100%;
 }
 .swiper-slide {
   text-align: center;
@@ -327,6 +328,10 @@ h3 {
   object-fit: contain; 
  
   margin: auto; /* Centers the content if it's smaller than its container */
+}
+
+.video-container {
+  max-height: 50vh;
 }
   
   .project-description {

@@ -36,20 +36,23 @@
         alt="Project Image"
         class="media-item"
       />
+      <div v-if="isVideo(media)" class="video-container">
       <video
         v-if="isVideo(media)"
         :src="media.url"
         :ref="`videoElement-${index}`"
         class="media-item"
         autoplay
-        muted
+        muted="mutedStates[index]"
         loop
         playsinline
       >
         Your browser does not support the video tag.
       </video>
-      <button v-if="isVideo(media)" @click="toggleSound(index)" class="sound-toggle">Toggle Sound</button>
-
+      <button v-if="isVideo(media)" @click="toggleSound(index)" class="sound-toggle">
+        <svg viewBox="0 0 48 35.11" fill="#fff" xmlns="http://www.w3.org/2000/svg"><g id="Layer_2" data-name="Layer 2"><g id="Icon"><path d="m20.92.53-10.92 7.02h-6a4 4 0 0 0 -4 4v12a4 4 0 0 0 4 4h6l10.92 7a2 2 0 0 0 3.08-1.66v-30.67a2 2 0 0 0 -3.08-1.69z"/><path d="m31.07 27.46a2 2 0 0 1 0-2.83 10 10 0 0 0 0-14.15 2 2 0 0 1 2.83-2.82 14 14 0 0 1 0 19.8 2 2 0 0 1 -2.83 0z"/><path d="m38.14 34.53a2 2 0 0 1 0-2.83 20 20 0 0 0 0-28.29 2 2 0 0 1 2.86-2.82 24 24 0 0 1 0 33.94 2 2 0 0 1 -2.86 0z"/></g></g></svg>
+      </button>
+    </div>
       <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
         <h3>About {{ media.name }}</h3>
         <svg
@@ -95,15 +98,51 @@ export default {
     return {
       isSelectedPage: false,
       showDescription: false,
+      mutedStates: {},
+      swiper: null,
     };
   },
+ 
   mounted() {
+  this.$nextTick(() => {
     this.initSwiper();
-    this.updateSwiperOnMediaLoad();
-    console.log("Component mounted. Methods:", this.toggleSound);
-  },
+    if (this.swiper) {
+      this.attachSwiperListeners();
+      this.initMuteStates();
+    } else {
+      console.error("Swiper instance not available.");
+    }
+  });
+},
+
 
   methods: {
+    initSwiper() {
+  this.swiper = this.$refs.projectSwiper.swiper;
+  if (this.swiper) {
+    this.attachSwiperListeners();
+    this.initMuteStates();
+  } else {
+    console.error("Swiper instance not available.");
+  }
+},
+
+attachSwiperListeners() {
+  if (this.swiper) {
+    this.swiper.on('breakpoint', () => {
+      this.$forceUpdate();
+    });
+  } else {
+    console.error("Attempted to attach listeners to an uninitialized Swiper instance.");
+  }
+},
+
+updateSwiperOnMediaLoad() {
+    if (this.swiper) {
+      this.swiper.update();
+    }
+  },
+
     isSelectedPage() {
       if (this.$route.name === "selected-page") {
         return (isSelectedPage = true);
@@ -132,24 +171,24 @@ export default {
       }
     },
 
-    initSwiper() {
-      this.swiper = this.$refs.projectSwiper.swiper;
-    },
-    updateSwiperOnMediaLoad() {
-      this.images.forEach((image) => {
-        const media = new Image();
-        media.onload = () => this.swiper.update();
-        media.src = image.url;
-      });
-    },
-    toggleSound(index) {
-    console.log("Toggling sound for video index:", index);
-    const videoEl = this.$refs[`videoElement-${index}`][0];
-    if (videoEl) {
-      videoEl.muted = !videoEl.muted;
-    }
-  }
 
+initMuteStates() {
+  this.images.forEach((item, index) => {
+    if (this.isVideo(item)) {
+      this.mutedStates[index] = true; // Directly set each video as muted initially
+    }
+  });
+},
+
+  toggleSound(index) {
+    this.mutedStates[index] = !this.mutedStates[index];
+    const videoElement = this.$refs[`videoElement-${index}`][0];
+    if (videoElement) {
+      videoElement.muted = this.mutedStates[index];
+    }
+  },
+
+  
   },
   watch: {
     $route() {
@@ -186,11 +225,25 @@ export default {
 
 .swiper-slide img,
 .swiper-slide video {
-  max-height: 100%; /* Ensures the content is not wider than its container */
-  max-width: auto; /* Ensures the content does not exceed the viewport height */
-  object-fit: contain; /* Resizes the content to fit within the container while maintaining its aspect ratio */
+  width: 100%; /* Full width of the container */
+  height: 100%; /* Full height of the container */
+  object-fit: contain; 
+ 
   margin: auto; /* Centers the content if it's smaller than its container */
 }
+
+.video-container {
+  width: auto;
+  height: 100%;
+  position: relative;
+}
+
+.video-container video{
+  width: 100%; /* Full width of the container */
+  height: 100%; /* Full height of the container */
+  object-fit: contain; 
+}
+
 .about-card {
   text-align: center;
   font-size: 50px;
@@ -216,33 +269,37 @@ h3 {
   background-color: rgba(137, 137, 137, 0.37);
   border-radius: 8px;
   backdrop-filter: blur(10px);
-  font-family: GreedTRIAL-SemiBold;
+  font-family: GreedNarrow-SemiBold;
 }
 .swiper-slide button {
-    top: 5%; /* Adjust based on your design */
-    right: 5%; /* Adjust based on your design */
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
     padding: 10px;
-    background-color: #FFF; /* Button background color */
+    background-color: #ffffff46; /* Button background color */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 50;
   }
 
-  .sound-toggle {
+
+
+.sound-toggle {
+  margin: auto;
   background-color: #333; /* Dark background */
   border: none; /* No border */
-  color: white; /* White icon */
+  color: rgb(172, 172, 172); /* White icon */
   font-size: 16px; /* Icon size, adjust as needed */
   padding: 10px; /* Padding around the icon */
   border-radius: 50%; /* Circular button */
   cursor: pointer; /* Pointer cursor on hover */
   display: flex; /* Centering the icon */
-  align-items: center; /* Align icon vertically */
-  justify-content: center; /* Align icon horizontally */
+  align-items: center; 
+  justify-content: center;
   width: 40px; /* Specific width */
   height: 40px; /* Specific height */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Optional: shadow for depth */
+
   transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
@@ -251,7 +308,8 @@ h3 {
 }
 
 .sound-toggle:active {
-  background-color: #222; /* Slightly darker when clicked */
+  background-color: #ffffff3a; /* Slightly darker when clicked */
+  opacity: 0;
 }
 
 

@@ -1,11 +1,11 @@
 @font-face {
-  font-family: GreedTRIAL-SemiBold;
-  src: local('GreedNarrowTRIAL-SemiBold'), url('@/assets/GreedNarrowTRIAL-SemiBold.woff') format('woff');
+  font-family: GreedNarrow-SemiBold;
+  src: local('GreedNarrow-SemiBold'), url('@/assets/GreedNarrow-SemiBold.otf') format('opentype');
 }
 
 @font-face {
   font-family: Kommuna Demo;
-  src: local('kommuna_demo_400_narrow-webfont.woff'), url('@/assets/kommuna_demo_400_narrow-webfont.woff') format('woff');
+  src: local('KommunaNarrow1.10.woff'), url('@/assets/KommunaNarrow1.10.woff') format('woff');
 }
 
 body, a {

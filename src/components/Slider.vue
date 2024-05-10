@@ -323,7 +323,12 @@ h3 {
   .swiper-slide video {
     max-width: max-content;
     max-height: 50vh;
-  }
+  width: auto; /* Full width of the container */
+  object-fit: contain; 
+ 
+  margin: auto; /* Centers the content if it's smaller than its container */
+}
+  
   .project-description {
     position: fixed;
     /* left: 0;

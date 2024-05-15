@@ -37,23 +37,22 @@
         class="media-item"
       />
       <div v-if="isVideo(media)" class="video-container">
-      <video
-        v-if="isVideo(media)"
-        :src="media.url"
-        :ref="`videoElement-${index}`"
-        class="media-item"
-        autoplay
-        muted="mutedStates[index]"
-        loop
-        playsinline
-      >
-        Your browser does not support the video tag.
-      </video>
-      <button v-if="isVideo(media)" @click="toggleSound(index)" class="sound-toggle">
-        T
-        <!-- <svg viewBox="0 0 48 35.11" fill="#fff" xmlns="http://www.w3.org/2000/svg"><g id="Layer_2" data-name="Layer 2"><g id="Icon"><path d="m20.92.53-10.92 7.02h-6a4 4 0 0 0 -4 4v12a4 4 0 0 0 4 4h6l10.92 7a2 2 0 0 0 3.08-1.66v-30.67a2 2 0 0 0 -3.08-1.69z"/><path d="m31.07 27.46a2 2 0 0 1 0-2.83 10 10 0 0 0 0-14.15 2 2 0 0 1 2.83-2.82 14 14 0 0 1 0 19.8 2 2 0 0 1 -2.83 0z"/><path d="m38.14 34.53a2 2 0 0 1 0-2.83 20 20 0 0 0 0-28.29 2 2 0 0 1 2.86-2.82 24 24 0 0 1 0 33.94 2 2 0 0 1 -2.86 0z"/></g></g></svg> -->
-      </button>
-    </div>
+        <video
+          v-if="isVideo(media)"
+          :src="media.url"
+          :ref="`videoElement-${index}`"
+          class="media-item"
+          autoplay
+          :muted="mutedStates[index]"
+          loop
+          playsinline
+        >
+          Your browser does not support the video tag.
+        </video>
+        <button v-if="isVideo(media)" @click="toggleSound(index)" class="sound-toggle">
+          <img :src="buttonImageStates[index] ? '/src/assets/DLW-Sound-On.svg' : '/src/assets/DLW-Sound-Off.svg'">
+        </button>
+      </div>
       <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
         <h3>About {{ media.name }}</h3>
         <svg
@@ -100,50 +99,45 @@ export default {
       isSelectedPage: false,
       showDescription: false,
       mutedStates: {},
+      buttonImageStates: {}, // New data property for button image states
       swiper: null,
     };
   },
- 
   mounted() {
-  this.$nextTick(() => {
-    this.initSwiper();
-    if (this.swiper) {
-      this.attachSwiperListeners();
-      this.initMuteStates();
-    } else {
-      console.error("Swiper instance not available.");
-    }
-  });
-},
-
-
+    this.$nextTick(() => {
+      this.initSwiper();
+      if (this.swiper) {
+        this.attachSwiperListeners();
+        this.initMuteStates();
+      } else {
+        console.error("Swiper instance not available.");
+      }
+    });
+  },
   methods: {
     initSwiper() {
-  this.swiper = this.$refs.projectSwiper.swiper;
-  if (this.swiper) {
-    this.attachSwiperListeners();
-    this.initMuteStates();
-  } else {
-    console.error("Swiper instance not available.");
-  }
-},
-
-attachSwiperListeners() {
-  if (this.swiper) {
-    this.swiper.on('breakpoint', () => {
-      this.$forceUpdate();
-    });
-  } else {
-    console.error("Attempted to attach listeners to an uninitialized Swiper instance.");
-  }
-},
-
-updateSwiperOnMediaLoad() {
-    if (this.swiper) {
-      this.swiper.update();
-    }
-  },
-
+      this.swiper = this.$refs.projectSwiper.swiper;
+      if (this.swiper) {
+        this.attachSwiperListeners();
+        this.initMuteStates();
+      } else {
+        console.error("Swiper instance not available.");
+      }
+    },
+    attachSwiperListeners() {
+      if (this.swiper) {
+        this.swiper.on('breakpoint', () => {
+          this.$forceUpdate();
+        });
+      } else {
+        console.error("Attempted to attach listeners to an uninitialized Swiper instance.");
+      }
+    },
+    updateSwiperOnMediaLoad() {
+      if (this.swiper) {
+        this.swiper.update();
+      }
+    },
     isSelectedPage() {
       if (this.$route.name === "selected-page") {
         return (isSelectedPage = true);
@@ -171,36 +165,33 @@ updateSwiperOnMediaLoad() {
         return;
       }
     },
-
-
-initMuteStates() {
-  this.images.forEach((item, index) => {
-    if (this.isVideo(item)) {
-      this.mutedStates[index] = true; // Directly set each video as muted initially
+    initMuteStates() {
+      this.images.forEach((item, index) => {
+        if (this.isVideo(item)) {
+          this.mutedStates[index] = true; // Directly set each video as muted initially
+          this.buttonImageStates[index] = false; // Initialize button image states to "sound off"
+        }
+      });
+    },
+    toggleSound(index) {
+      this.mutedStates[index] = !this.mutedStates[index];
+      this.buttonImageStates[index] = !this.buttonImageStates[index]; // Toggle the button image state
+      this.$nextTick(() => {
+        const videoElement = this.$refs[`videoElement-${index}`][0];
+        if (videoElement) {
+          videoElement.muted = this.mutedStates[index];
+          if (!videoElement.muted) { // Force play to ensure sound can be heard
+            videoElement.play().catch(e => {
+              console.error('Error attempting to play video:', e);
+              this.mutedStates[index] = true; // Revert if play fails
+              this.buttonImageStates[index] = false; // Revert button image state if play fails
+            });
+          }
+        } else {
+          console.error('Video element not found');
+        }
+      });
     }
-  });
-},
-
-toggleSound(index) {
-  this.mutedStates[index] = !this.mutedStates[index];
-  this.$nextTick(() => {
-    const videoElement = this.$refs[`videoElement-${index}`][0];
-    if (videoElement) {
-      videoElement.muted = this.mutedStates[index];
-      if (!videoElement.muted) { // Force play to ensure sound can be heard
-        videoElement.play().catch(e => {
-          console.error('Error attempting to play video:', e);
-          this.mutedStates[index] = true; // Revert if play fails
-        });
-      }
-    } else {
-      console.error('Video element not found');
-    }
-  });
-}
-
-
-  
   },
   watch: {
     $route() {
@@ -288,20 +279,16 @@ h3 {
     top: 10px; /* Adjust as needed */
     right: 10px; /* Adjust as needed */
     padding: 10px;
-    background-color: #ffffff46; /* Button background color */
+    background-color: #ffffff00;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     z-index: 50;
   }
 
-
-
 .sound-toggle {
   margin: auto;
-  background-color: #333; /* Dark background */
   border: none; /* No border */
-  color: rgb(172, 172, 172); /* White icon */
   font-size: 16px; /* Icon size, adjust as needed */
   padding: 10px; /* Padding around the icon */
   border-radius: 50%; /* Circular button */
@@ -311,19 +298,8 @@ h3 {
   justify-content: center;
   width: 40px; /* Specific width */
   height: 40px; /* Specific height */
-
   transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
-
-/* .sound-toggle:hover {
-  background-color: #ffffff8e;
-*/
-
-/* .sound-toggle:active {
-  background-color: #ffffff3a; 
-  opacity: 0;
-} */ 
-
 
 @media (max-width: 600px) {
   .swiper-slide {
@@ -335,24 +311,20 @@ h3 {
   .swiper-slide video {
     max-width: max-content;
     max-height: 50vh;
-  width: auto; /* Full width of the container */
-  object-fit: contain; 
- 
-  margin: auto; /* Centers the content if it's smaller than its container */
-}
+    width: auto; /* Full width of the container */
+    object-fit: contain; 
+    margin: auto; /* Centers the content if it's smaller than its container */
+  }
 
-.video-container {
-  max-height: 50vh;
-}
+  .video-container {
+    max-height: 50vh;
+  }
   
   .project-description {
     position: fixed;
-    /* left: 0;
-  right: 0; */
     top: auto;
   }
 }
-/* Enhance this by also checking the pointer accuracy */
 
 /* For touch screens with coarse pointers, disable hover effects */
 @media (hover: none) or (pointer: coarse) {
@@ -360,5 +332,4 @@ h3 {
     background-color: initial;
   }
 }
-
 </style>

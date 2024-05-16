@@ -3,18 +3,14 @@ import CablesPatch from "@/components/CablesPatch.vue"; //imported in root for p
 import useProjectData from "@/mixins/useProjectData";
 import loadingMixin from "@/mixins/loadingMixin";
 import WelcomeAnimation from "@/components/WelcomeAnimation.vue";
+import { formatProjectsData } from "@/utils/utils";
 </script>
 
 <template>
   <WelcomeAnimation v-if="isLoading"></WelcomeAnimation>
   <div class="canvasContainer">
-    <CablesPatch
-      v-if="projects.length"
-      patchDir="/patch_blink_6/"
-      :patchOptions="{ glCanvasResizeToWindow: true }"
-      :projectsData="mappedData"
-      @patch-loaded="handlePatchLoaded"
-    />
+    <CablesPatch v-if="projects.length" patchDir="/patch_blink_6/" :patchOptions="{ glCanvasResizeToWindow: true }"
+      :projectsData="mappedData" @patch-loaded="handlePatchLoaded" />
   </div>
 </template>
 
@@ -46,7 +42,7 @@ export default {
 
       if (arrayOfIdsString.length === 3) {
         this.$store.commit("selectProjects", arrayOfIdsString);
-        CABLES.patch.setVariable("outroAnimation",true);
+        CABLES.patch.setVariable("outroAnimation", true);
 
         // Start a timeout to redirect after 4 seconds
         this.timeoutId = setTimeout(() => {
@@ -56,7 +52,7 @@ export default {
       }
       // or after another "blink" or click
       if (arrayOfIdsString.length === 4) {
-        clearTimeout(this.timeoutId); 
+        clearTimeout(this.timeoutId);
         this.$router.push("/selected-projects");
       }
     },
@@ -84,37 +80,10 @@ export default {
         console.error("Target element for observing is not available");
       }
     },
-  
-    async disableCameraAccess() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        const tracks = stream.getTracks();
-
-        tracks.forEach((track) => {
-          track.stop();
-          track.enabled = false;
-          console.log(`Track ${track.kind} stopped and disabled`);
-        });
-      } catch (error) {
-        console.log("Error", error);
-      }
-    },
- 
   },
   computed: {
     mappedData() {
-      return; //REMOVE TO FETCH FROM CMS
-      return {
-        items: this.projects
-          // .filter((o) => o.heroImage.mimeType.indexOf("video") < 0) // Filter out "video"
-          .map((o) => ({
-            id: o.id,
-            url: o.heroImage.url,
-            mime: o.heroImage.mimeType,
-          })),
-      };
+      return formatProjectsData(this.projects, 12); // Format the projects data for the Cables patch
     },
   },
 
@@ -126,7 +95,7 @@ export default {
     }
     // disableCameraAccess();
   },
-  
+
 };
 </script>
 
@@ -135,9 +104,10 @@ export default {
   height: 100vh;
   overflow: hidden;
 }
-.canvasContainer video{
-  left:0;
-  top:0;
+
+.canvasContainer video {
+  left: 0;
+  top: 0;
   position: fixed;
   overflow: hidden;
 }

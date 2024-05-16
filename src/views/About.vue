@@ -11,7 +11,7 @@
     <div v-else-if="aboutInfo">
       <div class="canvasContainer">
       <CablesPatch
-      patchDir="/patch_3D_scan/"
+      patchDir="/patch_diiana_selfie/"
       :patchOptions="{ glCanvasResizeToWindow: true }"
       />
       </div>
@@ -167,8 +167,6 @@ h1 {
   pointer-events: none;
 }
 
-
-
 .about-title {
   font-size: clamp(12px, 2vw, 16px);
   margin-top: clamp(20px, 10vw, 200px);
@@ -197,12 +195,15 @@ h1 {
 }
 
 .canvasContainer{
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 #glcanvas{
   width: 100%;
-  height: 100%;
+  height: 100vh;
   z-index: 0;
 }
 

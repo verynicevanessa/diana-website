@@ -20,6 +20,7 @@ export default {
       type: Array
     }
   },
+  
   computed: {
     mergedPatchOptions() {
       const defaultOptions = {
@@ -34,7 +35,6 @@ export default {
           showUI: false
         }
       };
-      console.log(this.projectsData);
       return {...defaultOptions, ...this.patchOptions }
     }
   },
@@ -65,3 +65,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.canvasContainer, #glcanvas {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+}
+</style>

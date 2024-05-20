@@ -9,7 +9,7 @@ import { formatProjectsData } from "@/utils/utils";
 <template>
   <WelcomeAnimation v-if="isLoading"></WelcomeAnimation>
   <div class="canvasContainer">
-    <CablesPatch v-if="projects.length" patchDir="/patch_blink_6/" :patchOptions="{ glCanvasResizeToWindow: true }"
+    <CablesPatch v-if="projects.length" patchDir="/patch_blink/" :patchOptions="{ glCanvasResizeToWindow: true }"
       :projectsData="mappedData" @patch-loaded="handlePatchLoaded" />
   </div>
 </template>
@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     mappedData() {
-      return formatProjectsData(this.projects, 12); // Format the projects data for the Cables patch
+      return {"items": formatProjectsData(this.projects, 12)}; // Format the projects data for the Cables patch
     },
   },
 

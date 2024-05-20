@@ -195,16 +195,19 @@ h1 {
 }
 
 .canvasContainer{
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 0;
   z-index: -1;
+  /* overflow-x: hidden; */
+  margin: auto;
 }
 
 #glcanvas{
   width: 100%;
   height: 100vh;
   z-index: 0;
+  margin: auto;
 }
 
 @media (max-width: 768px) {

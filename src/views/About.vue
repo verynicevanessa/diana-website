@@ -17,7 +17,10 @@
       />
       </div>
       <!-- <video src="/dianafrosted_0430_02.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->
+      <FixedElement>
       <img src="/DLW-Visual-Re.png" class="about-logo">
+      </FixedElement>
+      
       <h1 v-html="aboutInfo.aboutText.html"></h1>
       
       

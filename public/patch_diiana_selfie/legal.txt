@@ -10,7 +10,6 @@ Public Domain:
 
 MIT:
 
-- glmatrix by toji (https://github.com/toji/gl-matrix)
 - DRACO Compression Loader by three.js (https://github.com/mrdoob/three.js/blob/master/examples/jsm/loaders/DRACOLoader.js)
 
  Apache-2.0 License :

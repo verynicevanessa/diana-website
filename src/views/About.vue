@@ -2,6 +2,7 @@
   import CablesPatch from '@/components/CablesPatch.vue'
   import { request } from 'graphql-request';
   import Footer from '@/components/Footer.vue';
+  import FixedElement from '@/components/FixedElement.vue';
 </script>
 
 <template>
@@ -33,6 +34,10 @@
 
 <script>
 export default {
+  components: {
+    FixedElement
+  },
+  
   data() {
     return {
         aboutInfo: null, // Initialize aboutInfo
@@ -154,16 +159,8 @@ h1 {
 }
 
 .about-logo {
-  /* width: 100%;  */
-  width: 50%;
-  height: auto; 
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* min-width: 100%; 
-  min-height: 100%;  */
-  z-index: 100;
+  width: 50vw;
+  height: auto;
   pointer-events: none;
 }
 
@@ -195,22 +192,33 @@ h1 {
 }
 
 .canvasContainer{
-  /* position: fixed; */
-  top: 0;
-  left: 0;
-  z-index: -1;
-  /* overflow-x: hidden; */
-  margin: auto;
+  margin: -3em;
+  min-height: 300px;
+  overflow: hidden;
+  margin-bottom: -3em;
+  cursor: inherit;
 }
 
 #glcanvas{
-  width: 100%;
-  height: 100vh;
-  z-index: 0;
-  margin: auto;
+  position: relative;
+  transform: translate(-50%,0);
+  left: 50%;
+  height: 90vh !important;
+  width: auto;
+  cursor: inherit !important;
 }
 
 @media (max-width: 768px) {
+  .about-logo {
+    width: 80vw;
+    height: auto;
+    pointer-events: none;
+  }
+  #glcanvas {
+    margin-top: -1em;
+    height: 80vh !important;
+  }
+  
     #about-page {
         margin-top: 10%;
     }

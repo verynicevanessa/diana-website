@@ -30,32 +30,10 @@
       :key="index"
       class="swiper-slide"
     >
-      <img
-        v-if="isImage(media)"
-        :src="media.url"
-        alt="Project Image"
-        class="media-item"
-      />
-      <div v-if="isVideo(media)" class="video-container">
-        <video
-          v-if="isVideo(media)"
-          :src="media.url"
-          :ref="`videoElement-${index}`"
-          class="media-item"
-          autoplay
-          :muted="mutedStates[index]"
-          loop
-          playsinline
-        >
-          Your browser does not support the video tag.
-        </video>
-        <button v-if="isVideo(media)" @click="toggleSound(index)" class="sound-toggle">
-          <img :src="buttonImageStates[index] ? '/src/assets/DLW-Sound-On.svg' : '/src/assets/DLW-Sound-Off.svg'">
-        </button>
-      </div>
       <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
         <h3>About {{ media.name }}</h3>
         <svg
+        class="arrow-icon"
           width="50"
           height="30"
           viewBox="0 0 50 30"
@@ -71,6 +49,30 @@
           />
         </svg>
       </div>
+      <template v-else>
+        <img
+          v-if="isImage(media)"
+          :src="media.url"
+          alt="Project Image"
+          class="media-item"
+        />
+        <div v-else-if="isVideo(media)" class="video-container">
+          <video
+            :src="media.url"
+            :ref="`videoElement-${index}`"
+            class="media-item"
+            autoplay
+            :muted="mutedStates[index]"
+            loop
+            playsinline
+          >
+            Your browser does not support the video tag.
+          </video>
+          <button @click="toggleSound(index)" class="sound-toggle">
+            <img :src="buttonImageStates[index] ? '/src/assets/DLW-Sound-On.svg' : '/src/assets/DLW-Sound-Off.svg'">
+          </button>
+        </div>
+      </template>
       <div
         @click="closeDescription()"
         v-if="showDescription"
@@ -82,6 +84,7 @@
     </SwiperSlide>
   </swiper-container>
 </template>
+
 
 <script>
 import { register } from "swiper/element/bundle";
@@ -205,6 +208,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .swiper {
   height: 100%;
@@ -323,6 +327,9 @@ h3 {
   .project-description {
     position: fixed;
     top: auto;
+  }
+  .arrow-icon {
+    transform: rotate(90deg); /* Rotate the arrow 90 degrees to point down */
   }
 }
 

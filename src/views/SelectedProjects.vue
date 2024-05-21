@@ -33,11 +33,18 @@ export default {
     },
     selectedProjectsImages() {
       return this.selectedProjects.reduce((acc, item) => {
-        return [
-          ...acc,
-          ...item.projectimages,
-          {type: "link", name: item.projectName, slug: item.projectSlug, description: item.projectDescription},
-        ];
+        // Add the about card first
+        acc.push({
+          type: "link",
+          name: item.projectName,
+          slug: item.projectSlug,
+          description: item.projectDescription,
+        });
+
+        // Then add the project images
+        acc.push(...item.projectimages);
+        
+        return acc;
       }, []);
     },
   },

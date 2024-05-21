@@ -44,59 +44,65 @@ export default {
   },
   mixins: [useProjectData],
   methods: {
-    navigateToPreviousProject() {
-      let prevSlug;
-      const currentIndex = this.projects.findIndex(
-        (p) => p.id === this.project.id
-      );
-      if (currentIndex > 0) {
-        prevSlug = this.projects[currentIndex - 1].projectSlug;
-      } else {
-        console.log("No previous project found, looping to last project");
-        prevSlug = this.projects[this.projects.length - 1].projectSlug;
-      }
-      this.$router.push({
-        name: "ProjectDetail",
-        params: { projectSlug: prevSlug },
-      }).then(() => {
-        this.resetSwiper();
-      });
-    },
-    navigateToNextProject() {
-      let nextSlug;
-      const currentIndex = this.projects.findIndex(
-        (p) => p.id === this.project.id
-      );
-      if (currentIndex >= 0 && currentIndex < this.projects.length - 1) {
-        nextSlug = this.projects[currentIndex + 1].projectSlug;
-      } else {
-        console.log("No next project found, looping to first project");
-        nextSlug = this.projects[0].projectSlug;
-      }
-      this.$router.push({
-        name: "ProjectDetail",
-        params: { projectSlug: nextSlug },
-      }).then(() => {
-        this.resetSwiper();
-      });
-    },
-    toggleDescription() {
-      this.showDescription = !this.showDescription;
-    },
-    closeDescriptionOutside(event) {
-      if (
-        this.showDescription &&
-        this.$refs.description &&
-        !this.$refs.description.contains(event.target)
-      ) {
-        this.showDescription = false;
-      }
-    },
-    resetSwiper() {
-      console.log('Resetting Swiper');
-      this.$refs.slider.resetSwiper();
-    },
+  navigateToPreviousProject() {
+    let prevSlug;
+    const currentIndex = this.projects.findIndex(
+      (p) => p.id === this.project.id
+    );
+    if (currentIndex > 0) {
+      prevSlug = this.projects[currentIndex - 1].projectSlug;
+    } else {
+      console.log("No previous project found, looping to last project");
+      prevSlug = this.projects[this.projects.length - 1].projectSlug;
+    }
+    this.$router.push({
+      name: "ProjectDetail",
+      params: { projectSlug: prevSlug },
+    }).then(() => {
+      this.resetSwiper();
+      this.muteAllVideos(); // Ensure all videos are muted
+    });
   },
+  navigateToNextProject() {
+    let nextSlug;
+    const currentIndex = this.projects.findIndex(
+      (p) => p.id === this.project.id
+    );
+    if (currentIndex >= 0 && currentIndex < this.projects.length - 1) {
+      nextSlug = this.projects[currentIndex + 1].projectSlug;
+    } else {
+      console.log("No next project found, looping to first project");
+      nextSlug = this.projects[0].projectSlug;
+    }
+    this.$router.push({
+      name: "ProjectDetail",
+      params: { projectSlug: nextSlug },
+    }).then(() => {
+      this.resetSwiper();
+      this.muteAllVideos(); // Ensure all videos are muted
+    });
+  },
+  toggleDescription() {
+    this.showDescription = !this.showDescription;
+  },
+  closeDescriptionOutside(event) {
+    if (
+      this.showDescription &&
+      this.$refs.description &&
+      !this.$refs.description.contains(event.target)
+    ) {
+      this.showDescription = false;
+    }
+  },
+  resetSwiper() {
+    console.log('Resetting Swiper');
+    this.$refs.slider.resetSwiper();
+  },
+  muteAllVideos() {
+    this.$refs.slider.muteAllVideos();
+  },
+},
+
   watch: {
     projectSlug() {
       this.resetSwiper();

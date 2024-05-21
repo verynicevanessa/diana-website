@@ -4,7 +4,6 @@ import Work from '../views/Work.vue'
 import MakeDecision from '../views/MakeDecision.vue'
 import SelectedProjects from '../views/SelectedProjects.vue'
 import ProjectDetail from '@/views/ProjectDetail.vue'
-// import ProjectDetail from '@/views/ProjectDetail.vue'
 
 
 const router = createRouter({

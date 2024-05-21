@@ -65,6 +65,7 @@
             autoplay
             :muted="mutedStates[index]"
             loop
+            muted
             playsinline
           >
             Your browser does not support the video tag.

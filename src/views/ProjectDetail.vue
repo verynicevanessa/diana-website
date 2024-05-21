@@ -5,7 +5,7 @@ import Slider from "@/components/Slider.vue";
 <template>
   <div v-if="project" class="project-page">
     <!-- Swiper -->
-    <Slider :images="project.projectimages" />
+    <Slider ref="slider" :images="project.projectimages" />
 
     <!-- Previous and Next buttons -->
     <div class="project-navigation"></div>
@@ -58,6 +58,8 @@ export default {
       this.$router.push({
         name: "ProjectDetail",
         params: { projectSlug: prevSlug },
+      }).then(() => {
+        this.resetSwiper();
       });
     },
     navigateToNextProject() {
@@ -68,12 +70,14 @@ export default {
       if (currentIndex >= 0 && currentIndex < this.projects.length - 1) {
         nextSlug = this.projects[currentIndex + 1].projectSlug;
       } else {
-        console.log("No next project found, looping to last project");
+        console.log("No next project found, looping to first project");
         nextSlug = this.projects[0].projectSlug;
       }
       this.$router.push({
         name: "ProjectDetail",
         params: { projectSlug: nextSlug },
+      }).then(() => {
+        this.resetSwiper();
       });
     },
     toggleDescription() {
@@ -88,6 +92,15 @@ export default {
         this.showDescription = false;
       }
     },
+    resetSwiper() {
+      console.log('Resetting Swiper');
+      this.$refs.slider.resetSwiper();
+    },
+  },
+  watch: {
+    projectSlug() {
+      this.resetSwiper();
+    },
   },
   computed: {
     projectSlug() {
@@ -99,6 +112,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .project-page {

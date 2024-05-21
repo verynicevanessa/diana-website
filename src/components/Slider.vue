@@ -24,6 +24,7 @@
       900: { slidesPerView: 2, spaceBetween: 10 },
       1200: { slidesPerView: 3, spaceBetween: 10 },
     }"
+    @slideChange="onSlideChange"
   >
     <SwiperSlide
       v-for="(media, index) in images"
@@ -33,7 +34,7 @@
       <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
         <h3>About {{ media.name }}</h3>
         <svg
-        class="arrow-icon"
+          class="arrow-icon"
           width="50"
           height="30"
           viewBox="0 0 50 30"
@@ -85,7 +86,6 @@
   </swiper-container>
 </template>
 
-
 <script>
 import { register } from "swiper/element/bundle";
 
@@ -112,6 +112,7 @@ export default {
       if (this.swiper) {
         this.attachSwiperListeners();
         this.initMuteStates();
+        this.muteAllVideos(); // Ensure all videos are muted when component mounts
       } else {
         console.error("Swiper instance not available.");
       }
@@ -194,6 +195,32 @@ export default {
           console.error('Video element not found');
         }
       });
+    },
+    resetSwiper() {
+      if (this.swiper) {
+        console.log('Resetting Swiper to the first slide');
+        this.swiper.slideTo(0, 0); // Reset to the first slide without transition
+      }
+    },
+    muteAllVideos() {
+      this.$nextTick(() => {
+        console.log('Muting all videos');
+        this.images.forEach((item, index) => {
+          if (this.isVideo(item)) {
+            const videoElement = this.$refs[`videoElement-${index}`][0];
+            if (videoElement) {
+              videoElement.muted = true;
+              this.mutedStates[index] = true;
+              this.buttonImageStates[index] = false;
+              console.log(`Muted video at index ${index}`);
+            }
+          }
+        });
+      });
+    },
+    onSlideChange() {
+      console.log('Slide changed');
+      this.muteAllVideos();
     }
   },
   watch: {

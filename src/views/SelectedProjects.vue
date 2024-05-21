@@ -7,7 +7,16 @@ import Slider from "@/components/Slider.vue";
     <Slider
       v-if="selectedProjectsImages.length"
       :images="selectedProjectsImages"
+      @toggle-description="toggleDescription"
     />
+    <div
+      v-if="showDescription"
+      @click="closeDescription"
+      ref="description"
+      class="project-description"
+    >
+      <p>{{ selectedProjectDescription }}</p>
+    </div>
   </main>
 </template>
 
@@ -17,6 +26,12 @@ import useProjectData from "@/mixins/useProjectData";
 
 export default {
   mixins: [useProjectData],
+  data() {
+    return {
+      showDescription: false,
+      selectedProjectDescription: '',
+    };
+  },
   mounted() {
     this.swiper = document.querySelector("swiper-container");
   },
@@ -48,13 +63,43 @@ export default {
       }, []);
     },
   },
+  methods: {
+    toggleDescription(description) {
+      this.selectedProjectDescription = description;
+      this.showDescription = !this.showDescription;
+    },
+    closeDescription() {
+      this.showDescription = false;
+    },
+  },
   components: { Project },
 };
 </script>
 
-<style>
+<style scoped>
 main {
   width: 100vw;
   height: 100vh;
+  position: relative;
+}
+
+.project-description {
+  font-size: 30px;
+  color: black; /* Text color */
+  max-width: 800px; /* Or any max-width or width you prefer */
+  z-index: 10; /* Ensure it's above other content */
+  border-radius: 10px; /* Optional: for rounded corners */
+  background-color: rgba(137, 137, 137, 0.37);
+  border-radius: 8px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.project-description p {
+  font-family: Kommuna Demo;
 }
 </style>

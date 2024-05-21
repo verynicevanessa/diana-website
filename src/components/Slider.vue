@@ -31,7 +31,7 @@
       :key="index"
       class="swiper-slide"
     >
-      <div v-if="isAboutLink(media)" @click="aboutProject()" class="about-card">
+      <div v-if="isAboutLink(media)" @click="toggleDescription(media.description)" class="about-card">
         <h3>About {{ media.name }}</h3>
         <svg
           class="arrow-icon"
@@ -75,14 +75,6 @@
           </button>
         </div>
       </template>
-      <div
-        @click="closeDescription()"
-        v-if="showDescription"
-        ref="description"
-        class="project-description"
-      >
-        <p>{{ media.description }}</p>
-      </div>
     </SwiperSlide>
   </swiper-container>
 </template>
@@ -160,15 +152,8 @@ export default {
         return false;
       return media.mimeType.startsWith("video/");
     },
-    aboutProject() {
-      return (this.showDescription = true);
-    },
-    closeDescription() {
-      if (this.showDescription === true) {
-        return (this.showDescription = false);
-      } else {
-        return;
-      }
+    toggleDescription(description) {
+      this.$emit('toggle-description', description);
     },
     initMuteStates() {
       this.images.forEach((item, index) => {
@@ -236,7 +221,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .swiper {
   height: 100%;
@@ -273,7 +257,7 @@ export default {
   position: relative;
 }
 
-.video-container video{
+.video-container video {
   width: 100%; /* Full width of the container */
   height: 100%; /* Full height of the container */
   object-fit: contain; 
@@ -289,22 +273,6 @@ h3 {
   margin: 0;
   padding: 0;
   font-family: Kommuna Demo;
-}
-.project-description {
-  position: fixed;
-  /* left: 0;
-  right: 0; */
-  top: 40%;
-  margin: auto;
-  font-size: 30px;
-  color: black; /* Text color */
-  max-width: 800px; /* Or any max-width or width you prefer */
-  z-index: 10; /* Ensure it's above other content */
-  border-radius: 10px; /* Optional: for rounded corners */
-  background-color: rgba(137, 137, 137, 0.37);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
-  font-family: GreedNarrow-SemiBold;
 }
 .swiper-slide button {
     position: absolute;
@@ -330,8 +298,8 @@ h3 {
   justify-content: center;
   width: 40px; /* Specific width */
   height: 40px; /* Specific height */
-
 }
+
 .sound-toggle img {
   width: 24px; /* Adjust size as needed */
   height: 24px; /* Adjust size as needed */

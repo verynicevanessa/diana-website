@@ -3,7 +3,7 @@
     class="swiper"
     ref="projectSwiper"
     :slidesPerView="2"
-    :spaceBetween="30"
+    :spaceBetween="1"
     :loop="true"
     :grid="{
       rows: 2,
@@ -22,7 +22,7 @@
       },
       600: { slidesPerView: 2, spaceBetween: 10 },
       900: { slidesPerView: 2, spaceBetween: 10 },
-      1200: { slidesPerView: 3, spaceBetween: 10 },
+      1200: { slidesPerView: 2, spaceBetween: 10 },
     }"
     @slideChange="onSlideChange"
   >
@@ -330,7 +330,12 @@ h3 {
   justify-content: center;
   width: 40px; /* Specific width */
   height: 40px; /* Specific height */
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
+
+}
+.sound-toggle img {
+  width: 24px; /* Adjust size as needed */
+  height: 24px; /* Adjust size as needed */
+  mix-blend-mode: difference; /* Adjust blend mode as needed */
 }
 
 @media (max-width: 600px) {

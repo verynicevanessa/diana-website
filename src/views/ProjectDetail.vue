@@ -121,13 +121,15 @@ export default {
 
 
 <style scoped>
-.project-page {
+.main {
   width: 100vw;
   height: 100vh;
+  position: relative;
 }
 
 .project-name {
-  position: absolute;
+  /* position: absolute; */
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
@@ -195,12 +197,24 @@ export default {
 @media (max-width: 650px) {
   .project-page {
     width: 100vw;
-    height: 90vh;
+    height: 95vh;
   }
 
   .project-description {
     font-size: 15px;
     max-width: 80%;
+  }
+  .project-name {
+    padding: 0 20px;
+  }
+  
+}
+/* For touch screens with coarse pointers, disable hover effects */
+@media (hover: none) or (pointer: coarse) {
+  .project-navigation:hover,
+  .previous:hover,
+.next:hover {
+    background-color: initial;
   }
 }
 </style>

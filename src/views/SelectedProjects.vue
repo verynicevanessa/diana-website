@@ -80,7 +80,6 @@ export default {
 main {
   width: 100vw;
   height: 100vh;
-  position: relative;
 }
 
 .project-description {
@@ -101,5 +100,11 @@ main {
 
 .project-description p {
   font-family: Kommuna Demo;
+}
+@media (max-width: 650px) {
+  .project-description {
+    font-size: 18px;
+    max-width: 90%;
+  }
 }
 </style>

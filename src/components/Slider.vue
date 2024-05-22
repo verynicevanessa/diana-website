@@ -13,8 +13,8 @@
     :breakpoints="{
       320: {
         slidesPerView: 1,
-        spaceBetween: 10,
         direction: 'vertical',
+        spaceBetween: 30,
         loop: false,
         grid: {
           rows: 1,
@@ -26,7 +26,7 @@
     }"
     @slideChange="onSlideChange"
   >
-    <SwiperSlide
+    <swiper-slide
       v-for="(media, index) in images"
       :key="index"
       class="swiper-slide"
@@ -71,11 +71,11 @@
             Your browser does not support the video tag.
           </video>
           <button @click="toggleSound(index)" class="sound-toggle">
-            <img :src="buttonImageStates[index] ? '/src/assets/DLW-Sound-On.svg' : '/src/assets/DLW-Sound-Off.svg'">
+            <img :src="buttonImages[index]" alt="Sound Toggle">
           </button>
         </div>
       </template>
-    </SwiperSlide>
+    </swiper-slide>
   </swiper-container>
 </template>
 
@@ -96,6 +96,7 @@ export default {
       showDescription: false,
       mutedStates: {},
       buttonImageStates: {}, // New data property for button image states
+      buttonImages: [],
       swiper: null,
     };
   },
@@ -109,6 +110,7 @@ export default {
       } else {
         console.error("Swiper instance not available.");
       }
+      this.initButtonImages();
     });
   },
   methods: {
@@ -207,7 +209,19 @@ export default {
     onSlideChange() {
       console.log('Slide changed');
       this.muteAllVideos();
+    },
+    async initButtonImages() {
+    for (let i = 0; i < this.images.length; i++) {
+      if (this.isVideo(this.images[i])) {
+        this.buttonImages[i] = await this.getButtonImageSrc(i);
+      }
     }
+  },
+  async getButtonImageSrc(index) {
+    const soundOnSrc = await import('@/assets/DLW-Sound-On.svg');
+    const soundOffSrc = await import('@/assets/DLW-Sound-Off.svg');
+    return this.buttonImageStates[index] ? soundOnSrc.default : soundOffSrc.default;
+  },
   },
   watch: {
     $route() {
@@ -222,115 +236,151 @@ export default {
 </script>
 
 <style scoped>
-.swiper {
+#app {
   height: 100%;
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.swiper {
+  width: 80vw;
+  height: 100vh;
 }
 
 .swiper-container {
-  height: 100%;
+  height: 100vh;
+  height: -webkit-fill-available;
 }
+
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  background: #fff;
 
   /* Center slide text vertically */
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .swiper-slide img,
-.swiper-slide video {
-  width: 100%; /* Full width of the container */
-  height: 100%; /* Full height of the container */
-  object-fit: contain; 
- 
-  margin: auto; /* Centers the content if it's smaller than its container */
+.swiper-slide video,
+.video-container {
+  display: block;
+  height: 100%;
+  max-width: 100%;
 }
 
-.video-container {
-  width: auto;
-  height: 100%;
+.video-container{
   position: relative;
 }
 
-.video-container video {
-  width: 100%; /* Full width of the container */
-  height: 100%; /* Full height of the container */
-  object-fit: contain; 
+.sound-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.sound-toggle img {
+  width: 24px;
+  height: 24px;
+  mix-blend-mode: difference;
 }
 
 .about-card {
   text-align: center;
   font-size: 50px;
-  max-width: auto;
+  max-width: 100%;
   padding: 10vw;
 }
+
 h3 {
   margin: 0;
   padding: 0;
   font-family: Kommuna Demo;
 }
-.swiper-slide button {
-    position: absolute;
-    top: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
-    padding: 10px;
-    background-color: #ffffff00;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 50;
-  }
 
-.sound-toggle {
-  margin: auto;
-  border: none; /* No border */
-  font-size: 16px; /* Icon size, adjust as needed */
-  padding: 10px; /* Padding around the icon */
-  border-radius: 50%; /* Circular button */
-  cursor: pointer; /* Pointer cursor on hover */
-  display: flex; /* Centering the icon */
-  align-items: center; 
-  justify-content: center;
-  width: 40px; /* Specific width */
-  height: 40px; /* Specific height */
-}
-
-.sound-toggle img {
-  width: 24px; /* Adjust size as needed */
-  height: 24px; /* Adjust size as needed */
-  mix-blend-mode: difference; /* Adjust blend mode as needed */
-}
 
 @media (max-width: 600px) {
   .swiper-slide {
+  margin-left: 0 !important;
+}
+  .project-page {
+    height: 90%;
+    position: relative;
+    padding: 10%;
+  }
+  .swiper-container {
+    height: 90%;
+    width: 90%;
+    align-items: center; 
+  }
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-slide {
     overflow-x: visible;
     overflow-y: visible;
-    padding: 20vh;
   }
   .swiper-slide img,
   .swiper-slide video {
-    max-width: max-content;
-    max-height: 50vh;
-    width: auto; /* Full width of the container */
-    object-fit: contain; 
-    margin: auto; /* Centers the content if it's smaller than its container */
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin-left: 0px !important;
   }
 
-  .video-container {
-    max-height: 50vh;
-  }
-  
+  /* .video-container {
+    display: block;
+    width: 85vw;
+    height: 100%;
+    object-fit: contain;
+  } */
+
+  .video-container{
+  position: relative;
+  max-height: 40%;
+}
+
+
+  .sound-toggle img {
+  width: 24px;
+  height: 24px;
+}
+
+
   .project-description {
     position: fixed;
     top: auto;
   }
   .arrow-icon {
-    transform: rotate(90deg); /* Rotate the arrow 90 degrees to point down */
+    transform: rotate(90deg);
   }
 }
 

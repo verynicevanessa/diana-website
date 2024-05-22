@@ -2,8 +2,8 @@
   <swiper-container
     class="swiper"
     ref="projectSwiper"
-    :slidesPerView="2"
-    :spaceBetween="1"
+    :slidesPerView="3"
+    :spaceBetween="10"
     :loop="true"
     :grid="{
       rows: 2,
@@ -22,7 +22,7 @@
       },
       600: { slidesPerView: 2, spaceBetween: 10 },
       900: { slidesPerView: 2, spaceBetween: 10 },
-      1200: { slidesPerView: 2, spaceBetween: 10 },
+      1200: { slidesPerView: 3, spaceBetween: 10 },
     }"
     @slideChange="onSlideChange"
   >
@@ -256,13 +256,12 @@ body {
 }
 
 .swiper {
-  width: 80vw;
+  width: 100vw;
   height: 100vh;
 }
 
 .swiper-container {
   height: 100vh;
-  height: -webkit-fill-available;
 }
 
 .swiper-slide {
@@ -281,7 +280,7 @@ body {
 .video-container {
   display: block;
   height: 100%;
-  max-width: 100%;
+  width: auto;
 }
 
 .video-container{
@@ -290,7 +289,7 @@ body {
 
 .sound-toggle {
   position: absolute;
-  top: 10px;
+  top: 20px;
   right: 10px;
   background-color: transparent;
   border: none;

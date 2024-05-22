@@ -90,4 +90,10 @@ export default {
 .project-wrapper:hover .project-name {
   opacity: 1;
 } */
+@media (hover: none) or (pointer: coarse) {
+  .project-wrapper:hover img,
+.project-wrapper:hover video {
+    filter: initial;
+  }
+}
 </style>

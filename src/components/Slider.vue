@@ -73,6 +73,8 @@
           <button @click="toggleSound(index)" class="sound-toggle">
             <img :src="buttonImages[index]" alt="Sound Toggle">
           </button>
+
+
         </div>
       </template>
     </swiper-slide>
@@ -81,6 +83,7 @@
 
 <script>
 import { register } from "swiper/element/bundle";
+
 
 register();
 
@@ -165,9 +168,25 @@ export default {
         }
       });
     },
+    // toggleSound(index) {
+    //   this.mutedStates[index] = !this.mutedStates[index];
+    //   this.buttonImageStates[index] = !this.buttonImageStates[index];
+      
+    //   const videoElement = this.$refs[`videoElement-${index}`][0];
+    //   if (videoElement) {
+    //     videoElement.muted = this.mutedStates[index];
+    //     if (!videoElement.muted) {
+    //       videoElement.play().catch(e => {
+    //         this.mutedStates[index] = true;
+    //         this.buttonImageStates[index] = false;
+    //       });
+    //     }
+    //   }
+    // },
     toggleSound(index) {
       this.mutedStates[index] = !this.mutedStates[index];
       this.buttonImageStates[index] = !this.buttonImageStates[index]; // Toggle the button image state
+      this.updateButtonImage(index); // Update the button image
       this.$nextTick(() => {
         const videoElement = this.$refs[`videoElement-${index}`][0];
         if (videoElement) {
@@ -177,6 +196,7 @@ export default {
               console.error('Error attempting to play video:', e);
               this.mutedStates[index] = true; // Revert if play fails
               this.buttonImageStates[index] = false; // Revert button image state if play fails
+              this.updateButtonImage(index); // Update the button image
             });
           }
         } else {
@@ -184,6 +204,7 @@ export default {
         }
       });
     },
+
     resetSwiper() {
       if (this.swiper) {
         console.log('Resetting Swiper to the first slide');
@@ -211,17 +232,20 @@ export default {
       this.muteAllVideos();
     },
     async initButtonImages() {
-    for (let i = 0; i < this.images.length; i++) {
-      if (this.isVideo(this.images[i])) {
-        this.buttonImages[i] = await this.getButtonImageSrc(i);
+      for (let i = 0; i < this.images.length; i++) {
+        if (this.isVideo(this.images[i])) {
+          this.buttonImages[i] = await this.getButtonImageSrc(i);
+        }
       }
+    },
+    async getButtonImageSrc(index) {
+      const soundOnSrc = await import('@/assets/DLW-Sound-On.svg');
+      const soundOffSrc = await import('@/assets/DLW-Sound-Off.svg');
+      return this.buttonImageStates[index] ? soundOnSrc.default : soundOffSrc.default;
+    },
+    async updateButtonImage(index) {
+      this.buttonImages[index] = await this.getButtonImageSrc(index);
     }
-  },
-  async getButtonImageSrc(index) {
-    const soundOnSrc = await import('@/assets/DLW-Sound-On.svg');
-    const soundOffSrc = await import('@/assets/DLW-Sound-Off.svg');
-    return this.buttonImageStates[index] ? soundOnSrc.default : soundOffSrc.default;
-  },
   },
   watch: {
     $route() {
@@ -327,10 +351,15 @@ h3 {
     padding: 10%;
   }
   .swiper-container {
-    height: 90%;
-    width: 90%;
+    height: 90vh;
+    width: 90vw;
     align-items: center; 
   }
+  .swiper {
+  width: 90vw;
+  height: 90vh;
+}
+
   .swiper-slide {
     text-align: center;
     font-size: 18px;
@@ -364,9 +393,14 @@ h3 {
 
   .video-container{
   position: relative;
-  max-height: 40%;
+  width: 100%;
 }
 
+.sound-toggle {
+  position: absolute;
+  top: 200px;
+  right: 10px;
+}
 
   .sound-toggle img {
   width: 24px;

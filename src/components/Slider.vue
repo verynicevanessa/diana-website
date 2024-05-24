@@ -398,7 +398,7 @@ h3 {
 
 .sound-toggle {
   position: absolute;
-  top: 200px;
+  top: 180px;
   right: 10px;
 }
 

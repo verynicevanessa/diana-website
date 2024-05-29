@@ -25,7 +25,7 @@
       
       
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
-      <div class="section" v-for="(section, index) in ['published', 'clients', 'previously_at', 'contact']" :key="index">
+      <div class="section" v-for="(section, index) in ['published', 'published', 'clients', 'previously_at', 'contact']" :key="index">
 
         <h2 class="about-title">{{ section.toUpperCase().replace("_", " ") }}</h2>
         <div v-html="aboutInfo[section].html" class="about-links"></div>
@@ -91,6 +91,7 @@ beforeUnmount() {
                 html
                 text
               }
+              publishedTitle
               published {
                 html
                 text
@@ -110,7 +111,7 @@ beforeUnmount() {
                 html
                 text
               }
-
+              claim
             }
           }
         `;

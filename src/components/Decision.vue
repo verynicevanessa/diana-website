@@ -21,7 +21,9 @@
       <div class="enter" v-if="permissionGiven">
 
         <h3>
-          You can only blink 3 times, choose wisely
+          Your eyes hold the key,<br>
+Projects chosen with a blink, just three.<br>
+So gaze thoroughly, and blink wisely.
         </h3>
         <div class="btn">
           <button @click="handleEnter">Enter</button>
@@ -121,7 +123,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: rgba(216 221 224 / 40%);
+  background-color: rgba(231, 235, 238, 0.4);
   backdrop-filter: blur(10px);
   border-radius: 18px;
   padding: 10px;

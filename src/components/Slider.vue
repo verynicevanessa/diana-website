@@ -270,14 +270,6 @@ body {
   height: 100%;
 }
 
-body {
-  background: #eee;
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  color: #000;
-  margin: 0;
-  padding: 0;
-}
 
 .swiper {
   width: 100vw;
@@ -291,7 +283,6 @@ body {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
 
   /* Center slide text vertically */
   display: flex;
@@ -304,7 +295,8 @@ body {
 .video-container {
   display: block;
   height: 100%;
-  max-width: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 
 .video-container{
@@ -363,7 +355,6 @@ h3 {
   .swiper-slide {
     text-align: center;
     font-size: 18px;
-    background: #fff;
 
     /* Center slide text vertically */
     display: flex; 

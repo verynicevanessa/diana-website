@@ -304,7 +304,7 @@ body {
 .video-container {
   display: block;
   height: 100%;
-  width: auto;
+  max-width: 100%;
 }
 
 .video-container{

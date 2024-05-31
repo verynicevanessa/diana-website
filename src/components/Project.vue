@@ -83,6 +83,7 @@ export default {
   transition: opacity 0.3s ease;
   mix-blend-mode: exclusion;
   opacity: 1;
+  text-align: center;
 }
 
 /*  I'm testing out if I want to keep this

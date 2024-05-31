@@ -32,7 +32,7 @@
       class="swiper-slide"
     >
       <div v-if="isAboutLink(media)" @click="toggleDescription(media.description)" class="about-card">
-        <h3>About {{ media.name }}</h3>
+        <h3>ABOUT {{ media.name }}</h3>
         <svg
           class="arrow-icon"
           width="50"

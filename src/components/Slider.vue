@@ -324,6 +324,7 @@ body {
   font-size: 50px;
   max-width: 100%;
   padding: 10vw;
+  line-height: 1;
 }
 
 h3 {

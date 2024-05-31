@@ -84,6 +84,7 @@ export default {
   mix-blend-mode: exclusion;
   opacity: 1;
   text-align: center;
+  line-height: 1;
 }
 
 /*  I'm testing out if I want to keep this

@@ -57,7 +57,7 @@ export default {
 .project-wrapper {
   position: relative;
   overflow: hidden; /* Hide overflow for consistent layout */
-  margin-bottom: 10px; /* Add vertical gap between projects */
+  /* margin-bottom: 10px; */
 }
 
 .project-wrapper:hover img,

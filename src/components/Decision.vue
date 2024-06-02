@@ -9,8 +9,7 @@
         
         <div class="proceed">
           <h3>
-            For a personal on-site experience, enable camera and let your mind
-            decide
+            {{ decision1 }}
           </h3>
           <div class="btn">
             <button @click="handleMe">Pass</button>
@@ -20,11 +19,9 @@
       </div>
       <div class="enter" v-if="permissionGiven">
 
-        <h3>
-          Your eyes hold the key,<br>
-Projects chosen with a blink, just three.<br>
-So gaze thoroughly, and blink wisely.
-        </h3>
+
+        <h3 v-html="decision2"></h3>
+
         <div class="btn">
           <button @click="handleEnter">Enter</button>
         </div>
@@ -34,37 +31,26 @@ So gaze thoroughly, and blink wisely.
 </template>
 
 <script>
-import { fetchProjects } from "@/api/api"; // Adjust the import path as needed
+import { fetchProjects, fetchAbout } from "@/api/api"; // Adjust the import path as needed
 
 export default {
   data() {
     return {
-      images: [],
-      currentIndex: 0,
       decisionMade: false,
       permissionGiven: false,
+      decision1: '',
+      decision2: '',
     };
   },
-  computed: {
-  currentMediaUrl() {
-    return this.images.length > 0 ? this.images[this.currentIndex].url : '';
-  },
-  currentMediaType() {
-    return this.images.length > 0 ? this.images[this.currentIndex].type : 'image';
-  },
-},
-
   async created() {
-  try {
-    const projects = await fetchProjects();
-    this.images = projects.map(project => ({
-      url: project.heroImage.url,
-      type: project.heroImage.mimeType.startsWith('video/') ? 'video' : 'image'
-    }));
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-  }
-},
+    try {
+      const aboutInfo = await fetchAbout();
+      this.decision1 = aboutInfo.decision1;
+      this.decision2 = aboutInfo.decision2.html;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  },
   methods: {
     handleMe() {
       this.$router.push("/projects");
@@ -78,14 +64,13 @@ export default {
           video: true,
         });
         window.currentStream = response;
-        console.log({currentStream});
+        console.log({ currentStream });
         this.permissionGiven = response.active;
       } catch (e) {
         this.$router.push("/blinking");
         console.log("Error", e);
       }
     },
-
     handleEnter() {
       this.$emit("proceed");
     },

@@ -1,22 +1,39 @@
 <script>
+import { fetchAbout } from '@/api/api.js'; // Import the fetchAbout function
+
 function calculateScrollbarWidth() {
   const bodySize = document.querySelector('body').offsetWidth;
-  const widnowSize = window.innerWidth;
+  const windowSize = window.innerWidth;
 
-  return widnowSize - bodySize;
+  return windowSize - bodySize;
 }
 
 export default {
+  data() {
+    return {
+      claim: '', // Initialize claim as an empty string
+    };
+  },
   computed: {
     projectsCount() {
       return this.$store.getters.projectsCount;
     },
   },
-  mounted() {
+  async mounted() {
     if (this.$store.state.loadedProjects.length === 0) {
       this.$store.dispatch("loadProjects");
     }
     document.body.style.overflow = "hidden";
+
+    // Fetch the about information
+    try {
+      const aboutInfo = await fetchAbout();
+      if (aboutInfo && aboutInfo.claim) {
+        this.claim = aboutInfo.claim;
+      }
+    } catch (error) {
+      console.error('Error fetching about info:', error);
+    }
   },
   beforeUnmount() {
     document.body.style.overflow = "auto";
@@ -28,28 +45,22 @@ export default {
   <div>
     <div class="menu-overlay-slide">
       <div class="overlay-text">
-        <p>STAY FROSTY LLC. © 2024</p>
+        <p class="claim">{{ claim }}</p>
         <div>
           <ul>
             <li class="list-item-icon">
-              <router-link @click="$emit('close-menu')" to="/projects"
-                >Projects<sup>{{ projectsCount }}</sup></router-link
-              >
+              <router-link @click="$emit('close-menu')" to="/projects">
+                Projects<sup>{{ projectsCount }}</sup>
+              </router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click="$emit('close-menu')" to="/about"
-                >About</router-link
-              >
+              <router-link @click="$emit('close-menu')" to="/about">About</router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click="$emit('close-menu')" to="/selected-projects"
-                >Selected</router-link
-              >
+              <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click="$emit('close-menu')" to="/"
-                >Restart</router-link
-              >
+              <router-link @click="$emit('close-menu')" to="/">Restart</router-link>
             </li>
           </ul>
         </div>

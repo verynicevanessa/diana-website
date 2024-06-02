@@ -1,9 +1,9 @@
 <script setup>
-  import CablesPatch from '@/components/CablesPatch.vue'
-  import { request } from 'graphql-request';
+ import CablesPatch from '@/components/CablesPatch.vue'
   import Footer from '@/components/Footer.vue';
   import FixedElement from '@/components/FixedElement.vue';
-</script>
+  import { fetchAbout, fetchAboutBlocks } from '@/api/api.js';
+  </script>
 
 <template>
   <section id="about-page">
@@ -25,115 +25,90 @@
       
       
       <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
-      <div class="section" v-for="(section, index) in ['published', 'published', 'clients', 'previously_at', 'contact']" :key="index">
+  
+      <!-- <div class="section" v-for="(section, index) in ['publishedTitle','published', 'published', 'clients', 'previously_at', 'contact']" :key="index">
 
         <h2 class="about-title">{{ section.toUpperCase().replace("_", " ") }}</h2>
-        <div v-html="aboutInfo[section].html" class="about-links"></div>
+        <div v-html="aboutInfo[section].html" class="about-links"></div> -->
+
+        <div v-for="(block, index) in aboutBlocks" :key="index" class="section">
+        <h2 class="about-title">{{ block.abouttitle }}</h2>
+        <div v-html="block.aboutblock.html" class="about-links"></div>
       </div>
+
+     
     </div>
   </section>
   <Footer />
 </template>
 
 <script>
-export default {
+ 
+ export default {
   components: {
+    CablesPatch,
+    Footer,
     FixedElement
   },
-  
   data() {
     return {
-        aboutInfo: null, // Initialize aboutInfo
-        richtextContent: '',
-        loading: true,
+      aboutInfo: null,
+      aboutBlocks: [], // Initialize aboutBlocks as an empty array
+      loading: true,
     };
   },
-  created() {
-    this.fetchAbout();
+  async mounted() {
+    this.loading = true;
+    await this.getAboutInfo();
+    await this.getAboutBlocks();
+    this.loading = false;
+
+    // Disable the logo when the component mounts
+    const logo = document.querySelector('.logo');
+    if (logo) {
+      logo.style.display = 'none'; // Hide the logo
+    }
+    const footerimg = document.querySelector('.footer-image');
+    if (footerimg) {
+      footerimg.style.display = 'none'; // Hide the logo
+    }
+    document.body.style.backgroundColor = '#bdc4cb';
+    document.body.style.backgroundColor = '#fff';
   },
-
-  mounted() {
-  // Disable the logo when the component mounts
-  const logo = document.querySelector('.logo');
-  if (logo) {
-    logo.style.display = 'none'; // Hide the logo
-  }
-  const footerimg = document.querySelector('.footer-image');
-  if (footerimg) {
-    footerimg.style.display = 'none'; // Hide the logo
-  }
-  document.body.style.backgroundColor = '#bdc4cb';
-  document.body.style.backgroundColor = '#fff';
-},
-
-beforeUnmount() {
-  // Reset the logo visibility when the component is about to be destroyed
-  const logo = document.querySelector('.logo');
-  if (logo) {
-    logo.style.display = ''; // Remove the inline style to reset its visibility
-  }
-  const footerimg = document.querySelector('.footer-image');
-  if (footerimg) {
-    footerimg.style.display = ''; // Hide the logo
-  }
-  document.body.style.backgroundColor = ''; 
-},
-
-
+  beforeUnmount() {
+    // Reset the logo visibility when the component is about to be destroyed
+    const logo = document.querySelector('.logo');
+    if (logo) {
+      logo.style.display = ''; // Remove the inline style to reset its visibility
+    }
+    const footerimg = document.querySelector('.footer-image');
+    if (footerimg) {
+      footerimg.style.display = ''; // Remove the inline style to reset its visibility
+    }
+    document.body.style.backgroundColor = '';
+  },
   methods: {
-    async fetchAbout() {
+    async getAboutInfo() {
       try {
-        const authToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MDczMjUzMDEsImF1ZCI6WyJodHRwczovL2FwaS11cy1lYXN0LTEtc2hhcmVkLXVzZWExLTAyLmh5Z3JhcGguY29tL3YyL2Nsczh6ZHl6NzFqaDMwMXczOWp4enZjOWsvbWFzdGVyIiwibWFuYWdlbWVudC1uZXh0LmdyYXBoY21zLmNvbSJdLCJpc3MiOiJodHRwczovL21hbmFnZW1lbnQtdXMtZWFzdC0xLXNoYXJlZC11c2VhMS0wMi5oeWdyYXBoLmNvbS8iLCJzdWIiOiI3ZDE0ZmI3NC01MGZhLTRkYTMtODMwMi00ZTBjYzIyODk5ZjciLCJqdGkiOiJjbHNjMWVobXQwMWdxMDFscTk0ZHNjOXBzIn0.TstUbA1fSKAzEGxJLofSbJe1PPSdiVl9s6lJMzhhHLSjxo-mCRp0_7j7sZuBjrKamNge_42qwl4omSngbiuloNirqolmC8c6QtFncBobjTYPblYRQqvQGE9ogHd5ZkLLJlXQEllcB-yoehxZB7vDCLFAt-t_b6y4rAnqIZqlA5scAF5hQJvgJYEmV4fm5aeUC3WE2PsG038umlGvoVt46Jr1xsbKQScgotO1EkRsusbSDwez8nr-u3RznKFBwLayJe8jxj0UbJXrvHaSdPNbog6j1xo6Y_6Gfv_qm9V-pVRfX-55XONj-Mag4Lrge_G9rw3t53E26UigxiwDpZtS8xiW_bdDCZDUp3l3z7TqTeOf996hHixz9Sp9mpreJw2b0bb2q9_uSBemCzZ6nJAzZma7Q_RCi9WP8rZS-TWKmp8P4nJ0qvibk57XtNfQiDnHQt5RWACS6LIrQT7hFLkj_NWvEUO1E_zAtiaUlEIVduTRQ355oCEtL-fs82iq6vELbXVnntX8zL6Q0iTwfJt7Iw_HE41dK7AOYjxIwBskUNk4O2QrmBWhfgpQd4AzpOiVvgLBbOo7nT3OT9JW7NnKE1IwPCygX_ZMnxvPSkoRLeOWqBkzLBgfOx81Y4WvpeaQ2uCEHQVsgoFwV8vNSWB6iXamCBaf7AC6MtEo3xYkcl0';
-        const query = `
-        query GetFirstAbout {
-            abouts(first: 1) {
-              aboutText {
-                html
-                text
-              }
-              publishedTitle
-              published {
-                html
-                text
-              }
-              aboutimage {
-                url
-              }
-              clients {
-                html
-                text
-              }
-              previously_at {
-                html
-                text
-              }
-              contact {
-                html
-                text
-              }
-              claim
-            }
-          }
-        `;
-        
-        const response = await request('https://api-us-east-1-shared-usea1-02.hygraph.com/v2/cls8zdyz71jh301w39jxzvc9k/master', query, null, {
-          Authorization: `Bearer ${authToken}`,
-        })
-        console.log(response, "=====");
-
-        this.aboutInfo = response.abouts[0]; 
-        this.loading = false;
+        const response = await fetchAbout();
+        console.log('About Info:', response); // Debug: Log the response
+        this.aboutInfo = response;
       } catch (error) {
         console.error('Error fetching about info:', error);
-        this.loading = false;
+      }
+    },
+    async getAboutBlocks() {
+      try {
+        const response = await fetchAboutBlocks();
+        console.log('About Blocks:', response); // Debug: Log the response
+        this.aboutBlocks = response;
+      } catch (error) {
+        console.error('Error fetching about blocks:', error);
       }
     },
   },
-  components: { Footer }
 };
-
 </script>
-
 
 
 

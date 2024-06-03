@@ -12,11 +12,13 @@ export default {
       masonryKey: 0, 
     };
   },
-  mounted() {
-    setTimeout(() => {
-      this.masonryKey++; 
-    }, 100); 
-  },
+  methods: {
+    onLayout() {
+      this.$nextTick(() => {
+        this.masonryKey++; // Trigger a re-render
+      });
+    }
+  }
 };
 </script>
 
@@ -28,6 +30,7 @@ export default {
     :column-width="200"
     :gap="16"
     :key="masonryKey"
+    @layout="onLayout"
     style="margin-top: 10vh"
   >
     <template #default="{ item, index }">

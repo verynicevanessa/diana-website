@@ -146,4 +146,3 @@ ul li a {
     margin: 10px 0; /* Adjust margin for vertical layout */
   }
 }
-</style>

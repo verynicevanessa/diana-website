@@ -42,8 +42,22 @@ export default {
       decision2: '',
     };
   },
+  computed: {
+  currentMediaUrl() {
+    return this.images.length > 0 ? this.images[this.currentIndex].url : '';
+  },
+  currentMediaType() {
+    return this.images.length > 0 ? this.images[this.currentIndex].type : 'image';
+  },
+},
+
   async created() {
     try {
+      const projects = await fetchProjects();
+      this.images = projects.map(project => ({
+      url: project.heroImage.url,
+      type: project.heroImage.mimeType.startsWith('video/') ? 'video' : 'image'
+    }));
       const aboutInfo = await fetchAbout();
       this.decision1 = aboutInfo.decision1;
       this.decision2 = aboutInfo.decision2.html;

@@ -250,6 +250,7 @@ export default {
     resetSwiper() {
       if (this.swiper) {
         this.swiper.slideTo(0, 0); // Reset to the first slide without transition
+        this.swiper.update(); // Force update after resetting
       }
     },
     onImageLoad() {
@@ -261,9 +262,11 @@ export default {
   },
   watch: {
     images() {
+      this.imagesLoaded = false;
       this.$nextTick(() => {
         if (this.swiper) {
           this.swiper.update();
+          this.resetSwiper(); // Ensure swiper is reset after images change
           this.muteAllVideos(); // Ensure all videos are muted after update
         }
       });

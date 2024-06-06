@@ -31,31 +31,34 @@
       :key="index"
       class="swiper-slide"
     >
-      <div v-if="isAboutLink(media)" @click="toggleDescription(media.description)" class="about-card">
-        <h3>ABOUT {{ media.name }}</h3>
-        <svg
-          class="arrow-icon"
-          width="50"
-          height="30"
-          viewBox="0 0 50 30"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2 15H42M42 15L29 2M42 15L29 28"
-            stroke="black"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </div>
+      <template v-if="isAboutLink(media)">
+        <div @click="toggleDescription(media.description)" class="about-card">
+          <h3>ABOUT {{ media.name }}</h3>
+          <svg
+            class="arrow-icon"
+            width="50"
+            height="30"
+            viewBox="0 0 50 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 15H42M42 15L29 2M42 15L29 28"
+              stroke="black"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </template>
       <template v-else>
         <img
           v-if="isImage(media)"
           :src="media.url"
           alt="Project Image"
           class="media-item"
+          @load="onImageLoad"
         />
         <div v-else-if="isVideo(media)" class="video-container">
           <video
@@ -63,18 +66,17 @@
             :ref="`videoElement-${index}`"
             class="media-item"
             autoplay
-            :muted="mutedStates[index]"
             loop
-            muted
             playsinline
+            muted
+            @loadedmetadata="checkForAudioTrack(index)"
+            @loadeddata="checkForAudioTrack(index)"
           >
             Your browser does not support the video tag.
           </video>
-          <button @click="toggleSound(index)" class="sound-toggle">
+          <button v-if="hasAudioTrack[index]" @click="toggleSound(index)" class="sound-toggle">
             <img :src="buttonImages[index]" alt="Sound Toggle">
           </button>
-
-
         </div>
       </template>
     </swiper-slide>
@@ -84,151 +86,114 @@
 <script>
 import { register } from "swiper/element/bundle";
 
-
 register();
 
 export default {
   props: {
     images: {
       type: Array,
+      required: true,
     },
   },
   data() {
     return {
-      isSelectedPage: false,
-      showDescription: false,
-      mutedStates: {},
-      buttonImageStates: {}, // New data property for button image states
+      mutedStates: [], // Initializing muted states for videos
+      buttonImageStates: [], // Initializing button image states for videos
       buttonImages: [],
+      hasAudioTrack: this.images.map(() => false),
       swiper: null,
+      imagesLoaded: false, // Track if images are loaded
     };
   },
   mounted() {
+    this.preloadIcons();
     this.$nextTick(() => {
       this.initSwiper();
-      if (this.swiper) {
-        this.attachSwiperListeners();
-        this.initMuteStates();
-        this.muteAllVideos(); // Ensure all videos are muted when component mounts
-      } else {
-        console.error("Swiper instance not available.");
-      }
-      this.initButtonImages();
+      this.waitForVideosToLoad();
     });
   },
   methods: {
+    async preloadIcons() {
+      const soundOnSrc = (await import('@/assets/DLW-Sound-On.svg')).default;
+      const soundOffSrc = (await import('@/assets/DLW-Sound-Off.svg')).default;
+
+      this.buttonImages = this.images.map(() => soundOffSrc);
+      this.buttonImageStates = this.images.map(() => false);
+
+      // Preload icons
+      new Image().src = soundOnSrc;
+      new Image().src = soundOffSrc;
+    },
     initSwiper() {
       this.swiper = this.$refs.projectSwiper.swiper;
       if (this.swiper) {
         this.attachSwiperListeners();
         this.initMuteStates();
-      } else {
-        console.error("Swiper instance not available.");
+        this.muteAllVideos();
       }
+      this.initButtonImages();
     },
     attachSwiperListeners() {
       if (this.swiper) {
         this.swiper.on('breakpoint', () => {
           this.$forceUpdate();
         });
-      } else {
-        console.error("Attempted to attach listeners to an uninitialized Swiper instance.");
-      }
-    },
-    updateSwiperOnMediaLoad() {
-      if (this.swiper) {
-        this.swiper.update();
-      }
-    },
-    isSelectedPage() {
-      if (this.$route.name === "selected-page") {
-        return (isSelectedPage = true);
       }
     },
     isAboutLink(media) {
       return media.type === "link";
     },
     isImage(media) {
-      if (!media || !media.url) return false;
       return media.mimeType.startsWith("image/");
     },
     isVideo(media) {
-      if (!media || !media.url || media.mimeType.startsWith("image/"))
-        return false;
       return media.mimeType.startsWith("video/");
     },
     toggleDescription(description) {
-      this.$emit('toggle-description', description);
+      this.$emit("toggle-description", description);
     },
     initMuteStates() {
       this.images.forEach((item, index) => {
         if (this.isVideo(item)) {
-          this.mutedStates[index] = true; // Directly set each video as muted initially
-          this.buttonImageStates[index] = false; // Initialize button image states to "sound off"
+          this.mutedStates[index] = true;
+          this.buttonImageStates[index] = false;
+          this.hasAudioTrack[index] = false;
         }
       });
     },
-    // toggleSound(index) {
-    //   this.mutedStates[index] = !this.mutedStates[index];
-    //   this.buttonImageStates[index] = !this.buttonImageStates[index];
-      
-    //   const videoElement = this.$refs[`videoElement-${index}`][0];
-    //   if (videoElement) {
-    //     videoElement.muted = this.mutedStates[index];
-    //     if (!videoElement.muted) {
-    //       videoElement.play().catch(e => {
-    //         this.mutedStates[index] = true;
-    //         this.buttonImageStates[index] = false;
-    //       });
-    //     }
-    //   }
-    // },
     toggleSound(index) {
       this.mutedStates[index] = !this.mutedStates[index];
-      this.buttonImageStates[index] = !this.buttonImageStates[index]; // Toggle the button image state
-      this.updateButtonImage(index); // Update the button image
+      this.buttonImageStates[index] = !this.buttonImageStates[index];
+      this.updateButtonImage(index);
       this.$nextTick(() => {
-        const videoElement = this.$refs[`videoElement-${index}`][0];
+        const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
         if (videoElement) {
           videoElement.muted = this.mutedStates[index];
-          if (!videoElement.muted) { // Force play to ensure sound can be heard
-            videoElement.play().catch(e => {
-              console.error('Error attempting to play video:', e);
-              this.mutedStates[index] = true; // Revert if play fails
-              this.buttonImageStates[index] = false; // Revert button image state if play fails
-              this.updateButtonImage(index); // Update the button image
+          if (!videoElement.muted) {
+            videoElement.play().catch((e) => {
+              this.mutedStates[index] = true;
+              this.buttonImageStates[index] = false;
+              this.updateButtonImage(index);
             });
           }
-        } else {
-          console.error('Video element not found');
         }
       });
-    },
-
-    resetSwiper() {
-      if (this.swiper) {
-        console.log('Resetting Swiper to the first slide');
-        this.swiper.slideTo(0, 0); // Reset to the first slide without transition
-      }
     },
     muteAllVideos() {
       this.$nextTick(() => {
-        console.log('Muting all videos');
         this.images.forEach((item, index) => {
           if (this.isVideo(item)) {
-            const videoElement = this.$refs[`videoElement-${index}`][0];
+            const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
             if (videoElement) {
               videoElement.muted = true;
               this.mutedStates[index] = true;
               this.buttonImageStates[index] = false;
-              console.log(`Muted video at index ${index}`);
             }
           }
         });
       });
     },
     onSlideChange() {
-      console.log('Slide changed');
       this.muteAllVideos();
     },
     async initButtonImages() {
@@ -239,19 +204,67 @@ export default {
       }
     },
     async getButtonImageSrc(index) {
-      const soundOnSrc = await import('@/assets/DLW-Sound-On.svg');
-      const soundOffSrc = await import('@/assets/DLW-Sound-Off.svg');
-      return this.buttonImageStates[index] ? soundOnSrc.default : soundOffSrc.default;
+      const soundOnSrc = (await import("@/assets/DLW-Sound-On.svg")).default;
+      const soundOffSrc = (await import("@/assets/DLW-Sound-Off.svg")).default;
+      return this.buttonImageStates[index] ? soundOnSrc : soundOffSrc;
     },
     async updateButtonImage(index) {
       this.buttonImages[index] = await this.getButtonImageSrc(index);
-    }
+    },
+    waitForVideosToLoad() {
+      this.images.forEach((item, index) => {
+        if (this.isVideo(item)) {
+          const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
+          if (videoElement) {
+            videoElement.onloadedmetadata = () => {
+              this.checkForAudioTrack(index);
+            };
+            videoElement.onloadeddata = () => {
+              this.checkForAudioTrack(index);
+            };
+          } else {
+            console.error(`Video element not found for index: ${index}`);
+          }
+        }
+      });
+    },
+    checkForAudioTrack(index) {
+      this.$nextTick(() => {
+        const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
+        console.log(`Checking audio for video index: ${index}`, videoElement);
+
+        if (videoElement && videoElement instanceof HTMLMediaElement) {
+          const hasAudio =
+            videoElement.mozHasAudio ||
+            Boolean(videoElement.webkitAudioDecodedByteCount) ||
+            (videoElement.audioTracks && videoElement.audioTracks.length > 0);
+
+          console.log(`Has audio: ${hasAudio}`);
+          this.hasAudioTrack[index] = hasAudio;
+          this.$forceUpdate();
+        } else {
+          console.error("Video element not found or not a media element for index: " + index);
+        }
+      });
+    },
+    resetSwiper() {
+      if (this.swiper) {
+        this.swiper.slideTo(0, 0); // Reset to the first slide without transition
+      }
+    },
+    onImageLoad() {
+      this.imagesLoaded = true;
+      if (this.swiper) {
+        this.swiper.update(); // Update swiper after image load
+      }
+    },
   },
   watch: {
-    $route() {
+    images() {
       this.$nextTick(() => {
         if (this.swiper) {
           this.swiper.update();
+          this.muteAllVideos(); // Ensure all videos are muted after update
         }
       });
     },
@@ -270,10 +283,10 @@ body {
   height: 100%;
 }
 
-
 .swiper {
   width: 100vw;
-  height: 100vh;
+  height: 94vh;
+  margin: auto 0;
 }
 
 .swiper-container {
@@ -299,24 +312,35 @@ body {
   object-fit: contain;
 }
 
-.video-container{
+.video-container {
   position: relative;
 }
 
 .sound-toggle {
   position: absolute;
-  top: 20px;
+  bottom: 10px;
   right: 10px;
   background-color: transparent;
   border: none;
   cursor: pointer;
   z-index: 50;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  background: #d9d9d91a;
+  border-radius: 87px;
+  height: 35px;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%);
+  width: 35px;
 }
 
 .sound-toggle img {
-  width: 24px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
   mix-blend-mode: difference;
+  margin: auto;
+  opacity: 0.5;
 }
 
 .about-card {
@@ -333,32 +357,35 @@ h3 {
   font-family: Kommuna Demo;
 }
 
-
 @media (max-width: 600px) {
   .swiper-slide {
-  margin-left: 0 !important;
-}
+    margin-left: 0 !important;
+  }
+
   .project-page {
     height: 90%;
     position: relative;
     padding: 10%;
   }
+
   .swiper-container {
     height: 90vh;
     width: 90vw;
-    align-items: center; 
+    align-items: center;
   }
+
   .swiper {
-  width: 90vw;
-  height: 90vh;
-}
+    width: 90vw;
+    height: 90vh;
+    margin: auto;
+  }
 
   .swiper-slide {
     text-align: center;
     font-size: 18px;
 
     /* Center slide text vertically */
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
   }
@@ -367,6 +394,7 @@ h3 {
     overflow-x: visible;
     overflow-y: visible;
   }
+
   .swiper-slide img,
   .swiper-slide video {
     display: block;
@@ -374,36 +402,30 @@ h3 {
     height: 100%;
     object-fit: contain;
     margin-left: 0px !important;
+    opacity: 1;
   }
 
-  /* .video-container {
-    display: block;
-    width: 85vw;
-    height: 100%;
-    object-fit: contain;
-  } */
+  .video-container {
+    position: relative;
+    width: 100%;
+  }
 
-  .video-container{
-  position: relative;
-  width: 100%;
-}
-
-.sound-toggle {
-  position: absolute;
-  top: 180px;
-  right: 10px;
-}
+  .sound-toggle {
+    position: absolute;
+    bottom: 80px;
+    right: 10px;
+  }
 
   .sound-toggle img {
-  width: 24px;
-  height: 24px;
-}
-
+    width: 24px;
+    height: 24px;
+  }
 
   .project-description {
     position: fixed;
     top: auto;
   }
+
   .arrow-icon {
     transform: rotate(90deg);
   }

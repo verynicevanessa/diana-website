@@ -13,7 +13,7 @@ import Slider from "@/components/Slider.vue";
     <div class="project-name">
       <h3 @click="navigateToPreviousProject" class="Previous">PREV</h3>
       <h3 @click.stop="toggleDescription" class="this-project">
-       {{ project.projectName }}
+        {{ project.projectName }}
       </h3>
       <h3 @click="navigateToNextProject" class="Next">NEXT</h3>
     </div>
@@ -32,7 +32,6 @@ import useProjectData from "@/mixins/useProjectData";
 export default {
   data() {
     return {
-      projectSlug: null,
       showDescription: false,
     };
   },
@@ -44,69 +43,85 @@ export default {
   },
   mixins: [useProjectData],
   methods: {
-  navigateToPreviousProject() {
-    let prevSlug;
-    const currentIndex = this.projects.findIndex(
-      (p) => p.id === this.project.id
-    );
-    if (currentIndex > 0) {
-      prevSlug = this.projects[currentIndex - 1].projectSlug;
-    } else {
-      console.log("No previous project found, looping to last project");
-      prevSlug = this.projects[this.projects.length - 1].projectSlug;
-    }
-    this.$router.push({
-      name: "ProjectDetail",
-      params: { projectSlug: prevSlug },
-    }).then(() => {
-      this.resetSwiper();
-      this.muteAllVideos(); // Ensure all videos are muted
-    });
-  },
-  navigateToNextProject() {
-    let nextSlug;
-    const currentIndex = this.projects.findIndex(
-      (p) => p.id === this.project.id
-    );
-    if (currentIndex >= 0 && currentIndex < this.projects.length - 1) {
-      nextSlug = this.projects[currentIndex + 1].projectSlug;
-    } else {
-      console.log("No next project found, looping to first project");
-      nextSlug = this.projects[0].projectSlug;
-    }
-    this.$router.push({
-      name: "ProjectDetail",
-      params: { projectSlug: nextSlug },
-    }).then(() => {
-      this.resetSwiper();
-      this.muteAllVideos(); // Ensure all videos are muted
-    });
-  },
-  toggleDescription() {
-    this.showDescription = !this.showDescription;
-  },
-  closeDescriptionOutside(event) {
-    if (
-      this.showDescription &&
-      this.$refs.description &&
-      !this.$refs.description.contains(event.target)
-    ) {
-      this.showDescription = false;
-    }
-  },
-  resetSwiper() {
-    console.log('Resetting Swiper');
-    this.$refs.slider.resetSwiper();
-  },
-  muteAllVideos() {
-    this.$refs.slider.muteAllVideos();
-  },
-},
-
-  watch: {
-    projectSlug() {
-      this.resetSwiper();
+    navigateToPreviousProject() {
+      let prevSlug;
+      const currentIndex = this.projects.findIndex(
+        (p) => p.id === this.project.id
+      );
+      if (currentIndex > 0) {
+        prevSlug = this.projects[currentIndex - 1].projectSlug;
+      } else {
+        console.log("No previous project found, looping to last project");
+        prevSlug = this.projects[this.projects.length - 1].projectSlug;
+      }
+      this.$router.push({
+        name: "ProjectDetail",
+        params: { projectSlug: prevSlug },
+      }).then(() => {
+        this.handleSliderResetAndMute();
+      });
     },
+    navigateToNextProject() {
+      let nextSlug;
+      const currentIndex = this.projects.findIndex(
+        (p) => p.id === this.project.id
+      );
+      if (currentIndex >= 0 && currentIndex < this.projects.length - 1) {
+        nextSlug = this.projects[currentIndex + 1].projectSlug;
+      } else {
+        console.log("No next project found, looping to first project");
+        nextSlug = this.projects[0].projectSlug;
+      }
+      this.$router.push({
+        name: "ProjectDetail",
+        params: { projectSlug: nextSlug },
+      }).then(() => {
+        this.handleSliderResetAndMute();
+      });
+    },
+    toggleDescription() {
+      this.showDescription = !this.showDescription;
+    },
+    closeDescriptionOutside(event) {
+      if (
+        this.showDescription &&
+        this.$refs.description &&
+        !this.$refs.description.contains(event.target)
+      ) {
+        this.showDescription = false;
+      }
+    },
+    handleSliderResetAndMute() {
+      this.$nextTick(() => {
+        if (this.$refs.slider) {
+          console.log('Slider ref is available.');
+          if (typeof this.$refs.slider.resetSwiper === 'function') {
+            console.log('Calling resetSwiper');
+            this.$refs.slider.resetSwiper();
+          } else {
+            console.error('resetSwiper method is not available.');
+          }
+          if (typeof this.$refs.slider.muteAllVideos === 'function') {
+            console.log('Calling muteAllVideos');
+            this.$refs.slider.muteAllVideos();
+          } else {
+            console.error('muteAllVideos method is not available.');
+          }
+        } else {
+          console.error('Slider ref is not available.');
+        }
+      });
+    },
+  },
+  watch: {
+    '$route.params.projectSlug': {
+      handler(newSlug, oldSlug) {
+        if (newSlug !== oldSlug) {
+          this.handleSliderResetAndMute();
+        }
+      },
+      immediate: true
+    }
   },
   computed: {
     projectSlug() {
@@ -119,7 +134,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .main {
   width: 100vw;
@@ -128,7 +142,6 @@ export default {
 }
 
 .project-name {
-  /* position: absolute; */
   position: fixed;
   bottom: 0;
   left: 0;
@@ -213,7 +226,7 @@ export default {
 @media (hover: none) or (pointer: coarse) {
   .project-navigation:hover,
   .previous:hover,
-.next:hover {
+  .next:hover {
     background-color: initial;
   }
 }

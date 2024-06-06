@@ -5,6 +5,10 @@ import router from './router';
 import { store } from "./store/store";
 import MasonryWall from '@yeger/vue-masonry-wall';
 
+import { register } from 'swiper/element/bundle';
+
+register();
+
 const app = createApp(App);
 app.use(store);
 app.use(MasonryWall);

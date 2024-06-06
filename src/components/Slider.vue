@@ -255,20 +255,24 @@ export default {
     },
     onImageLoad() {
       this.imagesLoaded = true;
-      if (this.swiper) {
-        this.swiper.update(); // Update swiper after image load
-      }
+      this.$nextTick(() => {
+        if (this.swiper) {
+          this.swiper.update(); // Update swiper after image load
+        }
+      });
     },
   },
   watch: {
     images() {
       this.imagesLoaded = false;
       this.$nextTick(() => {
-        if (this.swiper) {
-          this.swiper.update();
-          this.resetSwiper(); // Ensure swiper is reset after images change
-          this.muteAllVideos(); // Ensure all videos are muted after update
-        }
+        setTimeout(() => {
+          if (this.swiper) {
+            this.swiper.update();
+            this.resetSwiper(); // Ensure swiper is reset after images change
+            this.muteAllVideos(); // Ensure all videos are muted after update
+          }
+        }, 100); // Small delay to ensure proper re-rendering
       });
     },
   },

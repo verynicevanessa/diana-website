@@ -1,3 +1,7 @@
+<script setup>  
+import logger from '@/utils/logger';
+</script>
+
 <template>
   <canvas v-bind:id="canvasId" tabIndex="1" style="height: 500px;"></canvas>
 </template>
@@ -28,6 +32,7 @@ export default {
         'jsPath': this.patchDir + '/js/',
         'glCanvasId': this.canvasId,
         'glCanvasResizeToWindow': true,
+        'silent': true, // suppresses console warnings
         'canvas': {'alpha': true, 'premultipliedAlpha': true},
         variables: {
           inputJson: this.projectsData,
@@ -41,12 +46,12 @@ export default {
   mounted() {
     const _patchInitialized = (patch) => {
       // You can now access the patch object (patch), register variable watchers and so on
-      console.log(this.patchDir + ' initialized');
+      logger.log(this.patchDir + ' initialized');
     };
 
     const _patchFinishedLoading = (patch) => {
       // The patch is ready now, all assets have been loaded
-      console.log(this.patchDir + ' finished loading');
+      logger.log(this.patchDir + ' finished loading');
       this.$emit('patch-loaded');
     };
 

@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import { fetchProjects } from "@/api/api";
+import logger from '@/utils/logger';
 
 export const store = createStore({
   state() {
@@ -15,7 +16,7 @@ export const store = createStore({
 
     selectProjects(state, projectsIdsArray) {	
       const selected = state.loadedProjects.filter((el) => projectsIdsArray.includes(el.id));
-			console.log(selected);
+			logger.log(selected);
       state.selectedProjects = selected;
     },
   },

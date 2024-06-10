@@ -4,6 +4,7 @@ import useProjectData from "@/mixins/useProjectData";
 import loadingMixin from "@/mixins/loadingMixin";
 import WelcomeAnimation from "@/components/WelcomeAnimation.vue";
 import { formatProjectsData } from "@/utils/utils";
+import logger from '@/utils/logger';
 </script>
 
 <template>
@@ -65,10 +66,10 @@ export default {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) {
                 CABLES.patch.pause();
-                console.log("Cables patch paused");
+                logger.log("Cables patch paused");
               } else {
                 CABLES.patch.resume();
-                console.log("Cables patch resumed");
+                logger.log("Cables patch resumed");
               }
             });
           },
@@ -83,6 +84,8 @@ export default {
   },
   computed: {
     mappedData() {
+      logger.log(this.projects);
+      logger.log(formatProjectsData(this.projects, 12));
       return {"items": formatProjectsData(this.projects, 12)}; // Format the projects data for the Cables patch
     },
   },

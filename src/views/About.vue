@@ -13,7 +13,12 @@
       <div class="canvasContainer">
       <CablesPatch
       patchDir="/patch_diiana_selfie/"
-      :patchOptions="{ glCanvasResizeToWindow: true }"
+      :patchOptions="{ glCanvasResizeToWindow: true,
+        variables: {
+          HiresDisplay: 1,
+          showUI: 0
+         }
+        }"
       />
       </div>
       <!-- <video src="/dianafrosted_0430_02.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->

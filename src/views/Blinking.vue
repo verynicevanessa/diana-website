@@ -10,8 +10,16 @@ import logger from '@/utils/logger';
 <template>
   <WelcomeAnimation v-if="isLoading"></WelcomeAnimation>
   <div class="canvasContainer">
-    <CablesPatch v-if="projects.length" patchDir="/patch_blink/" :patchOptions="{ glCanvasResizeToWindow: true }"
-      :projectsData="mappedData" @patch-loaded="handlePatchLoaded" />
+    <CablesPatch v-if="projects.length" patchDir="/patch_blink/"
+    :patchOptions="{
+      glCanvasResizeToWindow: true,
+      variables: {
+                  HiresDisplay: 1,
+                  showUI: 0
+                 }
+    }"
+    :projectsData="mappedData"
+    @patch-loaded="handlePatchLoaded" />
   </div>
 </template>
 

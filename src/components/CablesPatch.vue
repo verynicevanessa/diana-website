@@ -32,12 +32,10 @@ export default {
         'jsPath': this.patchDir + '/js/',
         'glCanvasId': this.canvasId,
         'glCanvasResizeToWindow': true,
-        'silent': true, // suppresses console warnings
+        'silent': 1, // suppresses console warnings
         'canvas': {'alpha': true, 'premultipliedAlpha': true},
         variables: {
-          inputJson: this.projectsData,
-          HiresDisplay: true,
-          showUI: false
+          inputJson: this.projectsData
         }
       };
       return {...defaultOptions, ...this.patchOptions }

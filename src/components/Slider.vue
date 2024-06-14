@@ -306,21 +306,28 @@ body {
 
   /* Center slide text vertically */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .swiper-slide img,
 .swiper-slide video,
 .video-container {
   display: block;
-  height: 100%;
+  max-height: 100%;
   width: 100%;
   object-fit: contain;
+  
 }
 
 .video-container {
   position: relative;
+  display: flex;
+  margin: auto;
+}
+.video-container video {
+
+  align-items: flex-end;
 }
 
 .sound-toggle {
@@ -419,7 +426,7 @@ h3 {
 
   .sound-toggle {
     position: absolute;
-    bottom: 80px;
+    bottom: 20px;
     right: 10px;
   }
 

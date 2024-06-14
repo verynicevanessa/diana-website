@@ -144,11 +144,12 @@ export default {
       return media.type === "link";
     },
     isImage(media) {
-      return media.mimeType.startsWith("image/");
-    },
-    isVideo(media) {
-      return media.mimeType.startsWith("video/");
-    },
+  return media.mimeType && media.mimeType.startsWith("image/");
+},
+isVideo(media) {
+  return media.mimeType && media.mimeType.startsWith("video/");
+},
+
     toggleDescription(description) {
       this.$emit("toggle-description", description);
     },

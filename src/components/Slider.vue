@@ -1,90 +1,93 @@
 <template>
-  <swiper-container
-    class="swiper"
-    ref="projectSwiper"
-    :slidesPerView="3"
-    :spaceBetween="10"
-    :loop="true"
-    :grid="{
-      rows: 2,
-    }"
-    :mousewheel="true"
-    :grabCursor="true"
-    :breakpoints="{
-      320: {
-        slidesPerView: 1,
-        direction: 'vertical',
-        spaceBetween: 30,
-        loop: false,
-        grid: {
-          rows: 1,
+  <div :class="{'fade-in': isLoaded, 'hidden': !isLoaded}">
+    <swiper-container
+      class="swiper"
+      ref="projectSwiper"
+      :slidesPerView="3"
+      :spaceBetween="10"
+      :loop="true"
+      :grid="{
+        rows: 2,
+      }"
+      :mousewheel="true"
+      :grabCursor="true"
+      :breakpoints="{
+        320: {
+          slidesPerView: 1,
+          direction: 'vertical',
+          spaceBetween: 30,
+          loop: false,
+          grid: {
+            rows: 1,
+          },
         },
-      },
-      600: { slidesPerView: 2, spaceBetween: 10 },
-      900: { slidesPerView: 2, spaceBetween: 10 },
-      1200: { slidesPerView: 3, spaceBetween: 10 },
-    }"
-    @slideChange="onSlideChange"
-  >
-    <swiper-slide
-      v-for="(media, index) in images"
-      :key="index"
-      class="swiper-slide"
+        600: { slidesPerView: 2, spaceBetween: 10 },
+        900: { slidesPerView: 2, spaceBetween: 10 },
+        1200: { slidesPerView: 3, spaceBetween: 10 },
+      }"
+      @slideChange="onSlideChange"
     >
-      <template v-if="isAboutLink(media)">
-        <div @click="toggleDescription(media.description)" class="about-card">
-          <h3>ABOUT {{ media.name }}</h3>
-          <svg
-            class="arrow-icon"
-            width="50"
-            height="30"
-            viewBox="0 0 50 30"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2 15H42M42 15L29 2M42 15L29 28"
-              stroke="black"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-      </template>
-      <template v-else>
-        <img
-          v-if="isImage(media)"
-          :src="media.url"
-          alt="Project Image"
-          class="media-item"
-          @load="onImageLoad"
-        />
-        <div v-else-if="isVideo(media)" class="video-container">
-          <video
+      <swiper-slide
+        v-for="(media, index) in images"
+        :key="index"
+        class="swiper-slide"
+      >
+        <template v-if="isAboutLink(media)">
+          <div @click="toggleDescription(media.description)" class="about-card">
+            <h3>ABOUT {{ media.name }}</h3>
+            <svg
+              class="arrow-icon"
+              width="50"
+              height="30"
+              viewBox="0 0 50 30"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 15H42M42 15L29 2M42 15L29 28"
+                stroke="black"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </template>
+        <template v-else>
+          <img
+            v-if="isImage(media)"
             :src="media.url"
-            :ref="`videoElement-${index}`"
+            alt="Project Image"
             class="media-item"
-            autoplay
-            loop
-            playsinline
-            muted
-            @loadedmetadata="checkForAudioTrack(index)"
-            @loadeddata="checkForAudioTrack(index)"
-          >
-            Your browser does not support the video tag.
-          </video>
-          <button v-if="hasAudioTrack[index]" @click="toggleSound(index)" class="sound-toggle">
-            <img :src="buttonImages[index]" alt="Sound Toggle">
-          </button>
-        </div>
-      </template>
-    </swiper-slide>
-  </swiper-container>
+            @load="onImageLoad(index)"
+          />
+          <div v-else-if="isVideo(media)" class="video-container">
+            <video
+              :src="media.url"
+              :ref="`videoElement-${index}`"
+              class="media-item"
+              autoplay
+              loop
+              playsinline
+              muted
+              @loadedmetadata="checkForAudioTrack(index)"
+              @loadeddata="checkForAudioTrack(index)"
+            >
+              Your browser does not support the video tag.
+            </video>
+            <button v-if="hasAudioTrack[index]" @click="toggleSound(index)" class="sound-toggle">
+              <img :src="buttonImages[index]" alt="Sound Toggle">
+            </button>
+          </div>
+        </template>
+      </swiper-slide>
+    </swiper-container>
+  </div>
 </template>
 
 <script>
 import { register } from "swiper/element/bundle";
+import { ref, onMounted, nextTick } from 'vue';
 
 register();
 
@@ -95,6 +98,22 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const isLoaded = ref(false);
+    
+    onMounted(() => {
+      // Set a timeout to allow for the fade-in animation after component is mounted
+      nextTick(() => {
+        setTimeout(() => {
+          isLoaded.value = true;
+        }, 100); // Adjust the delay as needed
+      });
+    });
+
+    return {
+      isLoaded,
+    };
+  },
   data() {
     return {
       mutedStates: [], // Initializing muted states for videos
@@ -103,6 +122,7 @@ export default {
       hasAudioTrack: this.images.map(() => false),
       swiper: null,
       imagesLoaded: false, // Track if images are loaded
+      loaded: {} // Track loaded images
     };
   },
   mounted() {
@@ -144,12 +164,11 @@ export default {
       return media.type === "link";
     },
     isImage(media) {
-  return media.mimeType && media.mimeType.startsWith("image/");
-},
-isVideo(media) {
-  return media.mimeType && media.mimeType.startsWith("video/");
-},
-
+      return media.mimeType && media.mimeType.startsWith("image/");
+    },
+    isVideo(media) {
+      return media.mimeType && media.mimeType.startsWith("video/");
+    },
     toggleDescription(description) {
       this.$emit("toggle-description", description);
     },
@@ -167,7 +186,10 @@ isVideo(media) {
       this.buttonImageStates[index] = !this.buttonImageStates[index];
       this.updateButtonImage(index);
       this.$nextTick(() => {
-        const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
+        const videoElements = this.$refs[`videoElement-${index}`];
+        const videoElement = Array.isArray(videoElements)
+          ? videoElements[0]
+          : videoElements;
         if (videoElement) {
           videoElement.muted = this.mutedStates[index];
           if (!videoElement.muted) {
@@ -182,9 +204,12 @@ isVideo(media) {
     },
     muteAllVideos() {
       this.$nextTick(() => {
+        const videoElements = this.$refs.videoElement;
         this.images.forEach((item, index) => {
           if (this.isVideo(item)) {
-            const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
+            const videoElement = Array.isArray(videoElements)
+              ? videoElements[index]
+              : videoElements;
             if (videoElement) {
               videoElement.muted = true;
               this.mutedStates[index] = true;
@@ -205,67 +230,55 @@ isVideo(media) {
       }
     },
     async getButtonImageSrc(index) {
-      const soundOnSrc = (await import("@/assets/DLW-Sound-On.svg")).default;
-      const soundOffSrc = (await import("@/assets/DLW-Sound-Off.svg")).default;
-      return this.buttonImageStates[index] ? soundOnSrc : soundOffSrc;
+      const soundOnSrc = await import("@/assets/DLW-Sound-On.svg");
+      const soundOffSrc = await import("@/assets/DLW-Sound-Off.svg");
+      return this.buttonImageStates[index]
+        ? soundOnSrc.default
+        : soundOffSrc.default;
     },
     async updateButtonImage(index) {
       this.buttonImages[index] = await this.getButtonImageSrc(index);
     },
     waitForVideosToLoad() {
-      this.images.forEach((item, index) => {
-        if (this.isVideo(item)) {
-          const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
-          if (videoElement) {
-            videoElement.onloadedmetadata = () => {
-              this.checkForAudioTrack(index);
-            };
-            videoElement.onloadeddata = () => {
-              this.checkForAudioTrack(index);
-            };
-          } else {
-            console.error(`Video element not found for index: ${index}`);
-          }
-        }
+      const videoElements = this.$refs.videoElement;
+      videoElements.forEach((video, index) => {
+        video.onloadeddata = () => {
+          this.checkForAudioTrack(index);
+        };
       });
     },
     checkForAudioTrack(index) {
       this.$nextTick(() => {
-        const videoElement = this.$refs[`videoElement-${index}`][0]; // Ensure we get the correct element
+        const videoElement = this.$refs[`videoElement-${index}`];
         console.log(`Checking audio for video index: ${index}`, videoElement);
 
-        if (videoElement && videoElement instanceof HTMLMediaElement) {
-          const hasAudio =
-            videoElement.mozHasAudio ||
-            Boolean(videoElement.webkitAudioDecodedByteCount) ||
-            (videoElement.audioTracks && videoElement.audioTracks.length > 0);
-
+        if (videoElement && videoElement[0]) { // Since refs to elements could be an array
+          const video = videoElement[0]; // Access the first element of the array
+          const hasAudio = 
+            video.mozHasAudio ||
+            Boolean(video.webkitAudioDecodedByteCount) ||
+            (video.audioTracks && video.audioTracks.length > 0);
+          
           console.log(`Has audio: ${hasAudio}`);
-          this.hasAudioTrack[index] = hasAudio;
+          this.hasAudioTrack[index] = !!hasAudio;
           this.$forceUpdate();
         } else {
-          console.error("Video element not found or not a media element for index: " + index);
+          console.error("Video element not found for index: " + index);
         }
       });
+    },
+    onImageLoad(index) {
+      this.$set(this.loaded, index, true);
+      this.$emit('image-loaded', index);
     },
     resetSwiper() {
       if (this.swiper) {
         this.swiper.slideTo(0, 0); // Reset to the first slide without transition
-        this.swiper.update(); // Force update after resetting
       }
-    },
-    onImageLoad() {
-      this.imagesLoaded = true;
-      this.$nextTick(() => {
-        if (this.swiper) {
-          this.swiper.update(); // Update swiper after image load
-        }
-      });
     },
   },
   watch: {
     images() {
-      this.imagesLoaded = false;
       this.$nextTick(() => {
         setTimeout(() => {
           if (this.swiper) {
@@ -307,8 +320,8 @@ body {
 
   /* Center slide text vertically */
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
 }
 
 .swiper-slide img,
@@ -318,17 +331,10 @@ body {
   max-height: 100%;
   width: 100%;
   object-fit: contain;
-  
 }
 
 .video-container {
   position: relative;
-  display: flex;
-  margin: auto;
-}
-.video-container video {
-
-  align-items: flex-end;
 }
 
 .sound-toggle {
@@ -370,6 +376,23 @@ h3 {
   margin: 0;
   padding: 0;
   font-family: Kommuna Demo;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+.hidden {
+  opacity: 0;
 }
 
 @media (max-width: 600px) {
@@ -427,7 +450,7 @@ h3 {
 
   .sound-toggle {
     position: absolute;
-    bottom: 20px;
+    bottom: 80px;
     right: 10px;
   }
 

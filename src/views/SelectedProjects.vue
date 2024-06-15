@@ -8,6 +8,7 @@ import Slider from "@/components/Slider.vue";
       v-if="selectedProjectsImages.length"
       :images="selectedProjectsImages"
       @toggle-description="toggleDescription"
+      @image-loaded="onImageLoad"
     />
     <div
       v-if="showDescription"
@@ -97,6 +98,21 @@ main {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* Add this to your existing CSS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+}
+
 
 .project-description p {
   font-family: Kommuna Demo;

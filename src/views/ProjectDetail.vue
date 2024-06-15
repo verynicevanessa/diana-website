@@ -1,29 +1,58 @@
 <script setup>
 import Slider from "@/components/Slider.vue";
+import { ref, watch, nextTick } from 'vue';
+
+const showContent = ref(true);
+
+function handleBeforeEnter(el) {
+  el.style.opacity = 0;
+}
+
+function handleEnter(el, done) {
+  el.style.transition = "opacity 0.5s";
+  el.style.opacity = 1;
+  done();
+}
+
+function handleLeave(el, done) {
+  el.style.transition = "opacity 0.5s";
+  el.style.opacity = 0;
+  setTimeout(() => {
+    done();
+  }, 500);
+}
 </script>
 
 <template>
-  <div v-if="project" class="project-page">
-    <!-- Swiper -->
-    <Slider ref="slider" :images="project.projectimages" />
+  <transition
+    mode="out-in"
+    @before-enter="handleBeforeEnter"
+    @enter="handleEnter"
+    @leave="handleLeave"
+  >
+    <div v-if="project" :key="projectSlug" class="project-page">
+      <!-- Swiper -->
+      <Slider ref="slider" :images="project.projectimages" />
 
-    <!-- Previous and Next buttons -->
-    <div class="project-navigation"></div>
+      <!-- Previous and Next buttons -->
+      <div class="project-navigation"></div>
 
-    <div class="project-name">
-      <h3 @click="navigateToPreviousProject" class="Previous">PREV</h3>
-      <h3 @click.stop="toggleDescription" class="this-project">
-        {{ project.projectName }}
-      </h3>
-      <h3 @click="navigateToNextProject" class="Next">NEXT</h3>
+      <div class="project-name">
+        <h3 @click="navigateToPreviousProject" class="Previous">PREV</h3>
+        <h3 @click.stop="toggleDescription" class="this-project">
+          {{ project.projectName }}
+        </h3>
+        <h3 @click="navigateToNextProject" class="Next">NEXT</h3>
+      </div>
+
+      <div v-if="showDescription" ref="description" class="project-description">
+        <p>{{ project.projectDescription }}</p>
+      </div>
     </div>
+    <div v-else>Loading</div>
+  </transition>
 
-    <div v-if="showDescription" ref="description" class="project-description">
-      <p>{{ project.projectDescription }}</p>
-    </div>
-  </div>
 
-  <div v-else>Loading</div>
 </template>
 
 <script>

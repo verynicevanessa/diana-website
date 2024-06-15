@@ -23,7 +23,7 @@ export default {
       setTimeout(() => {
         this.showContent = true;
         this.isLoading = false;
-      }, 1000); // Adjust the timeout duration as needed.
+      }, 100); // Adjust the timeout duration as needed.
     },
     onLayout() {
       this.$nextTick(() => {
@@ -43,14 +43,14 @@ export default {
       el.style.opacity = 0;
       setTimeout(() => {
         done();
-      }, 1000);
+      }, 100);
     }
   }
 };
 </script>
 
 <template>
-  <div v-if="isLoading" class="loading"></div>
+  <div v-if="isLoading" class="loading"><img src="../assets/Menu-Snowflake.png" style="width: 100px;"></div>
   <transition
     mode="out-in"
     @before-enter="handleBeforeEnter"
@@ -89,7 +89,7 @@ export default {
 }
 
 .fade-in {
-  animation: fadeIn 0.2s ease-in forwards;
+  animation: fadeIn 0.1s ease-in forwards;
 }
 
 .hidden {

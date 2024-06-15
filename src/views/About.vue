@@ -1,134 +1,119 @@
 <script setup>
- import CablesPatch from '@/components/CablesPatch.vue'
-  import Footer from '@/components/Footer.vue';
-  import FixedElement from '@/components/FixedElement.vue';
-  import { fetchAbout, fetchAboutBlocks } from '@/api/api.js';
-  </script>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import CablesPatch from '@/components/CablesPatch.vue';
+import Footer from '@/components/Footer.vue';
+import FixedElement from '@/components/FixedElement.vue';
+import { fetchAbout, fetchAboutBlocks } from '@/api/api.js';
+
+const aboutInfo = ref(null);
+const aboutBlocks = ref([]);
+const loading = ref(true);
+const showContent = ref(false);
+
+const getAboutInfo = async () => {
+  try {
+    const response = await fetchAbout();
+    console.log('About Info:', response); // Debug: Log the response
+    aboutInfo.value = response;
+  } catch (error) {
+    console.error('Error fetching about info:', error);
+  }
+};
+
+const getAboutBlocks = async () => {
+  try {
+    const response = await fetchAboutBlocks();
+    console.log('About Blocks:', response); // Debug: Log the response
+    aboutBlocks.value = response;
+  } catch (error) {
+    console.error('Error fetching about blocks:', error);
+  }
+};
+
+onMounted(async () => {
+  await getAboutInfo();
+  await getAboutBlocks();
+  loading.value = false;
+  showContent.value = true;
+
+  // Disable the logo when the component mounts
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.display = 'none'; // Hide the logo
+  }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = 'none'; // Hide the footer image
+  }
+  document.body.style.backgroundColor = '#bdc4cb';
+  document.body.style.backgroundColor = '#fff';
+});
+
+onBeforeUnmount(() => {
+  // Reset the logo visibility when the component is about to be destroyed
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.display = ''; // Remove the inline style to reset its visibility
+  }
+  const footerimg = document.querySelector('.footer-image');
+  if (footerimg) {
+    footerimg.style.display = ''; // Remove the inline style to reset its visibility
+  }
+  document.body.style.backgroundColor = '';
+});
+</script>
 
 <template>
   <section id="about-page">
-    
-    <div v-if="loading"></div>
-    <div v-else-if="aboutInfo">
-      <div class="canvasContainer">
-      <CablesPatch
-      patchDir="/patch_diiana_selfie/"
-      :patchOptions="{ glCanvasResizeToWindow: true,
-        variables: {
-          HiresDisplay: 1,
-          showUI: 0
-         }
-        }"
-      />
-      </div>
-      <!-- <video src="/dianafrosted_0430_02.mp4" autoplay loop muted playsinline class="about-logo" aria-hidden="true"></video> -->
-      <FixedElement>
-      <img src="/DLW-Visual-Re.png" class="about-logo">
-      </FixedElement>
-      
-      <h1 v-html="aboutInfo.aboutText.html"></h1>
-      
-      
-      <img v-if="aboutInfo.aboutimage" :src="aboutInfo.aboutimage.url" alt="About Image" class="about-image">
-  
-      <!-- <div class="section" v-for="(section, index) in ['publishedTitle','published', 'published', 'clients', 'previously_at', 'contact']" :key="index">
+    <transition name="fade" mode="out-in">
+      <div v-if="loading" class="loading"><img src="../assets/Menu-Snowflake.png" style="width: 100px;"></div>
+      <div v-else class="fade-in">
+        <div class="canvasContainer">
+          <CablesPatch
+            patchDir="/patch_diiana_selfie/"
+            :patchOptions="{
+              glCanvasResizeToWindow: true,
+              variables: {
+                HiresDisplay: 1,
+                showUI: 0,
+              },
+            }"
+          />
+        </div>
+        <FixedElement>
+          <img src="/DLW-Visual-Re.png" class="about-logo" />
+        </FixedElement>
 
-        <h2 class="about-title">{{ section.toUpperCase().replace("_", " ") }}</h2>
-        <div v-html="aboutInfo[section].html" class="about-links"></div> -->
+        <h1 v-html="aboutInfo?.aboutText?.html"></h1>
+
+        <img
+          v-if="aboutInfo?.aboutimage"
+          :src="aboutInfo.aboutimage.url"
+          alt="About Image"
+          class="about-image"
+        />
 
         <div v-for="(block, index) in aboutBlocks" :key="index" class="section">
-        <h2 class="about-title">{{ block.abouttitle }}</h2>
-        <div v-html="block.aboutblock.html" class="about-links"></div>
+          <h2 class="about-title">{{ block.abouttitle }}</h2>
+          <div v-html="block.aboutblock.html" class="about-links"></div>
+        </div>
       </div>
-
-     
-    </div>
+    </transition>
   </section>
   <Footer />
 </template>
 
-<script>
- 
- export default {
-  components: {
-    CablesPatch,
-    Footer,
-    FixedElement
-  },
-  data() {
-    return {
-      aboutInfo: null,
-      aboutBlocks: [], // Initialize aboutBlocks as an empty array
-      loading: true,
-    };
-  },
-  async mounted() {
-    this.loading = true;
-    await this.getAboutInfo();
-    await this.getAboutBlocks();
-    this.loading = false;
-
-    // Disable the logo when the component mounts
-    const logo = document.querySelector('.logo');
-    if (logo) {
-      logo.style.display = 'none'; // Hide the logo
-    }
-    const footerimg = document.querySelector('.footer-image');
-    if (footerimg) {
-      footerimg.style.display = 'none'; // Hide the logo
-    }
-    document.body.style.backgroundColor = '#bdc4cb';
-    document.body.style.backgroundColor = '#fff';
-  },
-  beforeUnmount() {
-    // Reset the logo visibility when the component is about to be destroyed
-    const logo = document.querySelector('.logo');
-    if (logo) {
-      logo.style.display = ''; // Remove the inline style to reset its visibility
-    }
-    const footerimg = document.querySelector('.footer-image');
-    if (footerimg) {
-      footerimg.style.display = ''; // Remove the inline style to reset its visibility
-    }
-    document.body.style.backgroundColor = '';
-  },
-  methods: {
-    async getAboutInfo() {
-      try {
-        const response = await fetchAbout();
-        console.log('About Info:', response); // Debug: Log the response
-        this.aboutInfo = response;
-      } catch (error) {
-        console.error('Error fetching about info:', error);
-      }
-    },
-    async getAboutBlocks() {
-      try {
-        const response = await fetchAboutBlocks();
-        console.log('About Blocks:', response); // Debug: Log the response
-        this.aboutBlocks = response;
-      } catch (error) {
-        console.error('Error fetching about blocks:', error);
-      }
-    },
-  },
-};
-</script>
-
-
-
-
 <style scoped>
 #about-page {
-    padding: 3em;
-    max-width: 1440px; /* Adjust this value to your desired maximum width */
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 100;
-    /* margin-top: 40%; */
-    box-sizing: border-box;
+  padding: 3em;
+  max-width: 1440px; /* Adjust this value to your desired maximum width */
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 100;
+  /* margin-top: 40%; */
+  box-sizing: border-box;
 }
 
 h1 {
@@ -139,7 +124,6 @@ h1 {
   font-size: clamp(50px, 6vw, 70px);
   /* text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5); */
   /* filter: blur(0.01em) saturate(2); */
-  
 }
 
 .about-logo {
@@ -153,7 +137,6 @@ h1 {
   margin-top: clamp(20px, 10vw, 200px);
   font-family: Kommuna Demo;
   src: url(@/assets/kommuna_demo_400_narrow-webfont.woff) format("opentype");
-
 }
 
 .about-image {
@@ -169,13 +152,12 @@ h1 {
   width: 50%;
   flex-direction: column;
   text-transform: uppercase;
-
 }
 .contact {
   line-height: 1.5;
 }
 
-.canvasContainer{
+.canvasContainer {
   margin: -3em;
   min-height: 300px;
   overflow: hidden;
@@ -183,9 +165,9 @@ h1 {
   cursor: inherit;
 }
 
-#glcanvas{
+#glcanvas {
   position: relative;
-  transform: translate(-50%,0);
+  transform: translate(-50%, 0);
   left: 50%;
   height: 90vh !important;
   width: auto;
@@ -202,23 +184,37 @@ h1 {
     margin-top: -1em;
     height: 80vh !important;
   }
-  
-    #about-page {
-        margin-top: 10%;
-    }
 
-    .footer {
-      padding: 0em;
-    }
-    .about-title {
-        margin-top: 1em;
-    }
-    h1 {
+  #about-page {
+    margin-top: 10%;
+  }
+
+  .footer {
+    padding: 0em;
+  }
+  .about-title {
+    margin-top: 1em;
+  }
+  h1 {
     font-size: 36px;
-  }  
+  }
   .about-links {
-  width: 80%;
+    width: 80%;
   }
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+}
 </style>

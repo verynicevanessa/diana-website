@@ -334,12 +334,16 @@ body {
 
 .video-container {
   position: relative;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: flex-end; /* Align to the bottom */
 }
 
 .sound-toggle {
   position: absolute;
   bottom: 10px;
-  right: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -347,11 +351,8 @@ body {
   -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   background: #d9d9d91a;
-  border-radius: 87px;
+  border-radius: 50%;
   height: 35px;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%);
   width: 35px;
 }
 
@@ -448,9 +449,7 @@ h3 {
   }
 
   .sound-toggle {
-    position: absolute;
     bottom: 80px;
-    right: 10px;
   }
 
   .sound-toggle img {

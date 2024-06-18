@@ -82,6 +82,7 @@ export default {
   width: 100vw;
   position: fixed;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); /* For Safari */
 }
 
 .overlay-text {
@@ -128,7 +129,7 @@ ul li a {
 
 .menu-overlay-slide {
   justify-content: center;
-  flex-direction: columns;
+  flex-direction: column;
 }
 
 .list-item-icon {

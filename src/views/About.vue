@@ -33,16 +33,17 @@ const getAboutBlocks = async () => {
 };
 
 onMounted(async () => {
+  // Verstecke .logo sofort
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.display = 'none'; // Hide the logo immediately
+  }
+
   await getAboutInfo();
   await getAboutBlocks();
   loading.value = false;
   showContent.value = true;
 
-  // Disable the logo when the component mounts
-  const logo = document.querySelector('.logo');
-  if (logo) {
-    logo.style.display = 'none'; // Hide the logo
-  }
   const footerimg = document.querySelector('.footer-image');
   if (footerimg) {
     footerimg.style.display = 'none'; // Hide the footer image
@@ -68,7 +69,9 @@ onBeforeUnmount(() => {
 <template>
   <section id="about-page">
     <transition name="fade" mode="out-in">
-      <div v-if="loading" class="loading"><img src="../assets/Menu-Snowflake.png" style="width: 100px;"></div>
+      <div v-if="loading" class="loading">
+        <img src="../assets/Menu-Snowflake.png" style="width: 100px;">
+      </div>
       <div v-else class="fade-in">
         <div class="canvasContainer">
           <CablesPatch
@@ -83,7 +86,7 @@ onBeforeUnmount(() => {
             @patch-loaded="handlePatchLoaded" 
           />
         </div>
-        <FixedElement>
+        <FixedElement v-if="showContent">
           <img src="/DLW-Visual-Re.png" class="about-logo" />
         </FixedElement>
 
@@ -171,6 +174,10 @@ h1 {
   font-size: clamp(50px, 6vw, 70px);
   /* text-shadow: 0 0 0.0125em rgb(235,235,235), 0.00625em 0 0.0125em white, 0.00625em 0.00625em 0.0125em white, -0.00625em 0 0.0125em white, -0.00625em -0.00625em 0.0125em white, 0px 0px 0.1em rgb(0, 0, 0), 0px 0px 0.25em rgba(0,0,255,.1), 0px 0.0125em 0.025em rgba(255,0,235,.5); */
   /* filter: blur(0.01em) saturate(2); */
+}
+
+.logo {
+  display: none; /* Standardmäßig verstecken */
 }
 
 .about-logo {

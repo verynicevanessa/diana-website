@@ -10,7 +10,7 @@
       <MenuOverlay @click="closeMenu" />
     </div>
   <!-- </transition> -->
-  <div class="menu-wrapper">
+  <div v-if="showMenu" class="menu-wrapper">
     <span class="name-logo">
       <router-link to="/projects" @click="closeMenu">
         <h3 style="color: black;">DIANA WEISMAN</h3>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
 import MenuOverlay from "./MenuOverlay.vue"
 
 export default {
@@ -54,6 +55,7 @@ export default {
       menuOpen: false,
       isLogoActive: false,
       logoWidth: null, // Initial width set to 100% of the window width
+      showMenu: ref(false), // Zustand für das Menü
     };
   },
   watch: {
@@ -88,7 +90,7 @@ export default {
       } else {
         const widthDiff = maxWidth - minWidth;
         this.logoWidth = maxWidth - widthDiff * (scrollTop / maxScroll);
-        this.logoWidth = Math.max(this.logoWidth, minWidth)/1.5;
+        this.logoWidth = Math.max(this.logoWidth, minWidth) / 1.5;
         this.isLogoActive = false;
       }
     },
@@ -97,6 +99,11 @@ export default {
       this.logoWidth = 200;
       this.isLogoActive = true;
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.showMenu = true;
+    }, 2000); // Verzögerung von 2 Sekunden (2000 Millisekunden)
   },
 };
 </script>

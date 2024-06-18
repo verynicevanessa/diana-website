@@ -11,7 +11,8 @@ export default {
     return {
       masonryKey: 0,
       showContent: false,
-      isLoading: true
+      isLoading: true,
+      footerVisible: false
     };
   },
   mounted() {
@@ -19,15 +20,19 @@ export default {
   },
   methods: {
     loadProjects() {
-      // Simulating a load delay for demonstration purposes.
       setTimeout(() => {
         this.showContent = true;
         this.isLoading = false;
-      }, 100); // Adjust the timeout duration as needed.
+        this.$nextTick(() => {
+          this.onLayout(); // Ensure layout is triggered after content is shown
+          this.lazyLoadVideos(); // Start lazy loading videos
+        });
+      }, 100);
     },
     onLayout() {
+      this.masonryKey++; // Trigger a re-render
       this.$nextTick(() => {
-        this.masonryKey++; // Trigger a re-render
+        this.footerVisible = true; // Make footer visible after MasonryWall layout
       });
     },
     handleBeforeEnter(el) {
@@ -35,8 +40,10 @@ export default {
     },
     handleEnter(el, done) {
       el.style.transition = "opacity 1s";
-      el.style.opacity = 1;
-      done();
+      requestAnimationFrame(() => {
+        el.style.opacity = 1;
+        done();
+      });
     },
     handleLeave(el, done) {
       el.style.transition = "opacity 1s";
@@ -44,6 +51,30 @@ export default {
       setTimeout(() => {
         done();
       }, 100);
+    },
+    lazyLoadVideos() {
+      const videos = document.querySelectorAll('video[loading="lazy"]');
+      const config = {
+        rootMargin: '0px 0px',
+        threshold: 0.1
+      };
+
+      let observer = new IntersectionObserver((entries, self) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.preloadVideo(entry.target);
+            self.unobserve(entry.target);
+          }
+        });
+      }, config);
+
+      videos.forEach(video => {
+        observer.observe(video);
+      });
+    },
+    preloadVideo(video) {
+      video.setAttribute('preload', 'auto');
+      video.load();
     }
   }
 };
@@ -70,23 +101,21 @@ export default {
         <template #default="{ item, index }">
           <div :key="item.id" class="fade-in">
             <Project :project="item" />
+            <!-- Example of a video element -->
+            <video v-if="item.type === 'video'" controls loading="lazy" preload="metadata">
+              <source :src="item.videoSrc" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
           </div>
         </template>
       </MasonryWall>
-      <Footer></Footer>
+      <!-- Footer is displayed only after layout is done -->
+      <Footer v-if="footerVisible"></Footer>
     </div>
   </transition>
 </template>
 
 <style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
 .fade-in {
   animation: fadeIn 0.1s ease-in forwards;
@@ -102,5 +131,20 @@ export default {
   align-items: center;
   height: 100vh;
   font-size: 24px;
+}
+
+/* Unified and minimal CSS animation */
+.fade-in {
+  animation: fadeIn 0.1s ease-in forwards;
+  transition: opacity 1s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 </style>

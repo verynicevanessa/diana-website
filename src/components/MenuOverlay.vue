@@ -9,6 +9,13 @@ function calculateScrollbarWidth() {
 }
 
 export default {
+  methods: {
+    handleClick() {
+      this.$emit('close-menu');
+      window.location.href = '/about'; // Fix for the about page
+    }
+  },
+
   data() {
     return {
       claim: '', // Initialize claim as an empty string
@@ -54,7 +61,7 @@ export default {
               </router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click="$emit('close-menu')" to="/about">About</router-link>
+              <router-link @click.prevent="handleClick" to="/about">About</router-link>
             </li>
             <li class="list-item-icon">
               <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link>

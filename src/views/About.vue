@@ -4,6 +4,8 @@ import CablesPatch from '@/components/CablesPatch.vue';
 import Footer from '@/components/Footer.vue';
 import FixedElement from '@/components/FixedElement.vue';
 import { fetchAbout, fetchAboutBlocks } from '@/api/api.js';
+import loadingMixin from "@/mixins/loadingMixin";
+import logger from '@/utils/logger';
 
 const aboutInfo = ref(null);
 const aboutBlocks = ref([]);
@@ -78,6 +80,7 @@ onBeforeUnmount(() => {
                 showUI: 0,
               },
             }"
+            @patch-loaded="handlePatchLoaded" 
           />
         </div>
         <FixedElement>
@@ -102,6 +105,50 @@ onBeforeUnmount(() => {
   </section>
   <Footer />
 </template>
+
+<script>
+export default {
+  name: "CablesGLComponent",
+  mixins: [loadingMixin],
+  mounted() {
+    this.startLoading();
+  },
+  methods: {
+    handlePatchLoaded() {
+      this.stopLoading();
+
+      // Then set up the intersection observer to watch visibility
+      this.watchPatchVisibility();
+    },
+    watchPatchVisibility() {
+      const targetElement = document.getElementById("glcanvas");
+
+      if (targetElement) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) {
+                CABLES.patch.setVariable("timerPlay",false);
+                CABLES.patch.pause();
+                logger.log("Cables patch paused");
+              } else {
+                CABLES.patch.resume();
+                CABLES.patch.setVariable("timerPlay",true);
+                logger.log("Cables patch resumed");
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        observer.observe(targetElement);
+      } else {
+        console.error("Target element for observing is not available");
+      }
+    },
+  }
+};
+</script>
 
 <style scoped>
 #about-page {

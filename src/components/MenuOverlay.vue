@@ -10,9 +10,9 @@ function calculateScrollbarWidth() {
 
 export default {
   methods: {
-    handleClick() {
+    pageReload(location) {
       this.$emit('close-menu');
-      window.location.href = '/about'; // Fix for the about page
+      window.location.href = location; // Fix for the about page
     }
   },
 
@@ -61,13 +61,13 @@ export default {
               </router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click.prevent="handleClick" to="/about">About</router-link>
+              <router-link @click.prevent="pageReload('/about')" to="/about">About</router-link>
             </li>
             <li class="list-item-icon">
               <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click="$emit('close-menu')" to="/">Restart</router-link>
+              <router-link @click.prevent="pageReload('/')" to="/">Restart</router-link>
             </li>
           </ul>
         </div>

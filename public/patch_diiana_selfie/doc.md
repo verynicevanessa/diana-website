@@ -5,4 +5,5 @@
 * __scale__ ```Number```
 * __shape__ ```Number```
 * __timer_1__ ```Number```
+* __timerPlay__ ```Number``` (default Value: `1`)
 

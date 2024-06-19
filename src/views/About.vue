@@ -193,9 +193,9 @@ h1 {
     height: 80vh !important;
   }
 
-  #about-page {
+  /* #about-page {
     margin-top: 10%;
-  }
+  } */
 
   .footer {
     padding: 0em;

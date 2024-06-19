@@ -99,9 +99,6 @@ onBeforeUnmount(() => {
   <Footer />
 </template>
 
-<script>
-</script>
-
 <style scoped>
 #about-page {
   padding: 3em;
@@ -176,6 +173,14 @@ h1 {
   height: 90vh !important;
   width: 100%;
 }
+
+@media (pointer: coarse) {
+  /* Styles for touch devices */
+  .canvasContainer {
+    pointer-events: none;
+  }
+}
+
 
 @media (max-width: 768px) {
   .about-logo {

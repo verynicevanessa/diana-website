@@ -3,7 +3,7 @@
    
     <div class="content">
 
-      <img class="video" src="/D-SF.gif" ></img>
+      <img class="video" src="/D-SF.gif" >
 
       <div v-if="!permissionGiven">
         

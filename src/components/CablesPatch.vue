@@ -21,7 +21,24 @@ export default {
       type: Object
     },
     projectsData: {
-      type: Array
+      type: Object
+    }
+  },
+
+  beforeRouteLeave(to, from, next) {
+    if (window.CABLES && window.CABLES.patch !== null) { 
+      logger.log('⚡️ Disposing of patch');
+      window.CABLES.patch.dispose();
+      window.CABLES.patch = null; // Explicitly set to null after disposal
+    }
+    next();
+  },
+
+  beforeUnmount() { // Use beforeDestroy if using Vue 2
+    if (window.CABLES && window.CABLES.patch !== null) {
+      logger.log('Disposing CABLES patch');
+      window.CABLES.patch.dispose();
+      window.CABLES.patch = null; // Explicitly set to null after disposal
     }
   },
   

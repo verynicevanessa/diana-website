@@ -13,6 +13,14 @@ const app = createApp(App);
 app.use(store);
 app.use(MasonryWall);
 router.beforeEach((to, from, next) => {
+    if (window.CABLES && window.CABLES.patch &&  window.CABLES.patch !== null) {
+        console.log('Disposing CABLES patch in router guard');
+        window.CABLES.patch.dispose();
+        window.CABLES.patch = null;
+    } else {
+        console.log('No CABLES patch to dispose');
+    }
+
     const visited = localStorage.getItem('visited');
     if(!visited && to.name !== 'first'){
         next({name: 'first'});

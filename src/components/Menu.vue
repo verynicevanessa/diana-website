@@ -1,38 +1,34 @@
 <template>
-  <!-- <transition name="flip"> -->
+  <transition name="fade">
     <div
       v-if="menuOpen"
       class="menu-overlay"
       :class="{ active: menuOpen }"
       ref="MenuOverlay"
     >
-      <!-- Your menu overlay content goes here -->
-      <MenuOverlay @click="closeMenu" />
+      <MenuOverlay @close-menu="closeMenu" />
     </div>
-  <!-- </transition> -->
-  <div v-if="showMenu" class="menu-wrapper">
-    <span class="name-logo">
+  </transition>
+  <div class="menu-wrapper">
+    <span v-if="!hideLogo" class="name-logo">
       <router-link to="/projects" @click="closeMenu">
         <h3 style="color: black;">DIANA WEISMAN</h3>
       </router-link>
     </span>
-    <!-- <div class="menu"> -->
-    <!-- Disable pointer events for logo while its 100% width, so projects behind are clickable -->
     <router-link
       to="/"
       @click="closeMenu"
       :style="!isLogoActive && { pointerEvents: 'none' }"
     >
       <img
+        v-if="!hideLogo"
         src="/DLW-Visual-Re.png"
         :style="menuOpen ? {width: '200px'} : (logoWidth ? { width: logoWidth + 'px' } : '100%')"
         class="logo"
         ref="logo"
       />
     </router-link>
-    <!-- </div> -->
   </div>
-
   <a @click="toggleMenu" aria-label="Toggle menu">
     <img
       src="../assets/Menu-Snowflake.png"
@@ -43,8 +39,8 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import MenuOverlay from "./MenuOverlay.vue"
+import { ref, onMounted, watch } from 'vue';
+import MenuOverlay from './MenuOverlay.vue';
 
 export default {
   components: {
@@ -54,21 +50,24 @@ export default {
     return {
       menuOpen: false,
       isLogoActive: false,
-      logoWidth: null, // Initial width set to 100% of the window width
-      showMenu: ref(false), // Zustand für das Menü
+      logoWidth: null,
+      hideLogo: false,
     };
   },
   watch: {
-    // Add watcher to route path rather than use mounted and beforeUnmount
-    $route(to, from) {
-      this.adjustLogoInitially();
-      if (to.fullPath === "/projects") {
-        this.handleScroll();
-        window.addEventListener("scroll", this.handleScroll);
+    $route(to) {
+      this.handleRouteChange(to);
+    },
+    menuOpen(val) {
+      if (val) {
+        this.hideLogo = true;
       } else {
-        window.removeEventListener("scroll", this.handleScroll);
+        this.handleRouteChange(this.$route);
       }
     },
+  },
+  mounted() {
+    this.handleRouteChange(this.$route);
   },
   methods: {
     toggleMenu() {
@@ -77,12 +76,11 @@ export default {
     closeMenu() {
       this.menuOpen = false;
     },
-
     handleScroll() {
       const scrollTop = window.scrollY;
-      const maxScroll = 300; // Maximum scroll distance that affects the size
-      const maxWidth = window.innerWidth; // Max width (100% of window width)
-      const minWidth = 200; // Minimum width after scrolling 200px
+      const maxScroll = 300;
+      const maxWidth = window.innerWidth;
+      const minWidth = 200;
 
       if (scrollTop >= maxScroll) {
         this.logoWidth = minWidth;
@@ -94,19 +92,29 @@ export default {
         this.isLogoActive = false;
       }
     },
-
     adjustLogoInitially() {
       this.logoWidth = 200;
       this.isLogoActive = true;
     },
-  },
-  mounted() {
-    setTimeout(() => {
-      this.showMenu = true;
-    }, 2000); // Verzögerung von 2 Sekunden (2000 Millisekunden)
+    handleRouteChange(route) {
+      if (route.path === '/about' || route.path === '/blinking' || this.menuOpen) {
+        this.hideLogo = true;
+      } else if (route.path === '/projects') {
+        this.hideLogo = false;
+        this.handleScroll();
+        window.addEventListener('scroll', this.handleScroll);
+      } else if (route.path === '/selected-projects') {
+        this.hideLogo = false;
+        this.logoWidth = 200; // Großes Logo auf der SelectedProjects-Seite
+      } else {
+        this.hideLogo = false;
+        window.removeEventListener('scroll', this.handleScroll);
+      }
+    },
   },
 };
 </script>
+
 
 <style>
 .menu-wrapper {
@@ -138,9 +146,7 @@ export default {
 .menu {
   display: flex;
   justify-content: center;
-  /* Center the menu items */
   width: 30%;
-  /* Ensure the menu spans the full width of its container */
   position: relative;
   z-index: 500;
 }
@@ -151,16 +157,9 @@ export default {
 
 .menu-button {
   width: 2em;
-  /* margin: 10px 0 0 0; */
   z-index: 900;
   mix-blend-mode: difference;
 }
-
-/* .logo {
-  width: 100%;
-  max-width: 150px; 
-  z-index: 900;
-} */
 
 .logo {
   width: 100%;
@@ -184,24 +183,22 @@ a .menu-button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.234
-  ); /* Adjust background color as needed */
-  z-index: 800; /* Ensure it's above other content */
-  transition: transform 0.3s ease; /* Smooth transition for sliding animation */
-  transform: translateY(-100%); /* Initially hide the menu overlay */
+  background-color: rgba(255, 255, 255, 0.234);
+  z-index: 800;
+  transition: transform 0.3s ease, background-color 0.5s ease; /* Added background-color transition */
+  transform: translateY(-100%);
 }
 
 .menu-overlay.active {
-  transform: translateY(0); /* Slide the menu overlay into view */
+  transform: translateY(0);
+  background-color: rgba(255, 255, 255, 0.356); /* Target background color */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); /* For Safari */
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.1s ease;
+  transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,
@@ -209,20 +206,6 @@ a .menu-button {
   opacity: 0;
 }
 
-.flip-enter-active,
-.flip-leave-active {
-  transition: transform 0.5s ease-out;
-}
-
-.flip-enter-from,
-.flip-leave-to {
-  transform: rotateY(90deg);
-}
-
-.flip-enter-to,
-.flip-leave-from {
-  transform: rotateY(0deg);
-}
 @media (max-width: 650px) {
   span h1 {
     width: 100px;
@@ -233,7 +216,7 @@ a .menu-button {
     display: none;
   }
   .name-logo h1 {
-    font-size: 1.5rem; /* Adjust font size instead of width for better readability */
+    font-size: 1.5rem;
   }
   .menu {
     justify-content: end;
@@ -243,7 +226,7 @@ a .menu-button {
     right: 10px;
   }
   .menu-button {
-    right: 20px; /* Adjust for consistency */
+    right: 20px;
   }
 }
 </style>

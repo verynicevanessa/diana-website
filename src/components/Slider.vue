@@ -453,8 +453,8 @@ h3 {
   }
 
   .sound-toggle img {
-    width: 24px;
-    height: 24px;
+    width: 14px;
+    height: 14px;
   }
 
   .project-description {

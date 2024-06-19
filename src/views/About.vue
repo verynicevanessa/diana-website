@@ -74,17 +74,7 @@ onBeforeUnmount(() => {
       </div>
       <div v-else class="fade-in">
         <div class="canvasContainer">
-          <CablesPatch
-            patchDir="/patch_diiana_selfie/"
-            :patchOptions="{
-              glCanvasResizeToWindow: true,
-              variables: {
-                HiresDisplay: 1,
-                showUI: 0,
-              },
-            }"
-            @patch-loaded="handlePatchLoaded" 
-          />
+          <iframe id='scanDiiana' src="/patch_diiana_selfie_iframe/index.html" width="100%" height="600px"></iframe>
         </div>
         <FixedElement v-if="showContent">
           <img src="/DLW-Visual-Re.png" class="about-logo" />
@@ -110,47 +100,6 @@ onBeforeUnmount(() => {
 </template>
 
 <script>
-export default {
-  name: "CablesGLComponent",
-  mixins: [loadingMixin],
-  mounted() {
-    this.startLoading();
-  },
-  methods: {
-    handlePatchLoaded() {
-      this.stopLoading();
-
-      // Then set up the intersection observer to watch visibility
-      this.watchPatchVisibility();
-    },
-    watchPatchVisibility() {
-      const targetElement = document.getElementById("glcanvas");
-
-      if (targetElement) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) {
-                CABLES.patch.setVariable("timerPlay",false);
-                CABLES.patch.pause();
-                logger.log("Cables patch paused");
-              } else {
-                CABLES.patch.resume();
-                CABLES.patch.setVariable("timerPlay",true);
-                logger.log("Cables patch resumed");
-              }
-            });
-          },
-          { threshold: 0.1 }
-        );
-
-        observer.observe(targetElement);
-      } else {
-        console.error("Target element for observing is not available");
-      }
-    },
-  }
-};
 </script>
 
 <style scoped>
@@ -216,16 +165,16 @@ h1 {
   min-height: 300px;
   overflow: hidden;
   margin-bottom: -3em;
-  cursor: inherit;
+  cursor: inherit !important;
 }
 
-#glcanvas {
+#scanDiiana {
+  border: none;
   position: relative;
   transform: translate(-50%, 0);
   left: 50%;
   height: 90vh !important;
-  width: auto;
-  cursor: inherit !important;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

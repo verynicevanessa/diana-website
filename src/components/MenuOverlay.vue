@@ -61,13 +61,13 @@ export default {
               </router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click.prevent="pageReload('/about')" to="/about">About</router-link>
+              <router-link @click="$emit('close-menu')" to="/about">About</router-link>
             </li>
             <li class="list-item-icon">
               <router-link @click="$emit('close-menu')" to="/selected-projects">Selected</router-link>
             </li>
             <li class="list-item-icon">
-              <router-link @click.prevent="pageReload('/')" to="/">Restart</router-link>
+              <router-link @click="$emit('close-menu')" to="/">Restart</router-link>
             </li>
           </ul>
         </div>

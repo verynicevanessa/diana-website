@@ -104,6 +104,7 @@ onBeforeUnmount(() => {
   padding: 3em;
   max-width: 1440px; /* Adjust this value to your desired maximum width */
   margin: 0 auto;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -130,6 +131,7 @@ h1 {
   width: 50vw;
   height: auto;
   pointer-events: none;
+  margin: auto;
 }
 
 .about-title {

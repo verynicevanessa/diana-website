@@ -35,6 +35,9 @@ export default {
   },
   mounted() {
     this.swiper = document.querySelector("swiper-container");
+    setTimeout(() => {
+      this.disableCameraAccess();
+    }, 2000);
   },
   computed: {
     selectedProjects() {
@@ -71,6 +74,14 @@ export default {
     },
     closeDescription() {
       this.showDescription = false;
+    },
+    disableCameraAccess() {
+      if (window.currentStream) {
+        window.currentStream.getTracks().forEach(track => {
+          track.stop();
+        });
+        window.currentStream = null;
+      }
     },
   },
   components: { Project },
@@ -112,7 +123,6 @@ main {
 .fade-in {
   animation: fadeIn 1s ease-in forwards;
 }
-
 
 .project-description p {
   font-family: Kommuna Demo;

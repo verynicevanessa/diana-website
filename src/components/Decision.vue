@@ -19,9 +19,7 @@
       </div>
       <div class="enter" v-if="permissionGiven">
 
-
         <h3 v-html="decision2"></h3>
-
         <div class="btn">
           <button @click="handleEnter">Enter</button>
         </div>

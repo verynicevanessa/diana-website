@@ -12,8 +12,9 @@ register();
 const app = createApp(App);
 app.use(store);
 app.use(MasonryWall);
+
 router.beforeEach((to, from, next) => {
-    if (window.CABLES && window.CABLES.patch &&  window.CABLES.patch !== null) {
+    if (window.CABLES && window.CABLES.patch && window.CABLES.patch !== null) {
         console.log('Disposing CABLES patch in router guard');
         window.CABLES.patch.dispose();
         window.CABLES.patch = null;
@@ -22,13 +23,24 @@ router.beforeEach((to, from, next) => {
     }
 
     const visited = localStorage.getItem('visited');
-    if(!visited && to.name !== 'first'){
-        next({name: 'first'});
-        localStorage.setItem('visited', true)
+    if (!visited && to.name !== 'first') {
+        next({ name: 'first' });
+        localStorage.setItem('visited', true);
     } else {
-        next()
+        next();
     }
 });
-app.use(router);
 
-app.mount('#app')
+router.afterEach((to) => {
+    // Find the Menu component and call handleRouteChange
+    const appInstance = app._instance;
+    if (appInstance) {
+        const menuComponent = appInstance.proxy.$children.find(child => child.$options.name === 'Menu');
+        if (menuComponent) {
+            menuComponent.handleRouteChange(to);
+        }
+    }
+});
+
+app.use(router);
+app.mount('#app');

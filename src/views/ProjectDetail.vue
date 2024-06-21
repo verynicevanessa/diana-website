@@ -49,7 +49,7 @@ function handleLeave(el, done) {
         <p>{{ project.projectDescription }}</p>
       </div>
     </div>
-    <div v-else>Loading</div>
+    <div v-else></div>
   </transition>
 
 

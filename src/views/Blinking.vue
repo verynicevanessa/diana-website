@@ -9,7 +9,14 @@ import logger from '@/utils/logger';
 
 <template>
   <WelcomeAnimation v-if="isLoading"></WelcomeAnimation>
+  <div id="note">
+    move your head  <br>
+    from left to right  <br>
+    and top to bottom  <br>
+    to move the cluster. 
+</div>
   <div class="canvasContainer">
+   
     <CablesPatch v-if="projects.length" patchDir="/patch_blink/"
     :patchOptions="{
       glCanvasResizeToWindow: true,
@@ -29,6 +36,17 @@ export default {
   mixins: [useProjectData, loadingMixin],
   mounted() {
     this.startLoading();
+    setTimeout(() => {
+      const note = document.getElementById("note");
+      if (note) {
+        note.style.transition = "opacity 1s"; // Add a smooth transition for fading out
+        note.style.opacity = 0;
+        setTimeout(() => {
+          note.style.display = "none";
+        }, 1000); // Wait for the fade-out transition to complete before hiding
+      }
+    }, 4000); // 3 seconds delay before starting the fade out
+
   },
   methods: {
     handlePatchLoaded() {
@@ -57,6 +75,7 @@ export default {
         this.timeoutId = setTimeout(() => {
           // window.location.href = '/selected-projects'
           this.$router.push("/selected-projects");
+          
         }, 4000);
       }
       // or after another "blink" or click
@@ -104,7 +123,7 @@ export default {
     if (logo) {
       logo.style.display = ""; // Remove the inline style to reset its visibility
     }
-    // disableCameraAccess();
+    //disableCameraAccess();
   },
 
 };
@@ -121,5 +140,25 @@ export default {
   top: 0;
   position: fixed;
   overflow: hidden;
+}
+
+#note {
+  width: 100px;
+  bottom: 0;
+  left: 1;
+  z-index: 900;
+  background-color: rgba(255, 255, 255, 0.234);
+  color: rgba(30, 30, 89, 0.578);
+  border-radius: 18px;
+  padding: 10px;
+  margin: 18px 18px;
+  position: absolute;
+  font-size: 14px;
+  transition: opacity 1s; /* Ensure that the note has a transition effect */
+}
+@media (max-width: 768px) {
+  .canvasContainer {
+    height: 100%;
+  }
 }
 </style>

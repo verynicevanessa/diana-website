@@ -16,7 +16,7 @@ export const store = createStore({
 
     selectProjects(state, projectsIdsArray) {	
       const selected = state.loadedProjects.filter((el) => projectsIdsArray.includes(el.id));
-			logger.log(selected);
+      logger.log(selected);
       state.selectedProjects = selected;
     },
   },
@@ -28,6 +28,15 @@ export const store = createStore({
 
       try {
         const result = await fetchProjects();
+        
+        // Überprüfen der Projekte auf fehlende Priorität und Standardwert zuweisen
+        result.forEach(project => {
+          if (project.priority === undefined || project.priority === null) {
+            console.warn(`Project missing priority:`, project);
+            project.priority = 100; // Standardpriorität zuweisen
+          }
+        });
+
         context.commit("setProjects", result);
       } catch (e) {
         console.error("Failed to load projects", e);

@@ -1,11 +1,13 @@
-<script setup>
+<!-- <script setup>
 import Slider from "@/components/Slider.vue";
-</script>
-
+</script> -->
 <template>
   <main>
+    <div v-if="isLoading" class="loading-screen fade-in-out">
+      <p>YOUR SELECTION <br> picked by your  <br> eyes' gentle blink</p>
+    </div>
     <Slider
-      v-if="selectedProjectsImages.length"
+      v-else-if="selectedProjectsImages.length"
       :images="selectedProjectsImages"
       @toggle-description="toggleDescription"
       @image-loaded="onImageLoad"
@@ -14,16 +16,29 @@ import Slider from "@/components/Slider.vue";
       v-if="showDescription"
       @click="closeDescription"
       ref="description"
-      class="project-description"
+      class="project-description fade-in"
     >
       <p>{{ selectedProjectDescription }}</p>
     </div>
   </main>
 </template>
 
+<script setup>
+import Slider from "@/components/Slider.vue";
+import { ref, onMounted } from 'vue';
+import useProjectData from "@/mixins/useProjectData";
+
+const isLoading = ref(true);
+
+onMounted(() => {
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 2000);
+});
+</script>
+
 <script>
 import Project from "@/components/Project.vue";
-import useProjectData from "@/mixins/useProjectData";
 
 export default {
   mixins: [useProjectData],
@@ -32,12 +47,6 @@ export default {
       showDescription: false,
       selectedProjectDescription: '',
     };
-  },
-  mounted() {
-    this.swiper = document.querySelector("swiper-container");
-    setTimeout(() => {
-      this.disableCameraAccess();
-    }, 2000);
   },
   computed: {
     selectedProjects() {
@@ -94,12 +103,43 @@ main {
   height: 100vh;
 }
 
+.loading-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* background-color: white; */
+  z-index: 999; /* Über anderen Inhalten liegen */
+  opacity: 0; /* Anfangszustand unsichtbar */
+  text-align: center;
+}
+
+.fade-in-out {
+  animation: fadeInOut 2.5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .project-description {
   font-size: 30px;
-  color: black; /* Text color */
-  max-width: 800px; /* Or any max-width or width you prefer */
-  z-index: 10; /* Ensure it's above other content */
-  border-radius: 10px; /* Optional: for rounded corners */
+  color: black; /* Textfarbe */
+  max-width: 800px; /* Maximalbreite */
+  z-index: 10; /* Über anderen Inhalten liegen */
+  border-radius: 10px; /* Optional: abgerundete Ecken */
   background-color: rgba(137, 137, 137, 0.37);
   border-radius: 8px;
   padding: 8px 16px;
@@ -110,7 +150,10 @@ main {
   transform: translate(-50%, -50%);
 }
 
-/* Add this to your existing CSS */
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -120,13 +163,10 @@ main {
   }
 }
 
-.fade-in {
-  animation: fadeIn 1s ease-in forwards;
-}
-
 .project-description p {
   font-family: Kommuna Demo;
 }
+
 @media (max-width: 650px) {
   .project-description {
     font-size: 18px;

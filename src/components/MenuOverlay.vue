@@ -1,58 +1,10 @@
-<script>
-import { fetchAbout } from '@/api/api.js'; // Import the fetchAbout function
-
-function calculateScrollbarWidth() {
-  const bodySize = document.querySelector('body').offsetWidth;
-  const windowSize = window.innerWidth;
-
-  return windowSize - bodySize;
-}
-
-export default {
-  methods: {
-    pageReload(location) {
-      this.$emit('close-menu');
-      window.location.href = location; // Fix for the about page
-    }
-  },
-
-  data() {
-    return {
-      claim: '', // Initialize claim as an empty string
-    };
-  },
-  computed: {
-    projectsCount() {
-      return this.$store.getters.projectsCount;
-    },
-  },
-  async mounted() {
-    if (this.$store.state.loadedProjects.length === 0) {
-      this.$store.dispatch("loadProjects");
-    }
-    document.body.style.overflow = "hidden";
-
-    // Fetch the about information
-    try {
-      const aboutInfo = await fetchAbout();
-      if (aboutInfo && aboutInfo.claim) {
-        this.claim = aboutInfo.claim;
-      }
-    } catch (error) {
-      console.error('Error fetching about info:', error);
-    }
-  },
-  beforeUnmount() {
-    document.body.style.overflow = "auto";
-  }
-};
-</script>
-
 <template>
   <div>
     <div class="menu-overlay-slide">
       <div class="overlay-text">
         <p class="claim">{{ claim }}</p>
+        <div id="blink-counter">Blinks: 0</div>
+
         <div>
           <ul>
             <li class="list-item-icon">
@@ -75,6 +27,67 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import { fetchAbout } from '@/api/api.js'; // Import the fetchAbout function
+
+function calculateScrollbarWidth() {
+  const bodySize = document.querySelector('body').offsetWidth;
+  const windowSize = window.innerWidth;
+
+  return windowSize - bodySize;
+}
+
+export default {
+  methods: {
+    pageReload(location) {
+      this.$emit('close-menu');
+      window.location.href = location; // Fix for the about page
+    },
+    updateBlinkCounter() {
+      this.blinkCounter++;
+      document.getElementById('blink-counter').innerText = `Blinks: ${this.blinkCounter}`;
+    }
+  },
+
+  data() {
+    return {
+      claim: '', // Initialize claim as an empty string
+      blinkCounter: 0 // Initialize blinkCounter
+    };
+  },
+  computed: {
+    projectsCount() {
+      return this.$store.getters.projectsCount;
+    },
+  },
+  async mounted() {
+    if (this.$store.state.loadedProjects.length === 0) {
+      this.$store.dispatch("loadProjects");
+    }
+    document.body.style.overflow = "hidden";
+
+    // Fetch the about information
+    try {
+      const aboutInfo = await fetchAbout();
+      if (aboutInfo && aboutInfo.claim) {
+        this.claim = aboutInfo.claim;
+      }
+    } catch (error) {
+      console.error('Error fetching about info:', error);
+    }
+
+    // Event-Listener für Blinzelereignisse hinzufügen
+    document.addEventListener('blinkEvent', this.updateBlinkCounter);
+  },
+  beforeUnmount() {
+    document.body.style.overflow = "auto";
+
+    // Event-Listener entfernen
+    document.removeEventListener('blinkEvent', this.updateBlinkCounter);
+  }
+};
+</script>
 
 <style scoped>
 .menu-overlay-slide {

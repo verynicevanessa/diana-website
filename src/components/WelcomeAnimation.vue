@@ -94,6 +94,8 @@ export default {
 }
 
 .text-animation {
-  font-size: 4em;
+  font-size: clamp(1.5em, 2.5vw, 4em);
+  text-align: center;
 }
+
 </style>

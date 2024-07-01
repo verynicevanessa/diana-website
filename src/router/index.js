@@ -22,13 +22,13 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: () => import('@/views/About.vue')
+      component: () => /* @vite-ignore */ import('@/views/About.vue')
     },
     {
       path: '/blinking',
       name: 'blinking',
 
-      component: () => import('@/views/Blinking.vue')
+      component: () => /* @vite-ignore */ import('@/views/Blinking.vue')
     },
     {
       path: '/decision',
@@ -50,12 +50,12 @@ const router = createRouter({
     {
       path: '/intro',
       name: 'intro',
-      component: () => import('@/views/Intro.vue')
+      component: () => /* @vite-ignore */ import('@/views/Intro.vue')
     },
     {
       path: '/first',
       name: 'first',
-      component: () => import('@/views/First.vue')
+      component: () => /* @vite-ignore */ import('@/views/First.vue')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

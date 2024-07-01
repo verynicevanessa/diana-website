@@ -1,11 +1,6 @@
 <template>
   <transition name="fade">
-    <div
-      v-if="menuOpen"
-      class="menu-overlay"
-      :class="{ active: menuOpen }"
-      ref="MenuOverlay"
-    >
+    <div v-if="menuOpen" class="menu-overlay" :class="{ active: menuOpen }" ref="MenuOverlay">
       <MenuOverlay @close-menu="closeMenu" />
     </div>
   </transition>
@@ -15,35 +10,20 @@
         <h3 style="color: black;">DIANA WEISMAN</h3>
       </router-link>
     </span>
-    <router-link
-      to="/"
-      @click="closeMenu"
-      :style="!isLogoActive && { pointerEvents: 'none' }"
-    >
-      <img
-        v-if="!hideLogo"
-        src="/DLW-Visual-Re.png"
-        :style="menuOpen ? { width: '200px' } : (logoWidth ? { width: logoWidth + 'px' } : '100%')"
-        class="logo"
-        ref="logo"
-      />
+    <router-link to="/" @click="closeMenu" :style="!isLogoActive && { pointerEvents: 'none' }">
+      <img v-if="!hideLogo" src="/DLW-Visual-Re.png" :style="{ width: logoWidth + 'px' }" class="logo" ref="logo" />
     </router-link>
   </div>
   <a @click="toggleMenu" aria-label="Toggle menu">
-    <img
-      src="../assets/Menu-Snowflake.png"
-      class="menu-button"
-      alt="SVG Image"
-    />
+    <img src="../assets/Menu-Snowflake.png" class="menu-button" alt="SVG Image" />
   </a>
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
 import MenuOverlay from './MenuOverlay.vue';
 
 export default {
-  name: 'Menu', // Dies stellt sicher, dass die Komponente im Navigation Guard gefunden werden kann
+  name: 'Menu',
   components: {
     MenuOverlay,
   },
@@ -51,8 +31,9 @@ export default {
     return {
       menuOpen: false,
       isLogoActive: false,
-      logoWidth: null,
+      logoWidth: 200,
       hideLogo: false,
+      currentRoute: '',
     };
   },
   watch: {
@@ -69,6 +50,11 @@ export default {
   },
   mounted() {
     this.handleRouteChange(this.$route);
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     toggleMenu() {
@@ -77,10 +63,17 @@ export default {
     closeMenu() {
       this.menuOpen = false;
     },
+    handleResize() {
+      // Prevent resizing on /project/ routes
+      if (this.currentRoute.startsWith('/project/')) {
+        return;
+      }
+      this.adjustLogoInitially();
+    },
     handleScroll() {
       const scrollTop = window.scrollY;
       const maxScroll = 300;
-      const maxWidth = 800; // Anfangsbreite des Logos auf der Work-Seite
+      const maxWidth = window.innerWidth > 768 ? 800 : 400;
       const minWidth = 200;
 
       if (scrollTop >= maxScroll) {
@@ -94,32 +87,46 @@ export default {
       }
     },
     adjustLogoInitially() {
-      this.logoWidth = 800; // Anfangsbreite des Logos auf der Work-Seite
-      this.isLogoActive = true;
+      if (this.currentRoute === '/projects') {
+        this.logoWidth = window.innerWidth > 768 ? 800 : 400;
+        window.addEventListener('scroll', this.handleScroll); // Ensure scroll event listener is added
+      } else if (this.currentRoute.startsWith('/project/')) {
+        this.logoWidth = 200;  // Set a fixed size for /project/ pages
+      } else {
+        this.logoWidth = 200;
+      }
     },
     handleRouteChange(route) {
-      window.removeEventListener('scroll', this.handleScroll); // Entferne den Scroll-Listener standardmäßig
+      this.currentRoute = route.path;
+      window.removeEventListener('scroll', this.handleScroll);
+
       if (route.path === '/about' || route.path === '/blinking' || this.menuOpen) {
         this.hideLogo = true;
       } else if (route.path === '/projects') {
         this.hideLogo = false;
         this.adjustLogoInitially();
-        window.addEventListener('scroll', this.handleScroll); // Füge den Scroll-Listener nur auf der Work-Seite hinzu
       } else if (route.path.startsWith('/project/')) {
         this.hideLogo = false;
-        this.logoWidth = 200; // Kleines Logo auf der ProjectDetail-Seite
+        this.logoWidth = 200; // Ensure logo size stays consistent on project detail pages
         this.isLogoActive = true;
       } else if (route.path === '/selected-projects') {
         this.hideLogo = false;
-        this.logoWidth = 200; // Großes Logo auf der SelectedProjects-Seite
+        this.logoWidth = 200;
+      } else if (route.path === '/') {
+        this.hideLogo = false;
+        this.adjustLogoInitially();
+        window.addEventListener('scroll', this.handleScroll);
       } else {
         this.hideLogo = false;
-        this.logoWidth = 200; // Standardgröße für alle anderen Seiten
+        this.logoWidth = 200;
       }
     },
   },
 };
 </script>
+
+
+
 <style>
 .menu-wrapper {
   top: 0;

@@ -52,7 +52,9 @@ export default {
         'silent': 1, // suppresses console warnings
         'canvas': {'alpha': true, 'premultipliedAlpha': true},
         variables: {
-          inputJson: this.projectsData
+          inputJson: this.projectsData,
+          HiresDisplay: 1,
+          showUI: 0
         }
       };
       return {...defaultOptions, ...this.patchOptions }

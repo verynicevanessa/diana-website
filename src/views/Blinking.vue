@@ -20,10 +20,6 @@ import logger from '@/utils/logger';
     <CablesPatch v-if="projects.length" patchDir="/patch_blink/"
     :patchOptions="{
       glCanvasResizeToWindow: true,
-      variables: {
-                  HiresDisplay: 1,
-                  showUI: 0
-                 }
     }"
     :projectsData="mappedData"
     @patch-loaded="handlePatchLoaded" />
@@ -112,8 +108,9 @@ export default {
   computed: {
     mappedData() {
       logger.log(this.projects);
-      logger.log(formatProjectsData(this.projects, 12));
-      return {"items": formatProjectsData(this.projects, 12)}; // Format the projects data for the Cables patch
+      let projectsLimit = 12; // Limit the number of projects (up to 15)
+      logger.log(formatProjectsData(this.projects, projectsLimit));
+      return {"items": formatProjectsData(this.projects, projectsLimit)}; // Format the projects data for the Cables patch
     },
   },
 

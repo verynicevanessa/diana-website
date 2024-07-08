@@ -1,10 +1,24 @@
 <script setup>
+import { ref, onMounted } from 'vue';
 import Decision from "@/components/Decision.vue";
+
+// Manage the visibility state
+const isVisible = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    isVisible.value = true;
+  }, 2000); // 2 seconds delay
+});
 </script>
 
 <template>
   <div>
-    <Decision @proceed="handleProceed" />
+    <transition name="fade">
+      <div v-if="isVisible">
+        <Decision @proceed="handleProceed" />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -37,4 +51,12 @@ export default {
   },
 };
 </script>
-<style></style>
+
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 2s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>

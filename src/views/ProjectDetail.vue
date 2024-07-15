@@ -40,7 +40,7 @@ function handleLeave(el, done) {
       <div class="project-name">
         <h3 @click="navigateToPreviousProject" class="Previous">PREV</h3>
         <h3 @click.stop="toggleDescription" class="this-project">
-          {{ project.projectName }}
+          ABOUT {{ project.projectName }}
         </h3>
         <h3 @click="navigateToNextProject" class="Next">NEXT</h3>
       </div>

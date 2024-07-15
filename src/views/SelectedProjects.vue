@@ -4,7 +4,7 @@ import Slider from "@/components/Slider.vue";
 <template>
   <main>
     <div v-if="isLoading" class="loading-screen fade-in-out">
-      <p>YOUR SELECTION <br> picked by your  <br> eyes' gentle blink</p>
+      <p>LOADING<br>YOUR<br>SELECTION</p>
     </div>
     <Slider
       v-else-if="selectedProjectsImages.length"
@@ -16,7 +16,7 @@ import Slider from "@/components/Slider.vue";
       v-if="showDescription"
       @click="closeDescription"
       ref="description"
-      class="project-description fade-in"
+      class="project-description"
     >
       <p>{{ selectedProjectDescription }}</p>
     </div>

@@ -3,7 +3,6 @@
     <div class="menu-overlay-slide">
       <div class="overlay-text">
         <p class="claim">{{ claim }}</p>
-        <div id="blink-counter">Blinks: 0</div>
 
         <div>
           <ul>

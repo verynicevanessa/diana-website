@@ -41,7 +41,7 @@ export default {
           note.style.display = "none";
         }, 1000); // Wait for the fade-out transition to complete before hiding
       }
-    }, 4000); // 3 seconds delay before starting the fade out
+    }, 6000); // 3 seconds delay before starting the fade out
 
   },
   methods: {

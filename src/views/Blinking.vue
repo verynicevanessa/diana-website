@@ -10,10 +10,10 @@ import logger from '@/utils/logger';
 <template>
   <WelcomeAnimation v-if="isLoading"></WelcomeAnimation>
   <div id="note">
-    move your head  <br>
-    from left to right  <br>
-    and top to bottom  <br>
-    to move the cluster. 
+    move your head slowly <br>
+in any direction<br>
+to set the cluster<br>
+in motion.<br>
 </div>
   <div class="canvasContainer">
    
@@ -108,7 +108,7 @@ export default {
   computed: {
     mappedData() {
       logger.log(this.projects);
-      let projectsLimit = 12; // Limit the number of projects (up to 15)
+      let projectsLimit = 9; // Limit the number of projects (up to 15)
       logger.log(formatProjectsData(this.projects, projectsLimit));
       return {"items": formatProjectsData(this.projects, projectsLimit)}; // Format the projects data for the Cables patch
     },
